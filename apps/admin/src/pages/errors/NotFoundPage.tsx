@@ -1,5 +1,3 @@
-// pages/errors/NotFoundPage.tsx
-
 import { Result } from "antd";
 import { Link } from "react-router";
 

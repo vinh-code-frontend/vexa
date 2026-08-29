@@ -1,10 +1,10 @@
-import { useEffect } from "react";
-import { api } from "../api/axios/instance";
+import { useEffect } from 'react';
+import { api } from './api/axios/instance';
 // import { useTranslation } from "react-i18next";
-import { RouterProvider } from "react-router/dom";
+import { RouterProvider } from 'react-router/dom';
 
-import { router } from "@/app/router";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { router } from '@/router';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const queryClient = new QueryClient();
 
@@ -14,8 +14,8 @@ function App() {
     try {
       const res = await api({
         url: `/health`,
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
       });
       console.log(res);
     } catch (error) {
@@ -28,7 +28,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router}></RouterProvider>;
+      <RouterProvider router={router}></RouterProvider>
     </QueryClientProvider>
   );
 }
