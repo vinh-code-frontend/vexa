@@ -1,28 +1,23 @@
 import { createBrowserRouter } from 'react-router';
 import NotFoundPage from '@/pages/errors/NotFoundPage';
+import AuthLayout from '@/layouts/AuthLayout';
+import { adminRoutes } from './admin.routes';
+import MainLayout from '@/layouts/MainLayout';
+import { authRoutes } from './auth.routes';
 
 export const router = createBrowserRouter([
   {
-    path: '/login',
-    // Component: LoginPage,
+    path: '/',
+    element: <MainLayout />,
+    children: adminRoutes,
   },
   {
-    path: '/',
-    element: <h1>"/" page</h1>,
-    children: [
-      {
-        index: true,
-        element: <h2>dashboard</h2>,
-      },
-      {
-        path: 'products',
-        element: <h2>products</h2>,
-      },
-      // 404
-    ],
+    path: '/auth',
+    element: <AuthLayout />,
+    children: authRoutes,
   },
   {
     path: '*',
-    Component: NotFoundPage,
+    element: <NotFoundPage />,
   },
 ]);
