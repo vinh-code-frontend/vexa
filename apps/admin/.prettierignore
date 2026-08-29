@@ -1,0 +1,11 @@
+node_modules
+dist
+build
+coverage
+.vite
+.next
+.nuxt
+.output
+public
+*.min.js
+*.map

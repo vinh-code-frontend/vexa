@@ -1,13 +1,13 @@
-import { createBrowserRouter } from "react-router";
-import NotFoundPage from "@features/errors/NotFoundPage";
+import { createBrowserRouter } from 'react-router';
+import NotFoundPage from '@/pages/errors/NotFoundPage';
 
 export const router = createBrowserRouter([
   {
-    path: "/login",
+    path: '/login',
     // Component: LoginPage,
   },
   {
-    path: "/",
+    path: '/',
     element: <h1>"/" page</h1>,
     children: [
       {
@@ -15,14 +15,14 @@ export const router = createBrowserRouter([
         element: <h2>dashboard</h2>,
       },
       {
-        path: "products",
+        path: 'products',
         element: <h2>products</h2>,
       },
       // 404
     ],
   },
   {
-    path: "*",
+    path: '*',
     Component: NotFoundPage,
   },
 ]);
