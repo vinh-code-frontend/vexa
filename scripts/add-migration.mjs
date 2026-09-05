@@ -7,12 +7,12 @@ const run = () => {
     const name = process.argv[2];
 
     if (!name) {
-      console.error("Usage: npm run migrations:add <MigrationName>");
+      console.error("Usage: npm run mgt:add <MigrationName>");
       process.exit(1);
     }
 
-    const cwd = "apps/api/src/App.Infrastructure";
-    const cmd = `dotnet ef migrations add ${name} --startup-project ../App.Api`;
+    const cwd = "apps/api/src/Vexa.Infrastructure";
+    const cmd = `dotnet ef migrations add ${name} --startup-project ../Vexa.Api`;
 
     logger.success(`Running: ${cmd}...`);
     execSync(cmd, { cwd, stdio: "inherit" });

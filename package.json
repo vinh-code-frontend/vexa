@@ -6,8 +6,9 @@
     "i:be": "cd apps/api && dotnet restore",
     "dev:be": "cd apps/api/src/App.Api && dotnet run",
     "watch:be": "cd apps/api/src/App.Api && dotnet watch",
-    "migrations:add": "node scripts/add-migration.mjs",
-    "db:update": "node scripts/update-database.mjs"
+    "mgt:add": "node scripts/add-migration.mjs",
+    "mgt:remove": "node scripts/remove-migration.mjs",
+    "db:up": "node scripts/update-database.mjs"
   },
   "keywords": [],
   "author": "",

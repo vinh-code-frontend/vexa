@@ -51,10 +51,10 @@ dotnet dev-certs https --trust
 
 ```bash
 # Install a package
-dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add package Microsoft.EntityFrameworkCore
 
 # Remove a package
-dotnet remove package Microsoft.EntityFrameworkCore.SqlServer
+dotnet remove package Microsoft.EntityFrameworkCore
 
 # List installed packages
 dotnet list package
