@@ -1,0 +1,1 @@
+﻿global using Vexa.Domain.Enums;

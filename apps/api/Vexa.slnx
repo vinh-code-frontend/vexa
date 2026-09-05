@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Solution>
+    <Folder Name="/src/">
+        <Project Path="src/Vexa.Api/Vexa.Api.csproj" />
+        <Project Path="src/Vexa.Application/Vexa.Application.csproj" />
+        <Project Path="src/Vexa.Domain/Vexa.Domain.csproj" />
+        <Project Path="src/Vexa.Infrastructure/Vexa.Infrastructure.csproj" />
+    </Folder>
+</Solution>

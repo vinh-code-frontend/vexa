@@ -4,16 +4,14 @@ import { execSync } from "child_process";
 
 const run = () => {
   try {
-    const name = process.argv[2] ? ` ${process.argv[2]}` : "";
-
     const cwd = "apps/api/src/Vexa.Infrastructure";
-    const cmd = `dotnet ef database update${name} --startup-project ../Vexa.Api`;
+    const cmd = `dotnet ef migrations remove --startup-project ../Vexa.Api`;
 
     logger.success(`Running: ${cmd}...`);
     execSync(cmd, { cwd, stdio: "inherit" });
-    logger.success(`Database updated successfully!`);
+    logger.success(`Migrations was removed succesfully!`);
   } catch (error) {
-    logger.error("Error while updating database");
+    logger.error("Error while removing migration");
   }
 };
 
