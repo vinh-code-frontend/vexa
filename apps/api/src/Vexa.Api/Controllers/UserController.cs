@@ -7,10 +7,10 @@ namespace Vexa.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize]
 public class UserController(IUserService userService) : ControllerBase
 {
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public async Task<List<UserResponse>> GetUsers()
     {
         return await userService.GetAllUsersAsync();

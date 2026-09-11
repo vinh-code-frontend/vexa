@@ -1,4 +1,4 @@
-﻿global using Vexa.Application.Mappings;
+﻿global using AutoMapper;
 global using Vexa.Application.Interfaces;
 global using Vexa.Application.Repositories;
 global using Vexa.Application.DTOs;

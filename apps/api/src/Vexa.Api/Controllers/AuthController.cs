@@ -2,27 +2,30 @@
 using Microsoft.AspNetCore.Mvc;
 using Vexa.Application.Repositories;
 using Vexa.Application.Interfaces;
+using Microsoft.Extensions.Primitives;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Vexa.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class AuthController(IAuthService authService, ITokenService tokenRepository) : ControllerBase
+[AllowAnonymous]
+public class AuthController(IAuthService authService, ITokenService tokenService) : ControllerBase
 {
-    private readonly string refreshTokenKey = "refresh-token";
-    private readonly string csrfTokenKey = "csrf-token";
-    private readonly string csrfHeaderKey = "X-CSRF-Token";
+    private readonly string _refreshTokenKey = "refresh-token";
+    private readonly string _csrfTokenKey = "csrf-token";
+    private readonly string _csrfHeaderKey = "X-CSRF-Token";
 
     [HttpPost("register")]
-    public async Task<bool> Register([FromBody] RegisterRequest RegisterRequest)
+    public async Task<bool> Register([FromBody] RegisterRequest registerRequest)
     {
-        return await authService.RegisterAsync(RegisterRequest);
+        return await authService.RegisterAsync(registerRequest);
     }
 
     [HttpPost("login")]
-    public async Task<LoginResponse> Login([FromBody] LoginRequest LoginRequest)
+    public async Task<LoginResponse> Login([FromBody] LoginRequest loginRequest)
     {
-        var result = await authService.LoginAsync(LoginRequest);
+        LoginResponse result = await authService.LoginAsync(loginRequest);
         AppendAuthCookies(result);
 
         return result;
@@ -31,12 +34,12 @@ public class AuthController(IAuthService authService, ITokenService tokenReposit
     [HttpPost("refresh")]
     public async Task<LoginResponse> Refresh()
     {
-        var refreshToken = Request.Cookies[refreshTokenKey];
-        var csrfToken = Request.Cookies[csrfTokenKey];
-        var csrfHeader = Request.Headers[csrfHeaderKey];
+        var refreshToken = Request.Cookies[_refreshTokenKey];
+        string? csrfToken = Request.Cookies[_csrfTokenKey];
+        StringValues csrfHeader = Request.Headers[_csrfHeaderKey];
         if (refreshToken is string && csrfToken is string && csrfToken == csrfHeader)
         {
-            var result = await authService.RefreshTokenAsync(refreshToken);
+            LoginResponse result = await authService.RefreshTokenAsync(refreshToken);
             AppendAuthCookies(result);
 
             return result;
@@ -46,10 +49,10 @@ public class AuthController(IAuthService authService, ITokenService tokenReposit
 
     private void AppendAuthCookies(LoginResponse response)
     {
-        var expiresAt = DateTimeOffset.UtcNow.AddDays(tokenRepository.GetExpiredRefreshTokenDays());
+        DateTimeOffset expiresAt = DateTimeOffset.UtcNow.AddDays(tokenService.GetExpiredRefreshTokenDays());
 
         Response.Cookies.Append(
-            refreshTokenKey,
+            _refreshTokenKey,
             response.RefreshToken,
             new CookieOptions
             {
@@ -60,7 +63,7 @@ public class AuthController(IAuthService authService, ITokenService tokenReposit
             });
 
         Response.Cookies.Append(
-            csrfTokenKey,
+            _csrfTokenKey,
             response.CsrfToken,
             new CookieOptions
             {

@@ -1,33 +1,26 @@
-import axios, { AxiosError, type AxiosRequestConfig } from "axios";
+import axios, { AxiosError } from 'axios';
 
-const axiosInstance = axios.create({
+export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
   withCredentials: true,
 });
 
-axiosInstance.interceptors.request.use((config) => {
-  const token = localStorage.getItem("accessToken");
+axiosInstance.interceptors.request.use(async (config) => {
+  const accessToken = localStorage.getItem('accessToken');
+  const csrfToken = await cookieStore.get('csrf-token');
 
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
+  }
+  if (csrfToken) {
+    config.headers['X-CSRF-TOKEN'] = csrfToken;
   }
 
   return config;
 });
-
-export const api = async <T>(
-  config: AxiosRequestConfig,
-  options?: AxiosRequestConfig
-): Promise<T> => {
-  const response = await axiosInstance.request<T>({
-    ...config,
-    ...options,
-  });
-  return response.data;
-};
 
 export type ErrorType<Error> = AxiosError<Error>;
 

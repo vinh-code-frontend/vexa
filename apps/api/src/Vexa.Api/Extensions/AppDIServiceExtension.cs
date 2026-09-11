@@ -60,6 +60,7 @@ public static class AppDIServiceExtension
     }
     public static IServiceCollection AddAppDIServiceExtension(this IServiceCollection services)
     {
+        services.AddAutoMapper(typeof(ApplicationAssemblyMarker).Assembly);
         services.AddPersistenceServices();
         services.AddApplicationServicesFromAssembly();
         services.AddInfrastructureServiceFromAssembly();

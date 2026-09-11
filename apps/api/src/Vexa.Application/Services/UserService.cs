@@ -1,20 +1,24 @@
-﻿using Vexa.Api.Helpers;
+﻿using Vexa.Application.Helpers;
 using Vexa.Domain.Enums;
 
 namespace Vexa.Application.Services;
 
-public class UserService(IPasswordHasher passwordHasher, IUserRepository userRepository, IUnitOfWork unitOfWork) : IUserService
+public class UserService(
+    IPasswordHasher passwordHasher,
+    IUserRepository userRepository,
+    IUnitOfWork unitOfWork,
+    IMapper mapper) : IUserService
 {
     public async Task<List<UserResponse>> GetAllUsersAsync()
     {
-        var users = await userRepository.GetAllAsync();
+        List<User> users = await userRepository.GetAllAsync();
 
-        return users.Select(u => u.ToUserResponse()).ToList() ?? [];
+        return mapper.Map<List<UserResponse>>(users);
     }
 
     public async Task<UserResponse?> GetUserByIdAsync(Guid userId)
     {
-        return (await userRepository.GetUserByIdAsync(userId))?.ToUserResponse();
+        return mapper.Map<UserResponse>(await userRepository.GetUserByIdAsync(userId));
     }
 
     public async Task<CreateUserResponse> CreateUserAsync(CreateUserRequest payload)
@@ -22,7 +26,7 @@ public class UserService(IPasswordHasher passwordHasher, IUserRepository userRep
         string username = payload.Username.Trim().ToLower();
         string email = payload.Email.Trim().ToLower();
 
-        var (isUsernameExist, isEmailExist) = await userRepository.CheckExistAsync(username, email);
+        (bool isUsernameExist, bool isEmailExist) = await userRepository.CheckExistAsync(username, email);
 
         if (isUsernameExist)
         {
@@ -32,8 +36,8 @@ public class UserService(IPasswordHasher passwordHasher, IUserRepository userRep
         {
             throw new Exception($"Email {payload.Email} is already existing! Try another value to process!");
         }
-        var tempPwd = PasswordGenerator.Generate();
-        var newUser = new User
+        string tempPwd = PasswordGenerator.Generate();
+        User newUser = new()
         {
             Id = Guid.NewGuid(),
             Username = username,
@@ -47,20 +51,14 @@ public class UserService(IPasswordHasher passwordHasher, IUserRepository userRep
         userRepository.AddUser(newUser);
         await unitOfWork.SaveChangesAsync();
 
-        return new()
-        {
-            TempPassword = tempPwd,
-            Id = newUser.Id,
-            Username = newUser.Username,
-            Email = newUser.Email,
-            Role = newUser.Role,
-            Status = newUser.Status,
-            CreatedAt = newUser.CreatedAt
-        };
+        CreateUserResponse response = mapper.Map<CreateUserResponse>(newUser);
+        response.TempPassword = tempPwd;
+
+        return response;
     }
     public async Task DeleteUserAsync(Guid userId)
     {
-        var user = await userRepository.GetUserByIdAsync(userId) ?? throw new Exception("User not found");
+        User user = await userRepository.GetUserByIdAsync(userId) ?? throw new Exception("User not found");
 
         userRepository.DeleteUser(user);
 

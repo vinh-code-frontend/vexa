@@ -7,16 +7,17 @@ public class AuthService(
     IPasswordHasher passwordHasher,
     IUserRepository userRepository,
     IRefreshTokenRepository reFreshTokenRepository,
-    IUnitOfWork unitOfWork
+    IUnitOfWork unitOfWork,
+    IMapper mapper
     ) : IAuthService
 {
-    public async Task<bool> RegisterAsync(RegisterRequest RegisterRequest)
+    public async Task<bool> RegisterAsync(RegisterRequest registerRequest)
     {
-        var newUser = new User
+        User newUser = new()
         {
-            Username = RegisterRequest.Username.Trim().ToLower(),
-            Email = RegisterRequest.Email.Trim().ToLower(),
-            HashedPassword = passwordHasher.HashPassword(RegisterRequest.Password),
+            Username = registerRequest.Username.Trim().ToLower(),
+            Email = registerRequest.Email.Trim().ToLower(),
+            HashedPassword = passwordHasher.HashPassword(registerRequest.Password),
             CreatedAt = DateTime.UtcNow
         };
 
@@ -24,22 +25,22 @@ public class AuthService(
         await unitOfWork.SaveChangesAsync();
         return true;
     }
-    public async Task<LoginResponse> LoginAsync(LoginRequest LoginRequest)
+    public async Task<LoginResponse> LoginAsync(LoginRequest loginRequest)
     {
-        var user = await userRepository.GetUserByUsernameAsync(LoginRequest.Username);
+        User? user = await userRepository.GetUserByUsernameAsync(loginRequest.Username);
 
         if (user == null)
         {
             throw new UnauthorizedException("Wrong username or password");
         }
-        bool isValidPassword = passwordHasher.Verify(LoginRequest.Password, user.HashedPassword);
+        bool isValidPassword = passwordHasher.Verify(loginRequest.Password, user.HashedPassword);
         if (!isValidPassword)
         {
             throw new UnauthorizedException("Wrong username or password");
         }
 
-        var (accessToken, accessTokenExpiredAt) = tokenService.GenerateAccessToken(user);
-        var (refreshToken, plainRefreshToken) = tokenService.GenerateRefreshToken(user.Id);
+        (string? accessToken, DateTime accessTokenExpiredAt) = tokenService.GenerateAccessToken(user);
+        (RefreshToken? refreshToken, string? plainRefreshToken) = tokenService.GenerateRefreshToken(user.Id);
         string csrfToken = tokenService.GenerateCstfToken();
 
         reFreshTokenRepository.AddRefreshToken(refreshToken);
@@ -57,8 +58,8 @@ public class AuthService(
     {
         string hashedToken = tokenService.HashToken(refreshToken);
 
-        var session = await reFreshTokenRepository.FindRefreshToken(hashedToken);
-        var user = session?.User;
+        RefreshToken? session = await reFreshTokenRepository.FindRefreshToken(hashedToken);
+        User? user = session?.User;
         if (session == null || user == null)
         {
             throw new UnauthorizedException("Invalid refresh token");
@@ -76,8 +77,8 @@ public class AuthService(
         session.RevokedAt = DateTime.UtcNow;
 
 
-        var (accessToken, accessTokenExpiredAt) = tokenService.GenerateAccessToken(user);
-        var (newRefreshToken, plainRefreshToken) = tokenService.GenerateRefreshToken(session.UserId);
+        (string? accessToken, DateTime accessTokenExpiredAt) = tokenService.GenerateAccessToken(user);
+        (RefreshToken? newRefreshToken, string? plainRefreshToken) = tokenService.GenerateRefreshToken(session.UserId);
         string csrfToken = tokenService.GenerateCstfToken();
 
         reFreshTokenRepository.AddRefreshToken(newRefreshToken);
@@ -92,7 +93,7 @@ public class AuthService(
             newRefreshToken.ExpiredAt);
     }
 
-    private static LoginResponse CreateLoginResponse(
+    private LoginResponse CreateLoginResponse(
         User user,
         string accessToken,
         DateTime accessTokenExpiredAt,
@@ -107,7 +108,7 @@ public class AuthService(
             CsrfToken = csrfToken,
             AccessExpiresAt = accessTokenExpiredAt,
             RefreshExpiresAt = refreshTokenExpiredAt,
-            User = UserMapper.ToUserResponse(user)
+            User = mapper.Map<UserResponse>(user)
         };
     }
 }

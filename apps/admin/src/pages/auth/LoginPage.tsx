@@ -1,14 +1,21 @@
 import type { FC } from 'react';
 import type { FormProps } from 'antd';
 import { Button, Form, Input } from 'antd';
+import { axiosInstance } from '@/api/axios/instance';
 
 type FieldType = {
-  email?: string;
+  username?: string;
   password?: string;
 };
 
-const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
+const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
   console.log('Success:', values);
+  const res = await axiosInstance.post('/auth/login', {
+    username: values.username,
+    password: values.password,
+  });
+
+  console.log(res.data);
 };
 
 const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
@@ -17,7 +24,7 @@ const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
 
 export const LoginPage: FC = () => (
   <div className="w-full flex flex-col items-center">
-    <div className="text-primary text-[24px] font-bold">Login to Vexa</div>
+    <div className="text-primary text-[24px] font-bold">Login to </div>
     <Form
       name="basic"
       initialValues={{ remember: true }}
@@ -28,11 +35,11 @@ export const LoginPage: FC = () => (
       className="w-full"
     >
       <Form.Item<FieldType>
-        label="Email"
-        name="email"
+        label="Username"
+        name="username"
         rules={[{ required: true, message: 'Please input your email!' }]}
       >
-        <Input type="email" placeholder="Enter your email..." />
+        <Input type="text" placeholder="Enter your username..." />
       </Form.Item>
 
       <Form.Item<FieldType>
