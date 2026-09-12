@@ -17,7 +17,7 @@ public static class AppDIServiceExtension
         ServiceLifetime lifetime = ServiceLifetime.Scoped
     )
     {
-        var implementationTypes = assembly
+        IEnumerable<Type> implementationTypes = assembly
             .GetTypes()
             .Where(t =>
                 t.IsClass &&
@@ -25,9 +25,9 @@ public static class AppDIServiceExtension
                 t.Name.EndsWith(suffix) &&
                 t.Namespace?.EndsWith(namespaceSuffix) == true);
 
-        foreach (var implementationType in implementationTypes)
+        foreach (Type? implementationType in implementationTypes)
         {
-            var interfaceType = implementationType
+            Type? interfaceType = implementationType
                 .GetInterfaces()
                 .FirstOrDefault(i =>
                     i.Name == $"I{implementationType.Name}");
@@ -60,7 +60,7 @@ public static class AppDIServiceExtension
     }
     public static IServiceCollection AddAppDIServiceExtension(this IServiceCollection services)
     {
-        services.AddAutoMapper(typeof(ApplicationAssemblyMarker).Assembly);
+        services.AddAutoMapper(cfg => cfg.AddMaps(typeof(ApplicationAssemblyMarker).Assembly));
         services.AddPersistenceServices();
         services.AddApplicationServicesFromAssembly();
         services.AddInfrastructureServiceFromAssembly();

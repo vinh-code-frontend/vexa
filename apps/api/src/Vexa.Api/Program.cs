@@ -13,7 +13,7 @@ try
 {
     Log.Information("Starting application");
 
-    var builder = WebApplication.CreateBuilder(args);
+    WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
     builder.Host.UseSerilog((context, services, configuration) => configuration
         .ReadFrom.Configuration(context.Configuration)
@@ -22,22 +22,19 @@ try
 
     builder.Services.AddControllers();
 
-    builder.Services.Configure<RouteOptions>(options =>
-    {
-        options.LowercaseUrls = true;
-    });
+    builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
     builder.Services.AddOpenApi();
 
     builder.Services.InitCustomServices(builder.Configuration);
 
-    var app = builder.Build();
+    WebApplication app = builder.Build();
 
     if (args.Contains("seed"))
     {
-        using var scope = app.Services.CreateScope();
+        using IServiceScope scope = app.Services.CreateScope();
 
-        var services = scope.ServiceProvider;
+        IServiceProvider services = scope.ServiceProvider;
         await DatabaseSeeder.SeedAsync(services);
 
         return;
@@ -48,10 +45,7 @@ try
     {
         app.MapOpenApi();
 
-        app.MapScalarApiReference(options =>
-        {
-            options.Theme = ScalarTheme.Default;
-        });
+        app.MapScalarApiReference(options => options.Theme = ScalarTheme.Default);
     }
 
     if (!app.Environment.IsDevelopment())
@@ -76,7 +70,7 @@ try
     {
         Microsoft.Extensions.Logging.ILogger logger = app.Logger;
 
-        foreach (var url in app.Urls)
+        foreach (string url in app.Urls)
         {
             logger.LogInformation("Listening on: {Url}", url);
             logger.LogInformation("OpenAPI: {Url}/openapi/v1.json", url);

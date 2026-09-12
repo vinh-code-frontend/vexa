@@ -19,7 +19,7 @@ public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
             .IsRequired();
 
         builder.HasOne(refreshToken => refreshToken.User)
-            .WithMany(user => user.refreshTokens)
+            .WithMany(user => user.RefreshTokens)
             .HasForeignKey(refreshToken => refreshToken.UserId)
             .OnDelete(DeleteBehavior.Cascade);
     }

@@ -9,42 +9,42 @@ namespace Vexa.Infrastructure.Authentication;
 
 public class TokenService : ITokenService
 {
-    private readonly JwtSettings jwtSettings;
+    private readonly JwtSettings _jwtSettings;
     public TokenService(IConfiguration configuration)
     {
-        jwtSettings = configuration.GetSection("Jwt").Get<JwtSettings>()!;
+        _jwtSettings = configuration.GetSection("Jwt").Get<JwtSettings>()!;
     }
     public string HashToken(string token)
     {
-        using var sha = SHA256.Create();
-        var bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(token));
+        using SHA256 sha = SHA256.Create();
+        byte[] bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(token));
         return Convert.ToHexString(bytes);
     }
     public string GenerateCstfToken()
     {
-        var bytes = RandomNumberGenerator.GetBytes(32);
+        byte[] bytes = RandomNumberGenerator.GetBytes(32);
         return Convert.ToBase64String(bytes);
     }
     public int GetExpiredRefreshTokenDays()
     {
-        return jwtSettings.RefreshTokenDays;
+        return _jwtSettings.RefreshTokenDays;
     }
     public (string token, DateTime expired) GenerateAccessToken(User user)
     {
-        DateTime expiry = DateTime.UtcNow.AddMinutes(jwtSettings.ExpireMinutes);
+        DateTime expiry = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpireMinutes);
 
-        var claims = new List<Claim>
-            {
+        List<Claim> claims = new()
+        {
                 new(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new(ClaimTypes.Email, user.Email),
                 new(ClaimTypes.Role, user.Role.ToString()),
             };
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key));
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        SymmetricSecurityKey key = new(Encoding.UTF8.GetBytes(_jwtSettings.Key));
+        SigningCredentials creds = new(key, SecurityAlgorithms.HmacSha256);
 
-        var token = new JwtSecurityToken(
-            issuer: jwtSettings.Issuer,
-            audience: jwtSettings.Audience,
+        JwtSecurityToken token = new(
+            issuer: _jwtSettings.Issuer,
+            audience: _jwtSettings.Audience,
             claims: claims,
             expires: expiry,
             signingCredentials: creds
@@ -54,15 +54,15 @@ public class TokenService : ITokenService
     }
     public (RefreshToken entity, string plainToken) GenerateRefreshToken(Guid userId)
     {
-        var refreshToken = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+        string refreshToken = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
 
-        var newRefreshToken = new RefreshToken()
+        RefreshToken newRefreshToken = new()
         {
             Id = new Guid(),
             UserId = userId,
             HashedToken = HashToken(refreshToken),
             CreatedAt = DateTime.UtcNow,
-            ExpiredAt = DateTime.UtcNow.AddDays(jwtSettings.RefreshTokenDays)
+            ExpiredAt = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenDays)
         };
         return (newRefreshToken, refreshToken);
     }

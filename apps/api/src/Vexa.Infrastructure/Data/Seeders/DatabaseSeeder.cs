@@ -7,7 +7,7 @@ public static class DatabaseSeeder
 {
     public static async Task SeedAsync(IServiceProvider services)
     {
-        var context = services.GetRequiredService<AppDbContext>();
+        AppDbContext context = services.GetRequiredService<AppDbContext>();
 
         if (await context.Users.AnyAsync(x => x.Role == UserRole.Admin))
         {
@@ -16,7 +16,8 @@ public static class DatabaseSeeder
             return;
         }
 
-        var admin = new User
+        User admin = new()
+
         {
             Id = Guid.NewGuid(),
             Username = "admin",
