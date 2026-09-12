@@ -6,6 +6,6 @@ public interface IUserRepository
     Task<User?> GetUserByIdAsync(Guid userId);
     Task<User?> GetUserByUsernameAsync(string username);
     Task<(bool isUsernameExist, bool isEmailExist)> CheckExistAsync(string username, string email);
-    void AddUser(User user);
-    void DeleteUser(User user);
+    Task AddUserAsync(User user);
+    Task DeleteUserAsync(User user);
 }

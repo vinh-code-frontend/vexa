@@ -1,9 +1,6 @@
 using System.Reflection;
-using Vexa.Application;
-using Vexa.Application.Repositories;
-using Vexa.Infrastructure;
-using Vexa.Infrastructure.Authentication;
 using FluentValidation;
+using Vexa.Application.Services;
 
 namespace Vexa.Api.Extensions;
 
@@ -54,7 +51,8 @@ public static class AppDIServiceExtension
     {
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IPasswordHasher, PasswordHashder>();
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IBrandService, BrandService>();
+        services.AddScoped<ICategoryService, CategoryService>();
 
         return services;
     }

@@ -1,4 +1,3 @@
-using Vexa.Application;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 

@@ -2,9 +2,10 @@
 
 public class RefreshTokenRepository(AppDbContext db) : IRefreshTokenRepository
 {
-    public void AddRefreshToken(RefreshToken refreshToken)
+    public async Task AddRefreshTokenAsync(RefreshToken refreshToken)
     {
         db.RefreshTokens.Add(refreshToken);
+        await db.SaveChangesAsync();
     }
 
     public async Task<RefreshToken?> FindRefreshToken(string hashedToken)

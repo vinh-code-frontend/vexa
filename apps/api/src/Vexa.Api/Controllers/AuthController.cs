@@ -1,9 +1,4 @@
-﻿using Vexa.Application.DTOs;
-using Microsoft.AspNetCore.Mvc;
-using Vexa.Application.Repositories;
-using Vexa.Application.Interfaces;
-using Microsoft.Extensions.Primitives;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.Extensions.Primitives;
 
 namespace Vexa.Api.Controllers;
 
@@ -34,7 +29,7 @@ public class AuthController(IAuthService authService, ITokenService tokenService
     [HttpPost("refresh")]
     public async Task<LoginResponse> Refresh()
     {
-        var refreshToken = Request.Cookies[_refreshTokenKey];
+        string? refreshToken = Request.Cookies[_refreshTokenKey];
         string? csrfToken = Request.Cookies[_csrfTokenKey];
         StringValues csrfHeader = Request.Headers[_csrfHeaderKey];
         if (refreshToken is string && csrfToken is string && csrfToken == csrfHeader)

@@ -9,6 +9,6 @@ public class User : TimestampWithSoftDeleteEntity
     public string Phone { get; set; } = string.Empty;
     public UserRole Role { get; set; } = UserRole.User;
     public UserStatus Status { get; set; } = UserStatus.Active;
-    public ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
+    public ICollection<RefreshToken> RefreshTokens { get; set; } = [];
 
 }

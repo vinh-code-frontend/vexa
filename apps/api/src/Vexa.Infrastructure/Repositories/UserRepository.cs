@@ -12,13 +12,15 @@ public class UserRepository(AppDbContext db) : IUserRepository
 
         return await db.Users.FirstOrDefaultAsync(user => user.Username.Trim().ToLower() == normalizedUsername);
     }
-    public void AddUser(User user)
+    public async Task AddUserAsync(User user)
     {
         db.Users.Add(user);
+        await db.SaveChangesAsync();
     }
-    public void DeleteUser(User user)
+    public async Task DeleteUserAsync(User user)
     {
         db.Users.Remove(user);
+        await db.SaveChangesAsync();
     }
     public async Task<List<User>> GetAllAsync()
     {
