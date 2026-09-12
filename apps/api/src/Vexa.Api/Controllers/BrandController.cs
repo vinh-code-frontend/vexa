@@ -1,5 +1,3 @@
-
-
 namespace Vexa.Api.Controllers;
 
 [Route("api/[controller]")]
