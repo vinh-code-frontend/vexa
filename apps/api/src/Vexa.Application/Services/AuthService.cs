@@ -7,7 +7,6 @@ public class AuthService(
     IPasswordHasher passwordHasher,
     IUserRepository userRepository,
     IRefreshTokenRepository reFreshTokenRepository,
-    IUnitOfWork unitOfWork,
     IMapper mapper
     ) : IAuthService
 {
@@ -21,8 +20,7 @@ public class AuthService(
             CreatedAt = DateTime.UtcNow
         };
 
-        userRepository.AddUser(newUser);
-        await unitOfWork.SaveChangesAsync();
+        await userRepository.AddUserAsync(newUser);
         return true;
     }
     public async Task<LoginResponse> LoginAsync(LoginRequest loginRequest)
@@ -43,8 +41,7 @@ public class AuthService(
         (RefreshToken? refreshToken, string? plainRefreshToken) = tokenService.GenerateRefreshToken(user.Id);
         string csrfToken = tokenService.GenerateCstfToken();
 
-        reFreshTokenRepository.AddRefreshToken(refreshToken);
-        await unitOfWork.SaveChangesAsync();
+        await reFreshTokenRepository.AddRefreshTokenAsync(refreshToken);
 
         return CreateLoginResponse(
             user,
@@ -81,8 +78,7 @@ public class AuthService(
         (RefreshToken? newRefreshToken, string? plainRefreshToken) = tokenService.GenerateRefreshToken(session.UserId);
         string csrfToken = tokenService.GenerateCstfToken();
 
-        reFreshTokenRepository.AddRefreshToken(newRefreshToken);
-        await unitOfWork.SaveChangesAsync();
+        await reFreshTokenRepository.AddRefreshTokenAsync(newRefreshToken);
 
         return CreateLoginResponse(
             user,

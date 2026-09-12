@@ -1,7 +1,5 @@
 using System.Text;
 using System.Text.Json;
-using Vexa.Infrastructure;
-using Vexa.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -42,7 +40,7 @@ public static class ConfigurationServiceExtension
                     context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                     context.Response.ContentType = "application/json";
 
-                    var result = JsonSerializer.Serialize(new
+                    string result = JsonSerializer.Serialize(new
                     {
                         statusCode = StatusCodes.Status401Unauthorized,
                         message = "Unauthorized. Token is missing or invalid."
@@ -55,7 +53,7 @@ public static class ConfigurationServiceExtension
                     context.Response.StatusCode = StatusCodes.Status403Forbidden;
                     context.Response.ContentType = "application/json";
 
-                    var result = JsonSerializer.Serialize(new
+                    string result = JsonSerializer.Serialize(new
                     {
                         statusCode = 403,
                         message = "Forbidden. You do not have permission to access this resource."
@@ -73,7 +71,7 @@ public static class ConfigurationServiceExtension
     }
     public static IServiceCollection AddCorsPolicy(this IServiceCollection services, IConfiguration configuration)
     {
-        var allowedOrigins = configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
+        string[] allowedOrigins = configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
         services.AddCors(options =>
         {
             options.AddPolicy("AllowFrontend", policy =>

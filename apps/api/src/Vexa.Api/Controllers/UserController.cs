@@ -1,8 +1,3 @@
-using Vexa.Application.DTOs;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Vexa.Application.Interfaces;
-
 namespace Vexa.Api.Controllers;
 
 [Route("api/[controller]")]

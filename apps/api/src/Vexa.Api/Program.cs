@@ -15,14 +15,20 @@ try
 
     WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-    builder.Host.UseSerilog((context, services, configuration) => configuration
-        .ReadFrom.Configuration(context.Configuration)
-        .ReadFrom.Services(services)
-        .Enrich.FromLogContext());
+    builder.Host.UseSerilog((context, services, configuration) =>
+    {
+        configuration
+                .ReadFrom.Configuration(context.Configuration)
+                .ReadFrom.Services(services)
+                .Enrich.FromLogContext();
+    });
 
     builder.Services.AddControllers();
 
-    builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+    builder.Services.Configure<RouteOptions>(options =>
+    {
+        options.LowercaseUrls = true;
+    });
 
     builder.Services.AddOpenApi();
 
@@ -45,7 +51,10 @@ try
     {
         app.MapOpenApi();
 
-        app.MapScalarApiReference(options => options.Theme = ScalarTheme.Default);
+        app.MapScalarApiReference(options =>
+        {
+            options.Theme = ScalarTheme.Default;
+        });
     }
 
     if (!app.Environment.IsDevelopment())

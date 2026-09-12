@@ -6,7 +6,6 @@ namespace Vexa.Application.Services;
 public class UserService(
     IPasswordHasher passwordHasher,
     IUserRepository userRepository,
-    IUnitOfWork unitOfWork,
     IMapper mapper) : IUserService
 {
     public async Task<List<UserResponse>> GetAllUsersAsync()
@@ -48,8 +47,7 @@ public class UserService(
             CreatedAt = DateTime.UtcNow,
 
         };
-        userRepository.AddUser(newUser);
-        await unitOfWork.SaveChangesAsync();
+        await userRepository.AddUserAsync(newUser);
 
         CreateUserResponse response = mapper.Map<CreateUserResponse>(newUser);
         response.TempPassword = tempPwd;
@@ -60,8 +58,6 @@ public class UserService(
     {
         User user = await userRepository.GetUserByIdAsync(userId) ?? throw new Exception("User not found");
 
-        userRepository.DeleteUser(user);
-
-        await unitOfWork.SaveChangesAsync();
+        await userRepository.DeleteUserAsync(user);
     }
 }
