@@ -51,8 +51,6 @@ public static class AppDIServiceExtension
     {
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IPasswordHasher, PasswordHashder>();
-        services.AddScoped<IBrandService, BrandService>();
-        services.AddScoped<ICategoryService, CategoryService>();
 
         return services;
     }

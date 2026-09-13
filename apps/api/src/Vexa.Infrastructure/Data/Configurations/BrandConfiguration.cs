@@ -16,7 +16,7 @@ public class BrandConfiguration : TimestampWithSoftDeleteEntityConfiguration<Bra
         builder.Property(b => b.Slug).IsRequired().HasMaxLength(100);
 
         builder.Property(b => b.Description).HasMaxLength(500);
-        builder.Property(b => b.Logo).HasMaxLength(500);
+        builder.Property(b => b.LogoUrl).HasMaxLength(500);
         builder.Property(b => b.IsActive).HasDefaultValue(true);
     }
 }

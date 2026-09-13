@@ -2,10 +2,9 @@
 
 namespace Vexa.Api.Controllers;
 
-[Route("api/[controller]")]
-[ApiController]
+[Route("api/admin/auth")]
 [AllowAnonymous]
-public class AuthController(IAuthService authService, ITokenService tokenService) : ControllerBase
+public class AdminAuthController(IAuthService authService, ITokenService tokenService) : AdminApiControllerBase
 {
     private readonly string _refreshTokenKey = "refresh-token";
     private readonly string _csrfTokenKey = "csrf-token";

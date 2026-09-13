@@ -8,6 +8,5 @@ public class Brand : TimestampWithSoftDeleteEntity
     public string? Description { get; set; }
     public bool IsActive { get; set; }
     public int? DisplayOrder { get; set; }
-    public string? Logo { get; set; }
-
+    public string? LogoUrl { get; set; }
 }

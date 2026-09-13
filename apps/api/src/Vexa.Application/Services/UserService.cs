@@ -1,5 +1,4 @@
 ﻿using Vexa.Application.Helpers;
-using Vexa.Domain.Enums;
 
 namespace Vexa.Application.Services;
 
