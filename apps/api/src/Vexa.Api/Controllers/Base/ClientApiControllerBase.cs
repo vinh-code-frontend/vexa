@@ -2,7 +2,8 @@ namespace Vexa.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class BrandController() : ControllerBase
+[AllowAnonymous]
+public class ClientApiControllerBase : ControllerBase
 {
 
 }

@@ -1,6 +1,5 @@
 namespace Vexa.Application.DTOs;
 
-
 public class RegisterRequest
 {
     public string Username { get; set; } = string.Empty;

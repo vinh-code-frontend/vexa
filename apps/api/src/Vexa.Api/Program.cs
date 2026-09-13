@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using Vexa.Api.Middlewares;
 using Serilog;
-using Vexa.Infrastructure;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -33,6 +32,7 @@ try
     builder.Services.AddOpenApi();
 
     builder.Services.InitCustomServices(builder.Configuration);
+    // builder.Services.AddDebugAuthentication();
 
     WebApplication app = builder.Build();
 

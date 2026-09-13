@@ -24,7 +24,7 @@ public class CategoryConfiguration : TimestampWithSoftDeleteEntityConfiguration<
             .IsUnique();
 
         builder.Property(c => c.Description).HasMaxLength(500);
-        builder.Property(c => c.Logo).HasMaxLength(500);
+        builder.Property(c => c.LogoUrl).HasMaxLength(500);
         builder.Property(c => c.IsActive).HasDefaultValue(true);
 
         builder.HasOne(c => c.Parent)

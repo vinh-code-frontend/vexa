@@ -2,9 +2,9 @@ namespace Vexa.Application.Interfaces;
 
 public interface IBrandService
 {
-    Task GetBrandsAsync();
-    Task GetBrandByIdAsync();
-    Task CreateBrandAsync();
-    Task UpdateBrandAsync();
-    Task DeleteBrandAsync();
+    Task<BrandDetailResponse> CreateBrandAsync(CreateBrandRequest request);
+    Task<BrandDetailResponse> UpdateBrandAsync(int id, UpdateBrandRequest request);
+    Task DeleteBrandAsync(int id);
+    Task<List<BrandResponse>> GetBrandsAsync();
+    Task<BrandDetailResponse?> GetBrandByIdAsync(int id);
 }

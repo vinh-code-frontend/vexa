@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import type { FormProps } from 'antd';
 import { Button, Form, Input } from 'antd';
-import { axiosInstance } from '@/api/axios/instance';
+import { api } from '@/api/axios/instance';
 
 type FieldType = {
   username?: string;
@@ -10,7 +10,7 @@ type FieldType = {
 
 const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
   console.log('Success:', values);
-  const res = await axiosInstance.post('/auth/login', {
+  const res = await api.post('/auth/login', {
     username: values.username,
     password: values.password,
   });

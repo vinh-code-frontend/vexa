@@ -2,7 +2,7 @@
 
 public interface IAuthService
 {
-    Task<bool> RegisterAsync(RegisterRequest RegisterRequest);
-    Task<LoginResponse> LoginAsync(LoginRequest LoginRequest);
+    Task<bool> RegisterAsync(RegisterRequest registerRequest);
+    Task<LoginResponse> LoginAsync(LoginRequest loginRequest);
     Task<LoginResponse> RefreshTokenAsync(string refreshToken);
 }

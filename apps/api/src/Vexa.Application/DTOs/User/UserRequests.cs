@@ -1,5 +1,3 @@
-using Vexa.Domain.Enums;
-
 namespace Vexa.Application.DTOs;
 
 public class CreateUserRequest
