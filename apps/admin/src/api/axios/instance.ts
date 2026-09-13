@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 
-export const axiosInstance = axios.create({
+export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   headers: {
     'Content-Type': 'application/json',
@@ -8,7 +8,7 @@ export const axiosInstance = axios.create({
   withCredentials: true,
 });
 
-axiosInstance.interceptors.request.use(async (config) => {
+api.interceptors.request.use(async (config) => {
   const accessToken = localStorage.getItem('accessToken');
   const csrfToken = await cookieStore.get('csrf-token');
 
@@ -20,6 +20,17 @@ axiosInstance.interceptors.request.use(async (config) => {
   }
 
   return config;
+});
+
+api.interceptors.response.use((response) => {
+  const data = response.data;
+
+  // Login / refresh token returns accessToken
+  if (data?.accessToken) {
+    localStorage.setItem('accessToken', data.accessToken);
+  }
+
+  return response;
 });
 
 export type ErrorType<Error> = AxiosError<Error>;
