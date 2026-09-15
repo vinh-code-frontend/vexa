@@ -6,4 +6,7 @@
         <Project Path="src/Vexa.Domain/Vexa.Domain.csproj" />
         <Project Path="src/Vexa.Infrastructure/Vexa.Infrastructure.csproj" />
     </Folder>
+    <Folder Name="/tests/">
+        <Project Path="tests/Vexa.Application.Tests/Vexa.Application.Tests.csproj" />
+    </Folder>
 </Solution>

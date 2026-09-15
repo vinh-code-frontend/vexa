@@ -7,6 +7,8 @@
     "dev:be": "cd apps/api/src/Vexa.Api && dotnet run",
     "watch:be": "cd apps/api/src/Vexa.Api && dotnet watch",
     "i:be": "cd apps/api && dotnet restore",
+    "test:be": "dotnet test apps/api/Vexa.slnx",
+    "test:be:coverage": "dotnet test apps/api/Vexa.slnx --collect:\"XPlat Code Coverage\"",
     "mgt:add": "node scripts/add-migration.mjs",
     "mgt:remove": "node scripts/remove-migration.mjs",
     "db:up": "node scripts/update-database.mjs",
