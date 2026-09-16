@@ -4,6 +4,7 @@ import { router } from '@/router';
 import { DEFAULT_PRIMARY_COLOR, usePrimaryColor } from '@/theme/primaryColor';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ConfigProvider } from 'antd';
+import { AuthProvider } from '@/providers/AuthProvider';
 
 const queryClient = new QueryClient();
 
@@ -20,7 +21,9 @@ function App() {
           },
         }}
       >
-        <RouterProvider router={router}></RouterProvider>
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
       </ConfigProvider>
     </QueryClientProvider>
   );

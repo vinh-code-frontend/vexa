@@ -4,17 +4,29 @@ import AuthLayout from '@/layouts/AuthLayout';
 import { adminRoutes } from './admin.routes';
 import MainLayout from '@/layouts/MainLayout';
 import { authRoutes } from './auth.routes';
+import ProtectedRoute from './ProtectedRoute';
+import GuestRoute from './GuestRoute';
 
 export const router = createBrowserRouter([
   {
-    path: '/',
-    element: <MainLayout />,
-    children: adminRoutes,
+    element: <ProtectedRoute />,
+    children: [
+      {
+        path: '/',
+        element: <MainLayout />,
+        children: adminRoutes,
+      },
+    ],
   },
   {
-    path: '/auth',
-    element: <AuthLayout />,
-    children: authRoutes,
+    element: <GuestRoute />,
+    children: [
+      {
+        path: '/auth',
+        element: <AuthLayout />,
+        children: authRoutes,
+      },
+    ],
   },
   {
     path: '*',
