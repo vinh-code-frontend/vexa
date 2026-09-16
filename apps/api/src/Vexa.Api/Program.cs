@@ -103,8 +103,18 @@ try
         foreach (string url in app.Urls)
         {
             logger.LogInformation("Listening on: {Url}", url);
-            logger.LogInformation("OpenAPI: {Url}/openapi/v1.json", url);
-            logger.LogInformation("Scalar : {Url}/scalar/v1", url);
+
+            logger.LogInformation("API documentation:");
+            logger.LogInformation("  - OpenAPI: {Url}/openapi/v1.json", url);
+            logger.LogInformation("  - Scalar : {Url}/scalar/v1", url);
+
+            logger.LogInformation("Admin API documentation:");
+            logger.LogInformation("  - OpenAPI: {Url}/openapi/admin.json", url);
+            logger.LogInformation("  - Scalar : {Url}/scalar/admin", url);
+
+            logger.LogInformation("Client API documentation:");
+            logger.LogInformation("  - OpenAPI: {Url}/openapi/client.json", url);
+            logger.LogInformation("  - Scalar : {Url}/scalar/client", url);
         }
     });
 

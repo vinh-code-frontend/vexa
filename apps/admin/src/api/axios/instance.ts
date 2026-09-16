@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 
-export const api = axios.create({
+export const httpClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   headers: {
     'Content-Type': 'application/json',
@@ -8,7 +8,7 @@ export const api = axios.create({
   withCredentials: true,
 });
 
-api.interceptors.request.use(async (config) => {
+httpClient.interceptors.request.use(async (config) => {
   const accessToken = localStorage.getItem('accessToken');
   const csrfToken = await cookieStore.get('csrf-token');
 
@@ -22,7 +22,7 @@ api.interceptors.request.use(async (config) => {
   return config;
 });
 
-api.interceptors.response.use((response) => {
+httpClient.interceptors.response.use((response) => {
   const data = response.data;
 
   // Login / refresh token returns accessToken
