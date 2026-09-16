@@ -2,24 +2,33 @@ namespace Vexa.Api.Controllers;
 
 public class BrandController() : ClientApiControllerBase
 {
+    [HttpGet]
     public async Task<ActionResult> GetBrandsAsync()
     {
         return Ok();
     }
-    public async Task<ActionResult> GetBrandByIdAsync()
+
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult> GetBrandByIdAsync([FromRoute] int id)
     {
-        return Ok();
+        return Ok(id);
     }
+
+    [HttpPost]
     public async Task<ActionResult> CreateBrandAsync()
     {
         return Ok();
     }
-    public async Task<ActionResult> UpdateBrandAsync()
+
+    [HttpPut("{id:int}")]
+    public async Task<ActionResult> UpdateBrandAsync([FromRoute] int id)
     {
-        return Ok();
+        return Ok(id);
     }
-    public async Task<ActionResult> DeleteBrandAsync()
+
+    [HttpDelete("{id:int}")]
+    public async Task<ActionResult> DeleteBrandAsync([FromRoute] int id)
     {
-        return Ok();
+        return NoContent();
     }
 }

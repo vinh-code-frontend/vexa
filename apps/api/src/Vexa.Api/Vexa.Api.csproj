@@ -5,7 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
 
-        <OpenApiDocumentsDirectory>.</OpenApiDocumentsDirectory>
+        <OpenApiDocumentsDirectory>$(MSBuildProjectDirectory)\openapi</OpenApiDocumentsDirectory>
         <OpenApiGenerateDocumentsOptions>--file-name openapi</OpenApiGenerateDocumentsOptions>
     </PropertyGroup>
     <ItemGroup>
@@ -29,4 +29,12 @@
         <ProjectReference Include="..\Vexa.Application\Vexa.Application.csproj" />
         <ProjectReference Include="..\Vexa.Infrastructure\Vexa.Infrastructure.csproj" />
     </ItemGroup>
+
+    <Target Name="EnsureOpenApiDocuments" BeforeTargets="_GenerateOpenApiDocuments">
+        <Delete Files="$(_OpenApiDocumentsCache)"
+                Condition="Exists('$(_OpenApiDocumentsCache)') and
+                    (!Exists('$(OpenApiDocumentsDirectory)\openapi.json') or
+                     !Exists('$(OpenApiDocumentsDirectory)\openapi_admin.json') or
+                     !Exists('$(OpenApiDocumentsDirectory)\openapi_client.json'))" />
+    </Target>
 </Project>

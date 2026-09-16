@@ -29,7 +29,23 @@ try
         options.LowercaseUrls = true;
     });
 
-    builder.Services.AddOpenApi();
+    // root api
+    builder.Services.AddOpenApi("v1", options =>
+    {
+        options.ShouldInclude = _ => true;
+    });
+
+    // admin api
+    builder.Services.AddOpenApi("admin", options =>
+    {
+        options.ShouldInclude = apiDesc => apiDesc.GroupName == "admin";
+    });
+
+    // client api
+    builder.Services.AddOpenApi("client", options =>
+    {
+        options.ShouldInclude = apiDesc => apiDesc.GroupName == "client";
+    });
 
     builder.Services.InitCustomServices(builder.Configuration);
     // builder.Services.AddDebugAuthentication();
@@ -51,8 +67,13 @@ try
     {
         app.MapOpenApi();
 
+
         app.MapScalarApiReference(options =>
         {
+            options
+                .AddDocument("v1", "Root API", isDefault: true)
+                .AddDocument("admin", "Admin API")
+                .AddDocument("client", "Client API");
             options.Theme = ScalarTheme.Default;
         });
     }
