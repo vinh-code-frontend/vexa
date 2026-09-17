@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "dev": "concurrently -n FE,BE -c cyan,magenta \"npm run dev:fe\" \"npm run dev:be\"",
+    "watch": "concurrently -n FE,BE -c cyan,magenta \"npm run dev:fe\" \"npm run watch:be\"",
     "dev:fe": "cd apps/admin && npm run dev",
     "dev:be": "cd apps/api/src/Vexa.Api && dotnet run",
     "watch:be": "cd apps/api/src/Vexa.Api && dotnet watch",
@@ -17,5 +19,8 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^10.0.5"
+  }
 }
