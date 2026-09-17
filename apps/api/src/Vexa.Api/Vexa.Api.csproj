@@ -34,7 +34,17 @@
         <Delete Files="$(_OpenApiDocumentsCache)"
                 Condition="Exists('$(_OpenApiDocumentsCache)') and
                     (!Exists('$(OpenApiDocumentsDirectory)\openapi.json') or
-                     !Exists('$(OpenApiDocumentsDirectory)\openapi_admin.json') or
-                     !Exists('$(OpenApiDocumentsDirectory)\openapi_client.json'))" />
+                     !Exists('$(OpenApiDocumentsDirectory)\admin.openapi.json') or
+                     !Exists('$(OpenApiDocumentsDirectory)\client.openapi.json'))" />
+    </Target>
+
+    <!-- The GetDocument tool always names non-default documents "openapi_{document}.json"; rename admin's to admin.openapi.json. -->
+    <Target Name="RenameAdminOpenApiDocument" AfterTargets="_GenerateOpenApiDocuments">
+        <Move SourceFiles="$(OpenApiDocumentsDirectory)\openapi_admin.json"
+                DestinationFiles="$(OpenApiDocumentsDirectory)\admin.openapi.json"
+                Condition="Exists('$(OpenApiDocumentsDirectory)\openapi_admin.json')" />
+        <Move SourceFiles="$(OpenApiDocumentsDirectory)\openapi_client.json"
+                DestinationFiles="$(OpenApiDocumentsDirectory)\client.openapi.json"
+                Condition="Exists('$(OpenApiDocumentsDirectory)\openapi_client.json')" />
     </Target>
 </Project>
