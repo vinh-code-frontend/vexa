@@ -4,7 +4,7 @@ namespace Vexa.Api.Controllers;
 public class AdminCategoryController(ICategoryService categoryService) : AdminApiControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<PaginationResponse<CategoryResponse>>> GetCategoriesAsync([FromRoute] PaginationRequest request)
+    public async Task<ActionResult<PaginationResponse<CategoryResponse>>> GetCategoriesAsync([FromQuery] PaginationRequest request)
     {
         PaginationResponse<CategoryResponse> result = await categoryService.GetCategoriesAsync(request);
         return Ok(result);

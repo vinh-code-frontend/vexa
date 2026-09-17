@@ -25,6 +25,23 @@ public class BrandService(IBrandRepository brandRepository, IMapper mapper) : IB
 
     public async Task<PaginationResponse<BrandResponse>> GetBrandsAsync(PaginationRequest request)
     {
-        throw new NotImplementedException();
+        int page = request.Page > 0 ? request.Page : 1;
+        int pageSize = request.PageSize > 0 ? request.PageSize : 10;
+        (List<Brand> brandItems, int totalCount) = await brandRepository.GetBrandListAsync(
+            page,
+            pageSize,
+            request.Search,
+            request.SortBy,
+            request.SortDirection);
+        List<BrandResponse> items = mapper.Map<List<BrandResponse>>(
+            brandItems);
+
+        return new PaginationResponse<BrandResponse>
+        {
+            Items = items,
+            Page = page,
+            PageSize = pageSize,
+            TotalCount = totalCount
+        };
     }
 }
