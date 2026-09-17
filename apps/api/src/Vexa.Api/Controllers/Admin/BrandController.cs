@@ -4,25 +4,33 @@ namespace Vexa.Api.Controllers;
 public class AdminBrandController(IBrandService brandService) : AdminApiControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult> GetBrandsAsync()
+    public async Task<ActionResult<PaginationResponse<BrandResponse>>> GetBrandsAsync([FromRoute] PaginationRequest request)
     {
-        return Ok();
+        PaginationResponse<BrandResponse> result = await brandService.GetBrandsAsync(request);
+        return Ok(result);
     }
+
     [HttpGet("{id:int}")]
-    public async Task<ActionResult> GetBrandByIdAsync()
+    public async Task<ActionResult<BrandDetailResponse?>> GetBrandByIdAsync([FromRoute] int id)
     {
-        return Ok();
+        BrandDetailResponse? result = await brandService.GetBrandByIdAsync(id);
+        return Ok(result);
     }
+
     [HttpPost]
-    public async Task<ActionResult<BrandDetailResponse>> CreateBrandAsync([FromBody] CreateBrandRequest createBrandRequest)
+    public async Task<ActionResult<BrandDetailResponse>> CreateBrandAsync([FromBody] CreateBrandRequest request)
     {
-        return Ok(await brandService.CreateBrandAsync(createBrandRequest));
+        BrandDetailResponse result = await brandService.CreateBrandAsync(request);
+        return Ok(result);
     }
+
     [HttpPut("{id:int}")]
-    public async Task<ActionResult<BrandDetailResponse>> UpdateBrandAsync([FromRoute] int id, [FromBody] UpdateBrandRequest updateBrandRequest)
+    public async Task<ActionResult<BrandDetailResponse>> UpdateBrandAsync([FromRoute] int id, [FromBody] UpdateBrandRequest request)
     {
-        return Ok(await brandService.UpdateBrandAsync(id, updateBrandRequest));
+        BrandDetailResponse result = await brandService.UpdateBrandAsync(id, request);
+        return Ok(result);
     }
+
     [HttpDelete("{id:int}")]
     public async Task<ActionResult> DeleteBrandAsync([FromRoute] int id)
     {

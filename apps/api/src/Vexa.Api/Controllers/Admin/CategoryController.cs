@@ -1,31 +1,40 @@
 namespace Vexa.Api.Controllers;
 
 [Route("api/admin/categories")]
-public class AdminCategoryController() : AdminApiControllerBase
+public class AdminCategoryController(ICategoryService categoryService) : AdminApiControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult> GetCategoriesAsync()
+    public async Task<ActionResult<PaginationResponse<CategoryResponse>>> GetCategoriesAsync([FromRoute] PaginationRequest request)
     {
-        return Ok();
+        PaginationResponse<CategoryResponse> result = await categoryService.GetCategoriesAsync(request);
+        return Ok(result);
     }
+
     [HttpGet("{id:int}")]
-    public async Task<ActionResult> GetCategoryByIdAsync()
+    public async Task<ActionResult<CategoryDetailResponse?>> GetCategoryByIdAsync([FromRoute] int id)
     {
-        return Ok();
+        CategoryDetailResponse? result = await categoryService.GetCategoryByIdAsync(id);
+        return Ok(result);
     }
+
     [HttpPost]
-    public async Task<ActionResult> CreateCategoryAsync()
+    public async Task<ActionResult<CategoryDetailResponse>> CreateCategoryAsync([FromBody] CreateCategoryRequest request)
     {
-        return Ok();
+        CategoryDetailResponse result = await categoryService.CreateCategoryAsync(request);
+        return Ok(result);
     }
-    [HttpPut]
-    public async Task<ActionResult> UpdateCategoryAsync()
+
+    [HttpPut("{id:int}")]
+    public async Task<ActionResult<CategoryDetailResponse>> UpdateCategoryAsync([FromRoute] int id, [FromBody] UpdateCategoryRequest request)
     {
-        return Ok();
+        CategoryDetailResponse result = await categoryService.UpdateCategoryAsync(id, request);
+        return Ok(result);
     }
-    [HttpDelete]
-    public async Task<ActionResult> DeleteCategoryAsync()
+
+    [HttpDelete("{id:int}")]
+    public async Task<ActionResult> DeleteCategoryAsync([FromRoute] int id)
     {
-        return Ok();
+        await categoryService.DeleteCategoryAsync(id);
+        return NoContent();
     }
 }

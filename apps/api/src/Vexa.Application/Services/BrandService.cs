@@ -23,10 +23,8 @@ public class BrandService(IBrandRepository brandRepository, IMapper mapper) : IB
         throw new NotImplementedException();
     }
 
-    public async Task<List<BrandResponse>> GetBrandsAsync()
+    public async Task<PaginationResponse<BrandResponse>> GetBrandsAsync(PaginationRequest request)
     {
         throw new NotImplementedException();
     }
-
-
 }
