@@ -1,12 +1,12 @@
 {
   "common.app-name": "Vexa",
   "admin-login.text-under-icon": "System administration",
-  "admin-login.email-label": "Email",
-  "admin-login.email-placeholder": "Enter your email",
+  "admin-login.username-label": "Username",
+  "admin-login.username-placeholder": "Enter your username",
   "admin-login.password-label": "Password",
   "admin-login.password-placeholder": "Enter your password",
   "admin-login.remember-me": "Remember me",
   "admin-login.forgot-password": "Forgot password?",
   "admin-login.submit": "Log in",
-  "admin-login.incorrect-info": "Email or password inccorect"
+  "admin-login.incorrect-info": "Username or password inccorect"
 }

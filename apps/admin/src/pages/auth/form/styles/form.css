@@ -15,3 +15,11 @@
 .login-form.ant-form.ant-form-vertical .ant-form-item-label {
   height: 26px;
 }
+
+.login-form input::placeholder {
+  font-size: 14px;
+}
+
+.login-form .ant-input-prefix {
+  margin-right: 6px;
+}

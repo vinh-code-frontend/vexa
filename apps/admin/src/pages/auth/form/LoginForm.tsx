@@ -3,7 +3,7 @@ import type { FormProps } from 'antd';
 import { Alert, Button, Checkbox, Form, Input, Typography } from 'antd';
 import { useLocation, useNavigate } from 'react-router';
 
-import { CloseCircleOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
+import { Mail, Lock, CircleX } from 'lucide-react';
 import i18n from '@/i18n';
 import { useLoginValidation } from '@/pages/hooks/useValidation';
 import { useAuth } from '@/providers/AuthProvider';
@@ -68,7 +68,7 @@ export const LoginForm = () => {
         <Alert
           type="error"
           showIcon
-          icon={<CloseCircleOutlined style={{ fontSize: '16px' }} />}
+          icon={<CircleX size={16} />}
           description={loginError}
           style={{
             marginBottom: 20,
@@ -81,17 +81,17 @@ export const LoginForm = () => {
         />
       )}
 
-      <Form.Item label={i18n.t('admin-login.email-label')} name="email" rules={usernameRules}>
+      <Form.Item label={i18n.t('admin-login.username-label')} name="username" rules={usernameRules}>
         <Input
-          prefix={<MailOutlined style={{ fontSize: '16px', color: 'black' }} />}
-          placeholder={i18n.t('admin-login.email-placeholder')}
+          prefix={<Mail size={16} color="black" />}
+          placeholder={i18n.t('admin-login.username-placeholder')}
           style={{ height: '40px' }}
         />
       </Form.Item>
 
       <Form.Item label={i18n.t('admin-login.password-label')} name="password" rules={passwordRules}>
         <Input.Password
-          prefix={<LockOutlined style={{ fontSize: '16px', color: 'black' }} />}
+          prefix={<Lock size={16} color="black" />}
           placeholder={i18n.t('admin-login.password-placeholder')}
           style={{ height: '40px' }}
         />

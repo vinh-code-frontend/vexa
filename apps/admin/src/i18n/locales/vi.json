@@ -1,12 +1,12 @@
 {
   "common.app-name": "Vexa",
   "admin-login.text-under-icon": "Hệ thống Quản trị Hệ thống",
-  "admin-login.email-label": "Tài khoản Email",
-  "admin-login.email-placeholder": "Nhập email của bạn",
+  "admin-login.username-label": "Tên đăng nhập",
+  "admin-login.username-placeholder": "Nhập tên đăng nhập của bạn",
   "admin-login.password-label": "Mật khẩu",
   "admin-login.password-placeholder": "Nhập mật khẩu của bạn",
   "admin-login.remember-me": "Ghi nhớ đăng nhập",
   "admin-login.forgot-password": "Quên mật khẩu?",
   "admin-login.submit": "Đăng nhập",
-  "admin-login.incorrect-info": "Tài khoản hoặc mật khẩu không chính xác"
+  "admin-login.incorrect-info": "Tên đăng nhập hoặc mật khẩu không chính xác"
 }
