@@ -4,6 +4,7 @@ import { Button, Form, Input, message } from 'antd';
 import { useLocation, useNavigate } from 'react-router';
 
 import { useAuth } from '@/providers/AuthProvider';
+import { AxiosError } from 'axios';
 
 type FieldType = {
   username?: string;
@@ -33,8 +34,12 @@ export const LoginPage: FC = () => {
 
       const redirectTo = getSafeRedirect(new URLSearchParams(location.search).get('redirectTo'));
       navigate(redirectTo, { replace: true });
-    } catch {
-      messageApi.error('Unable to sign in');
+    } catch (error) {
+      if (error instanceof AxiosError && error.response?.data?.message) {
+        messageApi.error(`Unable to sign in! ${error.response.data.message}`);
+      } else {
+        messageApi.error('Unable to sign in!');
+      }
     }
   };
 

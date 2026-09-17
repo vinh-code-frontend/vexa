@@ -3,15 +3,18 @@ import { createContext, useContext, useEffect, useState, type PropsWithChildren 
 import {
   clearAccessToken,
   getAccessToken,
+  getAuthSession,
   httpClient,
   isAccessTokenExpired,
+  registerAuthSessionChangeHandler,
   refreshAccessToken,
   registerAuthRefreshFailureHandler,
 } from '@/api/axios/instance';
+import type { UserResponse } from '@/api/generated/model';
 
 export type AuthStatus = 'initializing' | 'authenticated' | 'unauthenticated';
 
-export type AuthUser = Record<string, unknown>;
+export type AuthUser = UserResponse;
 
 type LoginCredentials = {
   username: string;
@@ -40,6 +43,18 @@ export function AuthProvider({ children }: PropsWithChildren) {
   useEffect(() => {
     let mounted = true;
 
+    const handleSessionChange = (session: ReturnType<typeof getAuthSession>) => {
+      if (!mounted) {
+        return;
+      }
+
+      setUser(session?.user ?? null);
+
+      if (!session) {
+        setStatus('unauthenticated');
+      }
+    };
+
     const handleRefreshFailure = () => {
       clearAccessToken();
       setUser(null);
@@ -47,19 +62,18 @@ export function AuthProvider({ children }: PropsWithChildren) {
     };
 
     const unregisterRefreshFailureHandler = registerAuthRefreshFailureHandler(handleRefreshFailure);
+    const unregisterSessionChangeHandler = registerAuthSessionChangeHandler(handleSessionChange);
 
     const initializeAuth = async () => {
-      const accessToken = getAccessToken();
+      const session = getAuthSession();
+      const accessToken = session?.accessToken ?? getAccessToken();
 
-      if (!accessToken) {
-        if (mounted) {
-          setStatus('unauthenticated');
-        }
-        return;
+      if (mounted) {
+        setUser(session?.user ?? null);
       }
 
       try {
-        if (isAccessTokenExpired(accessToken)) {
+        if (!accessToken || isAccessTokenExpired(accessToken)) {
           await refreshAccessToken();
         }
 
@@ -79,11 +93,12 @@ export function AuthProvider({ children }: PropsWithChildren) {
     return () => {
       mounted = false;
       unregisterRefreshFailureHandler();
+      unregisterSessionChangeHandler();
     };
   }, []);
 
   const login = async (credentials: LoginCredentials) => {
-    const response = await httpClient.post<LoginResponse>('/auth/login', credentials, {
+    const response = await httpClient.post<LoginResponse>('/admin/auth/login', credentials, {
       skipAuthRefresh: true,
     });
 

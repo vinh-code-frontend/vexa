@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using Vexa.Api.Middlewares;
 using Serilog;
+using System.Text.Json.Serialization;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -22,7 +23,18 @@ try
                 .Enrich.FromLogContext();
     });
 
-    builder.Services.AddControllers();
+    builder.Services.AddControllers().AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(
+            new JsonStringEnumConverter()
+        );
+    });
+
+    // AddOpenApi generates schemas from Http.Json.JsonOptions, not Mvc.JsonOptions above.
+    builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
+    {
+        options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 
     builder.Services.Configure<RouteOptions>(options =>
     {
@@ -105,8 +117,6 @@ try
             logger.LogInformation("Listening on: {Url}", url);
 
             logger.LogInformation("API documentation:");
-            logger.LogInformation("  - OpenAPI: {Url}/openapi/v1.json", url);
-            logger.LogInformation("  - Scalar : {Url}/scalar/v1", url);
 
             logger.LogInformation("Admin API documentation:");
             logger.LogInformation("  - OpenAPI: {Url}/openapi/admin.json", url);

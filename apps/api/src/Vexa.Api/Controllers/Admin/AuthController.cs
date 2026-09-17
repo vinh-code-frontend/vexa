@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Primitives;
+using Vexa.Application.Exceptions;
 
 namespace Vexa.Api.Controllers;
 
@@ -30,7 +31,7 @@ public class AdminAuthController(IAuthService authService, ITokenService tokenSe
     {
         string? refreshToken = Request.Cookies[_refreshTokenKey];
         string? csrfToken = Request.Cookies[_csrfTokenKey];
-        StringValues csrfHeader = Request.Headers[_csrfHeaderKey];
+        string? csrfHeader = Request.Headers[_csrfHeaderKey];
         if (refreshToken is string && csrfToken is string && csrfToken == csrfHeader)
         {
             LoginResponse result = await authService.RefreshTokenAsync(refreshToken);
@@ -38,7 +39,7 @@ public class AdminAuthController(IAuthService authService, ITokenService tokenSe
 
             return result;
         }
-        throw new Exception("Failed to refresh token");
+        throw new UnauthorizedException("Failed to refresh token");
     }
 
     private void AppendAuthCookies(LoginResponse response)

@@ -7,12 +7,24 @@ declare module 'axios' {
   }
 }
 
+export type AuthUser = Record<string, unknown>;
+
 type TokenResponse = {
   accessToken?: string;
+  user?: AuthUser;
 };
+
+export type AuthSession = {
+  accessToken: string;
+  user: AuthUser | null;
+};
+
+const AUTH_SESSION_STORAGE_KEY = 'authSession';
+const LEGACY_ACCESS_TOKEN_STORAGE_KEY = 'accessToken';
 
 let refreshPromise: Promise<string> | null = null;
 let authRefreshFailureHandler: (() => void) | null = null;
+let authSessionChangeHandler: ((session: AuthSession | null) => void) | null = null;
 
 export const httpClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -23,14 +35,14 @@ export const httpClient = axios.create({
 });
 
 httpClient.interceptors.request.use(async (config) => {
-  const accessToken = localStorage.getItem('accessToken');
+  const accessToken = getAccessToken();
   const csrfToken = typeof cookieStore === 'undefined' ? null : await cookieStore.get('csrf-token');
 
   if (accessToken && !config.skipAuthRefresh) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
-  if (csrfToken) {
-    config.headers['X-CSRF-TOKEN'] = csrfToken;
+  if (csrfToken?.value) {
+    config.headers['X-CSRF-TOKEN'] = decodeURIComponent(csrfToken.value);
   }
 
   return config;
@@ -41,7 +53,7 @@ httpClient.interceptors.response.use(
     const data = response.data;
 
     if (data?.accessToken) {
-      localStorage.setItem('accessToken', data.accessToken);
+      updateAuthSession({ accessToken: data.accessToken, user: data.user });
     }
 
     return response;
@@ -72,11 +84,71 @@ httpClient.interceptors.response.use(
 );
 
 export function getAccessToken() {
-  return localStorage.getItem('accessToken');
+  return getAuthSession()?.accessToken ?? null;
 }
 
 export function clearAccessToken() {
-  localStorage.removeItem('accessToken');
+  localStorage.removeItem(AUTH_SESSION_STORAGE_KEY);
+  localStorage.removeItem(LEGACY_ACCESS_TOKEN_STORAGE_KEY);
+  authSessionChangeHandler?.(null);
+}
+
+export function getAuthSession(): AuthSession | null {
+  const storedSession = localStorage.getItem(AUTH_SESSION_STORAGE_KEY);
+
+  if (storedSession) {
+    try {
+      const session = JSON.parse(storedSession) as Partial<AuthSession>;
+
+      if (typeof session.accessToken === 'string' && session.accessToken) {
+        return {
+          accessToken: session.accessToken,
+          user: session.user ?? null,
+        };
+      }
+    } catch {
+      localStorage.removeItem(AUTH_SESSION_STORAGE_KEY);
+    }
+  }
+
+  const legacyAccessToken = localStorage.getItem(LEGACY_ACCESS_TOKEN_STORAGE_KEY);
+
+  if (!legacyAccessToken) {
+    return null;
+  }
+
+  const session = { accessToken: legacyAccessToken, user: null } satisfies AuthSession;
+  saveAuthSession(session);
+  localStorage.removeItem(LEGACY_ACCESS_TOKEN_STORAGE_KEY);
+  return session;
+}
+
+export function saveAuthSession(session: AuthSession) {
+  localStorage.setItem(AUTH_SESSION_STORAGE_KEY, JSON.stringify(session));
+  authSessionChangeHandler?.(session);
+}
+
+export function updateAuthSession(update: Partial<AuthSession>) {
+  const currentSession = getAuthSession();
+
+  if (!currentSession && !update.accessToken) {
+    return;
+  }
+
+  saveAuthSession({
+    accessToken: update.accessToken ?? currentSession!.accessToken,
+    user: update.user !== undefined ? update.user : currentSession?.user ?? null,
+  });
+}
+
+export function registerAuthSessionChangeHandler(handler: (session: AuthSession | null) => void) {
+  authSessionChangeHandler = handler;
+
+  return () => {
+    if (authSessionChangeHandler === handler) {
+      authSessionChangeHandler = null;
+    }
+  };
 }
 
 export function isAccessTokenExpired(accessToken: string) {
@@ -110,7 +182,7 @@ export function registerAuthRefreshFailureHandler(handler: () => void) {
 export function refreshAccessToken() {
   if (!refreshPromise) {
     refreshPromise = httpClient
-      .post<TokenResponse>('/auth/refresh', undefined, {
+      .post<TokenResponse>('/admin/auth/refresh', undefined, {
         skipAuthRefresh: true,
       })
       .then((response) => {
@@ -120,7 +192,7 @@ export function refreshAccessToken() {
           throw new Error('Refresh response did not include an access token');
         }
 
-        localStorage.setItem('accessToken', accessToken);
+        updateAuthSession({ accessToken, user: response.data.user });
         return accessToken;
       })
       .catch((error) => {
