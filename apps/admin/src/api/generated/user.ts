@@ -4,10 +4,7 @@
  * Vexa.Api | admin
  * OpenAPI spec version: 1.0.0
  */
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -20,21 +17,13 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult
+  UseQueryResult,
 } from '@tanstack/react-query';
 
-import type {
-  CreateUserRequest,
-  CreateUserResponse,
-  UserResponse
-} from './model';
+import type { CreateUserRequest, CreateUserResponse, UserResponse } from './model';
 
 import { httpClient } from '../axios/instance';
-import type { ErrorType , BodyType } from '../axios/instance';
-
-
-
-
+import type { ErrorType, BodyType } from '../axios/instance';
 
 const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKey: K } => {
   const result = { queryKey } as T & { queryKey: K };
@@ -51,295 +40,344 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
   return result;
 };
 
-export const getApiAdminUsers = (
-
- signal?: AbortSignal
-) => {
-
-
-      return httpClient<UserResponse[]>(
-      {url: `/api/admin/users`, method: 'GET', signal
-    },
-      );
-    }
-
-
-
+export const getApiAdminUsers = (signal?: AbortSignal) => {
+  return httpClient<UserResponse[]>({ url: `/api/admin/users`, method: 'GET', signal });
+};
 
 export const getGetApiAdminUsersQueryKey = () => {
-    return [
-    `/api/admin/users`
-    ] as const;
-    }
+  return [`/api/admin/users`] as const;
+};
 
+export const getGetApiAdminUsersQueryOptions = <
+  TData = Awaited<ReturnType<typeof getApiAdminUsers>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminUsers>>, TError, TData>>;
+}) => {
+  const { query: queryOptions } = options ?? {};
 
-export const getGetApiAdminUsersQueryOptions = <TData = Awaited<ReturnType<typeof getApiAdminUsers>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminUsers>>, TError, TData>>, }
-) => {
+  const queryKey = queryOptions?.queryKey ?? getGetApiAdminUsersQueryKey();
 
-const {query: queryOptions} = options ?? {};
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiAdminUsers>>> = ({ signal }) =>
+    getApiAdminUsers(signal);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiAdminUsersQueryKey();
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getApiAdminUsers>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type GetApiAdminUsersQueryResult = NonNullable<Awaited<ReturnType<typeof getApiAdminUsers>>>;
+export type GetApiAdminUsersQueryError = ErrorType<unknown>;
 
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiAdminUsers>>> = ({ signal }) => getApiAdminUsers(signal);
-
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiAdminUsers>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetApiAdminUsersQueryResult = NonNullable<Awaited<ReturnType<typeof getApiAdminUsers>>>
-export type GetApiAdminUsersQueryError = ErrorType<unknown>
-
-
-export function useGetApiAdminUsers<TData = Awaited<ReturnType<typeof getApiAdminUsers>>, TError = ErrorType<unknown>>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminUsers>>, TError, TData>> & Pick<
+export function useGetApiAdminUsers<
+  TData = Awaited<ReturnType<typeof getApiAdminUsers>>,
+  TError = ErrorType<unknown>,
+>(
+  options: {
+    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminUsers>>, TError, TData>> &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getApiAdminUsers>>,
           TError,
           Awaited<ReturnType<typeof getApiAdminUsers>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiAdminUsers<TData = Awaited<ReturnType<typeof getApiAdminUsers>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminUsers>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetApiAdminUsers<
+  TData = Awaited<ReturnType<typeof getApiAdminUsers>>,
+  TError = ErrorType<unknown>,
+>(
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminUsers>>, TError, TData>> &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getApiAdminUsers>>,
           TError,
           Awaited<ReturnType<typeof getApiAdminUsers>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiAdminUsers<TData = Awaited<ReturnType<typeof getApiAdminUsers>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminUsers>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetApiAdminUsers<
+  TData = Awaited<ReturnType<typeof getApiAdminUsers>>,
+  TError = ErrorType<unknown>,
+>(
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminUsers>>, TError, TData>>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-export function useGetApiAdminUsers<TData = Awaited<ReturnType<typeof getApiAdminUsers>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminUsers>>, TError, TData>>, }
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetApiAdminUsers<
+  TData = Awaited<ReturnType<typeof getApiAdminUsers>>,
+  TError = ErrorType<unknown>,
+>(
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminUsers>>, TError, TData>>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getGetApiAdminUsersQueryOptions(options);
 
-  const queryOptions = getGetApiAdminUsersQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
   return withQueryKey(query, queryOptions.queryKey);
 }
 
-
-
-
-
-
 export const postApiAdminUsers = (
-    createUserRequest: BodyType<CreateUserRequest>,
- signal?: AbortSignal
+  createUserRequest: BodyType<CreateUserRequest>,
+  signal?: AbortSignal,
 ) => {
-
-
-      return httpClient<CreateUserResponse>(
-      {url: `/api/admin/users`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: createUserRequest, signal
-    },
-      );
-    }
-
-
-
+  return httpClient<CreateUserResponse>({
+    url: `/api/admin/users`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    data: createUserRequest,
+    signal,
+  });
+};
 
 export const getPostApiAdminUsersMutationKey = () => ['postApiAdminUsers'] as const;
 
-export const getPostApiAdminUsersMutationOptions = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiAdminUsers>>, TError,PostApiAdminUsersMutationVariables, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof postApiAdminUsers>>, TError,PostApiAdminUsersMutationVariables, TContext> => {
+export const getPostApiAdminUsersMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof postApiAdminUsers>>,
+    TError,
+    PostApiAdminUsersMutationVariables,
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof postApiAdminUsers>>,
+  TError,
+  PostApiAdminUsersMutationVariables,
+  TContext
+> => {
+  const mutationKey = getPostApiAdminUsersMutationKey();
+  const { mutation: mutationOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
 
-const mutationKey = getPostApiAdminUsersMutationKey();
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof postApiAdminUsers>>,
+    PostApiAdminUsersMutationVariables
+  > = (props) => {
+    const { data } = props ?? {};
 
+    return postApiAdminUsers(data);
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
+export type PostApiAdminUsersMutationResult = NonNullable<
+  Awaited<ReturnType<typeof postApiAdminUsers>>
+>;
+export type PostApiAdminUsersMutationBody = BodyType<CreateUserRequest>;
+export type PostApiAdminUsersMutationError = ErrorType<unknown>;
+export type PostApiAdminUsersMutationVariables = { data: BodyType<CreateUserRequest> };
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiAdminUsers>>, PostApiAdminUsersMutationVariables> = (props) => {
-          const {data} = props ?? {};
+export const usePostApiAdminUsers = <TError = ErrorType<unknown>, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof postApiAdminUsers>>,
+      TError,
+      PostApiAdminUsersMutationVariables,
+      TContext
+    >;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof postApiAdminUsers>>,
+  TError,
+  PostApiAdminUsersMutationVariables,
+  TContext
+> => {
+  return useMutation(getPostApiAdminUsersMutationOptions(options), queryClient);
+};
+export const getApiAdminUsersId = (id: string, signal?: AbortSignal) => {
+  return httpClient<UserResponse>({ url: `/api/admin/users/${id}`, method: 'GET', signal });
+};
 
-          return  postApiAdminUsers(data,)
-        }
+export const getGetApiAdminUsersIdQueryKey = (id: string) => {
+  return [`/api/admin/users/${id}`] as const;
+};
 
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PostApiAdminUsersMutationResult = NonNullable<Awaited<ReturnType<typeof postApiAdminUsers>>>
-    export type PostApiAdminUsersMutationBody = BodyType<CreateUserRequest>
-    export type PostApiAdminUsersMutationError = ErrorType<unknown>
-    export type PostApiAdminUsersMutationVariables = {data: BodyType<CreateUserRequest>}
-
-    export const usePostApiAdminUsers = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiAdminUsers>>, TError,PostApiAdminUsersMutationVariables, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postApiAdminUsers>>,
-        TError,
-        PostApiAdminUsersMutationVariables,
-        TContext
-      > => {
-      return useMutation(getPostApiAdminUsersMutationOptions(options), queryClient);
-    }
-    export const getApiAdminUsersId = (
-    id: string,
- signal?: AbortSignal
+export const getGetApiAdminUsersIdQueryOptions = <
+  TData = Awaited<ReturnType<typeof getApiAdminUsersId>>,
+  TError = ErrorType<unknown>,
+>(
+  id: string,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminUsersId>>, TError, TData>>;
+  },
 ) => {
+  const { query: queryOptions } = options ?? {};
 
+  const queryKey = queryOptions?.queryKey ?? getGetApiAdminUsersIdQueryKey(id);
 
-      return httpClient<UserResponse>(
-      {url: `/api/admin/users/${id}`, method: 'GET', signal
-    },
-      );
-    }
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiAdminUsersId>>> = ({ signal }) =>
+    getApiAdminUsersId(id, signal);
 
+  return {
+    queryKey,
+    queryFn,
+    enabled: id !== null && id !== undefined,
+    ...queryOptions,
+  } as UseQueryOptions<Awaited<ReturnType<typeof getApiAdminUsersId>>, TError, TData> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+};
 
+export type GetApiAdminUsersIdQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getApiAdminUsersId>>
+>;
+export type GetApiAdminUsersIdQueryError = ErrorType<unknown>;
 
-
-export const getGetApiAdminUsersIdQueryKey = (id: string,) => {
-    return [
-    `/api/admin/users/${id}`
-    ] as const;
-    }
-
-
-export const getGetApiAdminUsersIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiAdminUsersId>>, TError = ErrorType<unknown>>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminUsersId>>, TError, TData>>, }
-) => {
-
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetApiAdminUsersIdQueryKey(id);
-
-
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiAdminUsersId>>> = ({ signal }) => getApiAdminUsersId(id, signal);
-
-
-
-
-
-   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiAdminUsersId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetApiAdminUsersIdQueryResult = NonNullable<Awaited<ReturnType<typeof getApiAdminUsersId>>>
-export type GetApiAdminUsersIdQueryError = ErrorType<unknown>
-
-
-export function useGetApiAdminUsersId<TData = Awaited<ReturnType<typeof getApiAdminUsersId>>, TError = ErrorType<unknown>>(
- id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminUsersId>>, TError, TData>> & Pick<
+export function useGetApiAdminUsersId<
+  TData = Awaited<ReturnType<typeof getApiAdminUsersId>>,
+  TError = ErrorType<unknown>,
+>(
+  id: string,
+  options: {
+    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminUsersId>>, TError, TData>> &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getApiAdminUsersId>>,
           TError,
           Awaited<ReturnType<typeof getApiAdminUsersId>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiAdminUsersId<TData = Awaited<ReturnType<typeof getApiAdminUsersId>>, TError = ErrorType<unknown>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminUsersId>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetApiAdminUsersId<
+  TData = Awaited<ReturnType<typeof getApiAdminUsersId>>,
+  TError = ErrorType<unknown>,
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getApiAdminUsersId>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getApiAdminUsersId>>,
           TError,
           Awaited<ReturnType<typeof getApiAdminUsersId>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiAdminUsersId<TData = Awaited<ReturnType<typeof getApiAdminUsersId>>, TError = ErrorType<unknown>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminUsersId>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetApiAdminUsersId<
+  TData = Awaited<ReturnType<typeof getApiAdminUsersId>>,
+  TError = ErrorType<unknown>,
+>(
+  id: string,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminUsersId>>, TError, TData>>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-export function useGetApiAdminUsersId<TData = Awaited<ReturnType<typeof getApiAdminUsersId>>, TError = ErrorType<unknown>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminUsersId>>, TError, TData>>, }
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetApiAdminUsersId<
+  TData = Awaited<ReturnType<typeof getApiAdminUsersId>>,
+  TError = ErrorType<unknown>,
+>(
+  id: string,
+  options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminUsersId>>, TError, TData>>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getGetApiAdminUsersIdQueryOptions(id, options);
 
-  const queryOptions = getGetApiAdminUsersIdQueryOptions(id,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
   return withQueryKey(query, queryOptions.queryKey);
 }
 
-
-
-
-
-
-export const deleteApiAdminUsersId = (
-    id: string,
- signal?: AbortSignal
-) => {
-
-
-      return httpClient<void>(
-      {url: `/api/admin/users/${id}`, method: 'DELETE', signal
-    },
-      );
-    }
-
-
-
+export const deleteApiAdminUsersId = (id: string, signal?: AbortSignal) => {
+  return httpClient<void>({ url: `/api/admin/users/${id}`, method: 'DELETE', signal });
+};
 
 export const getDeleteApiAdminUsersIdMutationKey = () => ['deleteApiAdminUsersId'] as const;
 
-export const getDeleteApiAdminUsersIdMutationOptions = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiAdminUsersId>>, TError,DeleteApiAdminUsersIdMutationVariables, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof deleteApiAdminUsersId>>, TError,DeleteApiAdminUsersIdMutationVariables, TContext> => {
+export const getDeleteApiAdminUsersIdMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteApiAdminUsersId>>,
+    TError,
+    DeleteApiAdminUsersIdMutationVariables,
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof deleteApiAdminUsersId>>,
+  TError,
+  DeleteApiAdminUsersIdMutationVariables,
+  TContext
+> => {
+  const mutationKey = getDeleteApiAdminUsersIdMutationKey();
+  const { mutation: mutationOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
 
-const mutationKey = getDeleteApiAdminUsersIdMutationKey();
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof deleteApiAdminUsersId>>,
+    DeleteApiAdminUsersIdMutationVariables
+  > = (props) => {
+    const { id } = props ?? {};
 
+    return deleteApiAdminUsersId(id);
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
+export type DeleteApiAdminUsersIdMutationResult = NonNullable<
+  Awaited<ReturnType<typeof deleteApiAdminUsersId>>
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteApiAdminUsersId>>, DeleteApiAdminUsersIdMutationVariables> = (props) => {
-          const {id} = props ?? {};
+export type DeleteApiAdminUsersIdMutationError = ErrorType<unknown>;
+export type DeleteApiAdminUsersIdMutationVariables = { id: string };
 
-          return  deleteApiAdminUsersId(id,)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type DeleteApiAdminUsersIdMutationResult = NonNullable<Awaited<ReturnType<typeof deleteApiAdminUsersId>>>
-
-    export type DeleteApiAdminUsersIdMutationError = ErrorType<unknown>
-    export type DeleteApiAdminUsersIdMutationVariables = {id: string}
-
-    export const useDeleteApiAdminUsersId = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiAdminUsersId>>, TError,DeleteApiAdminUsersIdMutationVariables, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof deleteApiAdminUsersId>>,
-        TError,
-        DeleteApiAdminUsersIdMutationVariables,
-        TContext
-      > => {
-      return useMutation(getDeleteApiAdminUsersIdMutationOptions(options), queryClient);
-    }
+export const useDeleteApiAdminUsersId = <TError = ErrorType<unknown>, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof deleteApiAdminUsersId>>,
+      TError,
+      DeleteApiAdminUsersIdMutationVariables,
+      TContext
+    >;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof deleteApiAdminUsersId>>,
+  TError,
+  DeleteApiAdminUsersIdMutationVariables,
+  TContext
+> => {
+  return useMutation(getDeleteApiAdminUsersIdMutationOptions(options), queryClient);
+};

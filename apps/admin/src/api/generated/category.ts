@@ -4,10 +4,7 @@
  * Vexa.Api | admin
  * OpenAPI spec version: 1.0.0
  */
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -20,7 +17,7 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult
+  UseQueryResult,
 } from '@tanstack/react-query';
 
 import type {
@@ -28,15 +25,11 @@ import type {
   CreateCategoryRequest,
   GetApiAdminCategoriesParams,
   PaginationResponseOfCategoryResponse,
-  UpdateCategoryRequest
+  UpdateCategoryRequest,
 } from './model';
 
 import { httpClient } from '../axios/instance';
-import type { ErrorType , BodyType } from '../axios/instance';
-
-
-
-
+import type { ErrorType, BodyType } from '../axios/instance';
 
 const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKey: K } => {
   const result = { queryKey } as T & { queryKey: K };
@@ -54,357 +47,463 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
 };
 
 export const getApiAdminCategories = (
-    params?: GetApiAdminCategoriesParams,
- signal?: AbortSignal
+  params?: GetApiAdminCategoriesParams,
+  signal?: AbortSignal,
 ) => {
+  return httpClient<PaginationResponseOfCategoryResponse>({
+    url: `/api/admin/categories`,
+    method: 'GET',
+    params,
+    signal,
+  });
+};
 
+export const getGetApiAdminCategoriesQueryKey = (params?: GetApiAdminCategoriesParams) => {
+  return [`/api/admin/categories`, ...(params ? [params] : [])] as const;
+};
 
-      return httpClient<PaginationResponseOfCategoryResponse>(
-      {url: `/api/admin/categories`, method: 'GET',
-        params, signal
-    },
-      );
-    }
-
-
-
-
-export const getGetApiAdminCategoriesQueryKey = (params?: GetApiAdminCategoriesParams,) => {
-    return [
-    `/api/admin/categories`, ...(params ? [params] : [])
-    ] as const;
-    }
-
-
-export const getGetApiAdminCategoriesQueryOptions = <TData = Awaited<ReturnType<typeof getApiAdminCategories>>, TError = ErrorType<unknown>>(params?: GetApiAdminCategoriesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminCategories>>, TError, TData>>, }
+export const getGetApiAdminCategoriesQueryOptions = <
+  TData = Awaited<ReturnType<typeof getApiAdminCategories>>,
+  TError = ErrorType<unknown>,
+>(
+  params?: GetApiAdminCategoriesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getApiAdminCategories>>, TError, TData>
+    >;
+  },
 ) => {
+  const { query: queryOptions } = options ?? {};
 
-const {query: queryOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetApiAdminCategoriesQueryKey(params);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetApiAdminCategoriesQueryKey(params);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiAdminCategories>>> = ({ signal }) =>
+    getApiAdminCategories(params, signal);
 
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getApiAdminCategories>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
+export type GetApiAdminCategoriesQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getApiAdminCategories>>
+>;
+export type GetApiAdminCategoriesQueryError = ErrorType<unknown>;
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiAdminCategories>>> = ({ signal }) => getApiAdminCategories(params, signal);
-
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiAdminCategories>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetApiAdminCategoriesQueryResult = NonNullable<Awaited<ReturnType<typeof getApiAdminCategories>>>
-export type GetApiAdminCategoriesQueryError = ErrorType<unknown>
-
-
-export function useGetApiAdminCategories<TData = Awaited<ReturnType<typeof getApiAdminCategories>>, TError = ErrorType<unknown>>(
- params: undefined |  GetApiAdminCategoriesParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminCategories>>, TError, TData>> & Pick<
+export function useGetApiAdminCategories<
+  TData = Awaited<ReturnType<typeof getApiAdminCategories>>,
+  TError = ErrorType<unknown>,
+>(
+  params: undefined | GetApiAdminCategoriesParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getApiAdminCategories>>, TError, TData>
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getApiAdminCategories>>,
           TError,
           Awaited<ReturnType<typeof getApiAdminCategories>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiAdminCategories<TData = Awaited<ReturnType<typeof getApiAdminCategories>>, TError = ErrorType<unknown>>(
- params?: GetApiAdminCategoriesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminCategories>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetApiAdminCategories<
+  TData = Awaited<ReturnType<typeof getApiAdminCategories>>,
+  TError = ErrorType<unknown>,
+>(
+  params?: GetApiAdminCategoriesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getApiAdminCategories>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getApiAdminCategories>>,
           TError,
           Awaited<ReturnType<typeof getApiAdminCategories>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiAdminCategories<TData = Awaited<ReturnType<typeof getApiAdminCategories>>, TError = ErrorType<unknown>>(
- params?: GetApiAdminCategoriesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminCategories>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetApiAdminCategories<
+  TData = Awaited<ReturnType<typeof getApiAdminCategories>>,
+  TError = ErrorType<unknown>,
+>(
+  params?: GetApiAdminCategoriesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getApiAdminCategories>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-export function useGetApiAdminCategories<TData = Awaited<ReturnType<typeof getApiAdminCategories>>, TError = ErrorType<unknown>>(
- params?: GetApiAdminCategoriesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminCategories>>, TError, TData>>, }
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetApiAdminCategories<
+  TData = Awaited<ReturnType<typeof getApiAdminCategories>>,
+  TError = ErrorType<unknown>,
+>(
+  params?: GetApiAdminCategoriesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getApiAdminCategories>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getGetApiAdminCategoriesQueryOptions(params, options);
 
-  const queryOptions = getGetApiAdminCategoriesQueryOptions(params,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
   return withQueryKey(query, queryOptions.queryKey);
 }
 
-
-
-
-
-
 export const postApiAdminCategories = (
-    createCategoryRequest: BodyType<CreateCategoryRequest>,
- signal?: AbortSignal
+  createCategoryRequest: BodyType<CreateCategoryRequest>,
+  signal?: AbortSignal,
 ) => {
-
-
-      return httpClient<CategoryDetailResponse>(
-      {url: `/api/admin/categories`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: createCategoryRequest, signal
-    },
-      );
-    }
-
-
-
+  return httpClient<CategoryDetailResponse>({
+    url: `/api/admin/categories`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    data: createCategoryRequest,
+    signal,
+  });
+};
 
 export const getPostApiAdminCategoriesMutationKey = () => ['postApiAdminCategories'] as const;
 
-export const getPostApiAdminCategoriesMutationOptions = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiAdminCategories>>, TError,PostApiAdminCategoriesMutationVariables, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof postApiAdminCategories>>, TError,PostApiAdminCategoriesMutationVariables, TContext> => {
+export const getPostApiAdminCategoriesMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof postApiAdminCategories>>,
+    TError,
+    PostApiAdminCategoriesMutationVariables,
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof postApiAdminCategories>>,
+  TError,
+  PostApiAdminCategoriesMutationVariables,
+  TContext
+> => {
+  const mutationKey = getPostApiAdminCategoriesMutationKey();
+  const { mutation: mutationOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
 
-const mutationKey = getPostApiAdminCategoriesMutationKey();
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof postApiAdminCategories>>,
+    PostApiAdminCategoriesMutationVariables
+  > = (props) => {
+    const { data } = props ?? {};
 
+    return postApiAdminCategories(data);
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
+export type PostApiAdminCategoriesMutationResult = NonNullable<
+  Awaited<ReturnType<typeof postApiAdminCategories>>
+>;
+export type PostApiAdminCategoriesMutationBody = BodyType<CreateCategoryRequest>;
+export type PostApiAdminCategoriesMutationError = ErrorType<unknown>;
+export type PostApiAdminCategoriesMutationVariables = { data: BodyType<CreateCategoryRequest> };
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postApiAdminCategories>>, PostApiAdminCategoriesMutationVariables> = (props) => {
-          const {data} = props ?? {};
+export const usePostApiAdminCategories = <TError = ErrorType<unknown>, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof postApiAdminCategories>>,
+      TError,
+      PostApiAdminCategoriesMutationVariables,
+      TContext
+    >;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof postApiAdminCategories>>,
+  TError,
+  PostApiAdminCategoriesMutationVariables,
+  TContext
+> => {
+  return useMutation(getPostApiAdminCategoriesMutationOptions(options), queryClient);
+};
+export const getApiAdminCategoriesId = (id: number, signal?: AbortSignal) => {
+  return httpClient<CategoryDetailResponse>({
+    url: `/api/admin/categories/${id}`,
+    method: 'GET',
+    signal,
+  });
+};
 
-          return  postApiAdminCategories(data,)
-        }
+export const getGetApiAdminCategoriesIdQueryKey = (id: number) => {
+  return [`/api/admin/categories/${id}`] as const;
+};
 
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PostApiAdminCategoriesMutationResult = NonNullable<Awaited<ReturnType<typeof postApiAdminCategories>>>
-    export type PostApiAdminCategoriesMutationBody = BodyType<CreateCategoryRequest>
-    export type PostApiAdminCategoriesMutationError = ErrorType<unknown>
-    export type PostApiAdminCategoriesMutationVariables = {data: BodyType<CreateCategoryRequest>}
-
-    export const usePostApiAdminCategories = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postApiAdminCategories>>, TError,PostApiAdminCategoriesMutationVariables, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postApiAdminCategories>>,
-        TError,
-        PostApiAdminCategoriesMutationVariables,
-        TContext
-      > => {
-      return useMutation(getPostApiAdminCategoriesMutationOptions(options), queryClient);
-    }
-    export const getApiAdminCategoriesId = (
-    id: number,
- signal?: AbortSignal
+export const getGetApiAdminCategoriesIdQueryOptions = <
+  TData = Awaited<ReturnType<typeof getApiAdminCategoriesId>>,
+  TError = ErrorType<unknown>,
+>(
+  id: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getApiAdminCategoriesId>>, TError, TData>
+    >;
+  },
 ) => {
+  const { query: queryOptions } = options ?? {};
 
+  const queryKey = queryOptions?.queryKey ?? getGetApiAdminCategoriesIdQueryKey(id);
 
-      return httpClient<CategoryDetailResponse>(
-      {url: `/api/admin/categories/${id}`, method: 'GET', signal
-    },
-      );
-    }
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiAdminCategoriesId>>> = ({
+    signal,
+  }) => getApiAdminCategoriesId(id, signal);
 
+  return {
+    queryKey,
+    queryFn,
+    enabled: id !== null && id !== undefined,
+    ...queryOptions,
+  } as UseQueryOptions<Awaited<ReturnType<typeof getApiAdminCategoriesId>>, TError, TData> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+};
 
+export type GetApiAdminCategoriesIdQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getApiAdminCategoriesId>>
+>;
+export type GetApiAdminCategoriesIdQueryError = ErrorType<unknown>;
 
-
-export const getGetApiAdminCategoriesIdQueryKey = (id: number,) => {
-    return [
-    `/api/admin/categories/${id}`
-    ] as const;
-    }
-
-
-export const getGetApiAdminCategoriesIdQueryOptions = <TData = Awaited<ReturnType<typeof getApiAdminCategoriesId>>, TError = ErrorType<unknown>>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminCategoriesId>>, TError, TData>>, }
-) => {
-
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetApiAdminCategoriesIdQueryKey(id);
-
-
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiAdminCategoriesId>>> = ({ signal }) => getApiAdminCategoriesId(id, signal);
-
-
-
-
-
-   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getApiAdminCategoriesId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetApiAdminCategoriesIdQueryResult = NonNullable<Awaited<ReturnType<typeof getApiAdminCategoriesId>>>
-export type GetApiAdminCategoriesIdQueryError = ErrorType<unknown>
-
-
-export function useGetApiAdminCategoriesId<TData = Awaited<ReturnType<typeof getApiAdminCategoriesId>>, TError = ErrorType<unknown>>(
- id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminCategoriesId>>, TError, TData>> & Pick<
+export function useGetApiAdminCategoriesId<
+  TData = Awaited<ReturnType<typeof getApiAdminCategoriesId>>,
+  TError = ErrorType<unknown>,
+>(
+  id: number,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getApiAdminCategoriesId>>, TError, TData>
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getApiAdminCategoriesId>>,
           TError,
           Awaited<ReturnType<typeof getApiAdminCategoriesId>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiAdminCategoriesId<TData = Awaited<ReturnType<typeof getApiAdminCategoriesId>>, TError = ErrorType<unknown>>(
- id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminCategoriesId>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetApiAdminCategoriesId<
+  TData = Awaited<ReturnType<typeof getApiAdminCategoriesId>>,
+  TError = ErrorType<unknown>,
+>(
+  id: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getApiAdminCategoriesId>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getApiAdminCategoriesId>>,
           TError,
           Awaited<ReturnType<typeof getApiAdminCategoriesId>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetApiAdminCategoriesId<TData = Awaited<ReturnType<typeof getApiAdminCategoriesId>>, TError = ErrorType<unknown>>(
- id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminCategoriesId>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        'initialData'
+      >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetApiAdminCategoriesId<
+  TData = Awaited<ReturnType<typeof getApiAdminCategoriesId>>,
+  TError = ErrorType<unknown>,
+>(
+  id: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getApiAdminCategoriesId>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-export function useGetApiAdminCategoriesId<TData = Awaited<ReturnType<typeof getApiAdminCategoriesId>>, TError = ErrorType<unknown>>(
- id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAdminCategoriesId>>, TError, TData>>, }
- , queryClient?: QueryClient
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetApiAdminCategoriesId<
+  TData = Awaited<ReturnType<typeof getApiAdminCategoriesId>>,
+  TError = ErrorType<unknown>,
+>(
+  id: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getApiAdminCategoriesId>>, TError, TData>
+    >;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const queryOptions = getGetApiAdminCategoriesIdQueryOptions(id, options);
 
-  const queryOptions = getGetApiAdminCategoriesIdQueryOptions(id,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
   return withQueryKey(query, queryOptions.queryKey);
 }
 
-
-
-
-
-
 export const putApiAdminCategoriesId = (
-    id: number,
-    updateCategoryRequest: BodyType<UpdateCategoryRequest>,
- signal?: AbortSignal
+  id: number,
+  updateCategoryRequest: BodyType<UpdateCategoryRequest>,
+  signal?: AbortSignal,
 ) => {
-
-
-      return httpClient<CategoryDetailResponse>(
-      {url: `/api/admin/categories/${id}`, method: 'PUT',
-      headers: {'Content-Type': 'application/json', },
-      data: updateCategoryRequest, signal
-    },
-      );
-    }
-
-
-
+  return httpClient<CategoryDetailResponse>({
+    url: `/api/admin/categories/${id}`,
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    data: updateCategoryRequest,
+    signal,
+  });
+};
 
 export const getPutApiAdminCategoriesIdMutationKey = () => ['putApiAdminCategoriesId'] as const;
 
-export const getPutApiAdminCategoriesIdMutationOptions = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putApiAdminCategoriesId>>, TError,PutApiAdminCategoriesIdMutationVariables, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof putApiAdminCategoriesId>>, TError,PutApiAdminCategoriesIdMutationVariables, TContext> => {
+export const getPutApiAdminCategoriesIdMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof putApiAdminCategoriesId>>,
+    TError,
+    PutApiAdminCategoriesIdMutationVariables,
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof putApiAdminCategoriesId>>,
+  TError,
+  PutApiAdminCategoriesIdMutationVariables,
+  TContext
+> => {
+  const mutationKey = getPutApiAdminCategoriesIdMutationKey();
+  const { mutation: mutationOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
 
-const mutationKey = getPutApiAdminCategoriesIdMutationKey();
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof putApiAdminCategoriesId>>,
+    PutApiAdminCategoriesIdMutationVariables
+  > = (props) => {
+    const { id, data } = props ?? {};
 
+    return putApiAdminCategoriesId(id, data);
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
+export type PutApiAdminCategoriesIdMutationResult = NonNullable<
+  Awaited<ReturnType<typeof putApiAdminCategoriesId>>
+>;
+export type PutApiAdminCategoriesIdMutationBody = BodyType<UpdateCategoryRequest>;
+export type PutApiAdminCategoriesIdMutationError = ErrorType<unknown>;
+export type PutApiAdminCategoriesIdMutationVariables = {
+  id: number;
+  data: BodyType<UpdateCategoryRequest>;
+};
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof putApiAdminCategoriesId>>, PutApiAdminCategoriesIdMutationVariables> = (props) => {
-          const {id,data} = props ?? {};
+export const usePutApiAdminCategoriesId = <TError = ErrorType<unknown>, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof putApiAdminCategoriesId>>,
+      TError,
+      PutApiAdminCategoriesIdMutationVariables,
+      TContext
+    >;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof putApiAdminCategoriesId>>,
+  TError,
+  PutApiAdminCategoriesIdMutationVariables,
+  TContext
+> => {
+  return useMutation(getPutApiAdminCategoriesIdMutationOptions(options), queryClient);
+};
+export const deleteApiAdminCategoriesId = (id: number, signal?: AbortSignal) => {
+  return httpClient<void>({ url: `/api/admin/categories/${id}`, method: 'DELETE', signal });
+};
 
-          return  putApiAdminCategoriesId(id,data,)
-        }
+export const getDeleteApiAdminCategoriesIdMutationKey = () =>
+  ['deleteApiAdminCategoriesId'] as const;
 
+export const getDeleteApiAdminCategoriesIdMutationOptions = <
+  TError = ErrorType<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteApiAdminCategoriesId>>,
+    TError,
+    DeleteApiAdminCategoriesIdMutationVariables,
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof deleteApiAdminCategoriesId>>,
+  TError,
+  DeleteApiAdminCategoriesIdMutationVariables,
+  TContext
+> => {
+  const mutationKey = getDeleteApiAdminCategoriesIdMutationKey();
+  const { mutation: mutationOptions } = options
+    ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
 
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof deleteApiAdminCategoriesId>>,
+    DeleteApiAdminCategoriesIdMutationVariables
+  > = (props) => {
+    const { id } = props ?? {};
 
+    return deleteApiAdminCategoriesId(id);
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
+export type DeleteApiAdminCategoriesIdMutationResult = NonNullable<
+  Awaited<ReturnType<typeof deleteApiAdminCategoriesId>>
+>;
 
-  return  { mutationFn, ...mutationOptions }}
+export type DeleteApiAdminCategoriesIdMutationError = ErrorType<unknown>;
+export type DeleteApiAdminCategoriesIdMutationVariables = { id: number };
 
-    export type PutApiAdminCategoriesIdMutationResult = NonNullable<Awaited<ReturnType<typeof putApiAdminCategoriesId>>>
-    export type PutApiAdminCategoriesIdMutationBody = BodyType<UpdateCategoryRequest>
-    export type PutApiAdminCategoriesIdMutationError = ErrorType<unknown>
-    export type PutApiAdminCategoriesIdMutationVariables = {id: number;data: BodyType<UpdateCategoryRequest>}
-
-    export const usePutApiAdminCategoriesId = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putApiAdminCategoriesId>>, TError,PutApiAdminCategoriesIdMutationVariables, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof putApiAdminCategoriesId>>,
-        TError,
-        PutApiAdminCategoriesIdMutationVariables,
-        TContext
-      > => {
-      return useMutation(getPutApiAdminCategoriesIdMutationOptions(options), queryClient);
-    }
-    export const deleteApiAdminCategoriesId = (
-    id: number,
- signal?: AbortSignal
-) => {
-
-
-      return httpClient<void>(
-      {url: `/api/admin/categories/${id}`, method: 'DELETE', signal
-    },
-      );
-    }
-
-
-
-
-export const getDeleteApiAdminCategoriesIdMutationKey = () => ['deleteApiAdminCategoriesId'] as const;
-
-export const getDeleteApiAdminCategoriesIdMutationOptions = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiAdminCategoriesId>>, TError,DeleteApiAdminCategoriesIdMutationVariables, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof deleteApiAdminCategoriesId>>, TError,DeleteApiAdminCategoriesIdMutationVariables, TContext> => {
-
-const mutationKey = getDeleteApiAdminCategoriesIdMutationKey();
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteApiAdminCategoriesId>>, DeleteApiAdminCategoriesIdMutationVariables> = (props) => {
-          const {id} = props ?? {};
-
-          return  deleteApiAdminCategoriesId(id,)
-        }
-
-
-
-
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type DeleteApiAdminCategoriesIdMutationResult = NonNullable<Awaited<ReturnType<typeof deleteApiAdminCategoriesId>>>
-
-    export type DeleteApiAdminCategoriesIdMutationError = ErrorType<unknown>
-    export type DeleteApiAdminCategoriesIdMutationVariables = {id: number}
-
-    export const useDeleteApiAdminCategoriesId = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteApiAdminCategoriesId>>, TError,DeleteApiAdminCategoriesIdMutationVariables, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof deleteApiAdminCategoriesId>>,
-        TError,
-        DeleteApiAdminCategoriesIdMutationVariables,
-        TContext
-      > => {
-      return useMutation(getDeleteApiAdminCategoriesIdMutationOptions(options), queryClient);
-    }
+export const useDeleteApiAdminCategoriesId = <TError = ErrorType<unknown>, TContext = unknown>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof deleteApiAdminCategoriesId>>,
+      TError,
+      DeleteApiAdminCategoriesIdMutationVariables,
+      TContext
+    >;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof deleteApiAdminCategoriesId>>,
+  TError,
+  DeleteApiAdminCategoriesIdMutationVariables,
+  TContext
+> => {
+  return useMutation(getDeleteApiAdminCategoriesIdMutationOptions(options), queryClient);
+};
