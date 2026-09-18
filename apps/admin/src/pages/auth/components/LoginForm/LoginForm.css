@@ -1,0 +1,21 @@
+.login-form .ant-form-item-explain {
+  display: none;
+}
+
+.login-form .ant-form-item {
+  margin-bottom: 16px;
+}
+
+.login-form.ant-form.ant-form-vertical .ant-form-item-label > label {
+  height: 26px;
+  line-height: 26px;
+  font-weight: 500;
+}
+
+.login-form.ant-form.ant-form-vertical .ant-form-item-label {
+  height: 26px;
+}
+
+.login-form .ant-input-prefix {
+  margin-right: 6px;
+}
