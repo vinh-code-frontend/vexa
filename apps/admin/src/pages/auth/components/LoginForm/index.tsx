@@ -8,7 +8,7 @@ import i18n from '@/i18n';
 import { useLoginValidation } from '../../hooks/useValidation';
 import { useAuth } from '@/providers/AuthProvider';
 
-import './index.css';
+import './LoginForm.css';
 
 type FieldType = {
   email?: string;
