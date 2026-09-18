@@ -1,6 +1,7 @@
 namespace Vexa.Api.Controllers;
 
 [Route("api/admin/brands")]
+[Tags("Brand")]
 public class AdminBrandController(IBrandService brandService) : AdminApiControllerBase
 {
     [HttpGet]

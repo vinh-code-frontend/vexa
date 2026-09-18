@@ -1,10 +1,9 @@
-﻿using Microsoft.Extensions.Primitives;
-using Vexa.Application.Exceptions;
-
+﻿using Vexa.Application.Exceptions;
 namespace Vexa.Api.Controllers;
 
 [Route("api/admin/auth")]
 [AllowAnonymous]
+[Tags("Auth")]
 public class AdminAuthController(IAuthService authService, ITokenService tokenService) : AdminApiControllerBase
 {
     private readonly string _refreshTokenKey = "refresh-token";

@@ -9,7 +9,14 @@ export default defineConfig({
     output: {
       mode: 'tags',
       target: './src/api/generated',
-      schemas: './src/api/generated/model',
+      schemas: {
+        path: './src/api/generated/model',
+        routes: {
+          default: 'types',
+          enum: 'enums',
+        },
+        splitByTags: true,
+      },
       client: 'react-query',
       httpClient: 'axios',
 

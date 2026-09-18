@@ -1,6 +1,7 @@
 namespace Vexa.Api.Controllers;
 
 [Route("api/admin/categories")]
+[Tags("Category")]
 public class AdminCategoryController(ICategoryService categoryService) : AdminApiControllerBase
 {
     [HttpGet]

@@ -1,6 +1,7 @@
 namespace Vexa.Api.Controllers;
 
 [Route("api/admin/users")]
+[Tags("User")]
 public class AdminUserController(IUserService userService) : AdminApiControllerBase
 {
     [HttpGet]
