@@ -4,7 +4,12 @@ public interface IBrandRepository
 {
     Task<Brand?> GetByIdAsync(Guid id);
 
-    Task<List<Brand>> GetAllAsync();
+    Task<(List<Brand> Items, int TotalCount)> GetBrandListAsync(
+        int page,
+        int pageSize,
+        string? search,
+        string? sortBy,
+        string? sortDirection);
 
     Task AddAsync(Brand brand);
 

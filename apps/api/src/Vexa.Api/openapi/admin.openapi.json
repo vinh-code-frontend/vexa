@@ -8,7 +8,7 @@
     "/api/admin/auth/register": {
       "post": {
         "tags": [
-          "AdminAuth"
+          "Auth"
         ],
         "requestBody": {
           "content": {
@@ -57,7 +57,7 @@
     "/api/admin/auth/login": {
       "post": {
         "tags": [
-          "AdminAuth"
+          "Auth"
         ],
         "requestBody": {
           "content": {
@@ -106,7 +106,7 @@
     "/api/admin/auth/refresh": {
       "post": {
         "tags": [
-          "AdminAuth"
+          "Auth"
         ],
         "responses": {
           "200": {
@@ -135,7 +135,7 @@
     "/api/admin/brands": {
       "get": {
         "tags": [
-          "AdminBrand"
+          "Brand"
         ],
         "parameters": [
           {
@@ -209,7 +209,7 @@
       },
       "post": {
         "tags": [
-          "AdminBrand"
+          "Brand"
         ],
         "requestBody": {
           "content": {
@@ -258,7 +258,7 @@
     "/api/admin/brands/{id}": {
       "get": {
         "tags": [
-          "AdminBrand"
+          "Brand"
         ],
         "parameters": [
           {
@@ -297,7 +297,7 @@
       },
       "put": {
         "tags": [
-          "AdminBrand"
+          "Brand"
         ],
         "parameters": [
           {
@@ -356,7 +356,7 @@
       },
       "delete": {
         "tags": [
-          "AdminBrand"
+          "Brand"
         ],
         "parameters": [
           {
@@ -380,7 +380,7 @@
     "/api/admin/categories": {
       "get": {
         "tags": [
-          "AdminCategory"
+          "Category"
         ],
         "parameters": [
           {
@@ -454,7 +454,7 @@
       },
       "post": {
         "tags": [
-          "AdminCategory"
+          "Category"
         ],
         "requestBody": {
           "content": {
@@ -503,7 +503,7 @@
     "/api/admin/categories/{id}": {
       "get": {
         "tags": [
-          "AdminCategory"
+          "Category"
         ],
         "parameters": [
           {
@@ -542,7 +542,7 @@
       },
       "put": {
         "tags": [
-          "AdminCategory"
+          "Category"
         ],
         "parameters": [
           {
@@ -601,7 +601,7 @@
       },
       "delete": {
         "tags": [
-          "AdminCategory"
+          "Category"
         ],
         "parameters": [
           {
@@ -625,7 +625,7 @@
     "/api/admin/users": {
       "get": {
         "tags": [
-          "AdminUser"
+          "User"
         ],
         "responses": {
           "200": {
@@ -661,7 +661,7 @@
       },
       "post": {
         "tags": [
-          "AdminUser"
+          "User"
         ],
         "requestBody": {
           "content": {
@@ -710,7 +710,7 @@
     "/api/admin/users/{id}": {
       "get": {
         "tags": [
-          "AdminUser"
+          "User"
         ],
         "parameters": [
           {
@@ -748,7 +748,7 @@
       },
       "delete": {
         "tags": [
-          "AdminUser"
+          "User"
         ],
         "parameters": [
           {
@@ -1377,16 +1377,16 @@
   },
   "tags": [
     {
-      "name": "AdminAuth"
+      "name": "Auth"
     },
     {
-      "name": "AdminBrand"
+      "name": "Brand"
     },
     {
-      "name": "AdminCategory"
+      "name": "Category"
     },
     {
-      "name": "AdminUser"
+      "name": "User"
     }
   ]
 }

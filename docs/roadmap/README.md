@@ -2,6 +2,8 @@
 
 > **Version:** 1.0 | **Date:** 2026-08-09 | **Status:** Draft
 
+> **Current work tracking:** see [docs/README.md](../README.md). This file and the documents below are the legacy sprint-based detailed roadmap.
+
 ---
 
 ## Quick Navigation
