@@ -1,7 +1,7 @@
 # Project Progress Tracker
 
 > Cập nhật file này khi bắt đầu / hoàn thành sprint hoặc story bất kỳ.  
-> Roadmap đầy đủ: [docs/roadmap/README.md](./roadmap/README.md)
+> Current tracking board: [README.md](./README.md) | Legacy detailed roadmap: [roadmap/README.md](./roadmap/README.md)
 
 ---
 
