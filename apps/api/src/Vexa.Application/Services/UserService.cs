@@ -1,6 +1,4 @@
-﻿using Vexa.Application.Helpers;
-
-namespace Vexa.Application.Services;
+﻿namespace Vexa.Application.Services;
 
 public class UserService(
     IPasswordHasher passwordHasher,

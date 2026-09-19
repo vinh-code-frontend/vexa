@@ -15,5 +15,5 @@ public abstract class BaseRepository<TEntity> where TEntity : class
         await Db.SaveChangesAsync();
     }
 
-    protected IQueryable<TEntity> Query() => Db.Set<TEntity>().AsNoTracking();
+    protected IQueryable<TEntity> Query() => DbSet.AsNoTracking();
 }

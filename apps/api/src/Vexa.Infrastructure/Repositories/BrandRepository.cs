@@ -6,20 +6,24 @@ public class BrandRepository(AppDbContext db) : BaseRepository<Brand>(db), IBran
 {
     public async Task AddAsync(Brand brand)
     {
-        db.Brands.Add(brand);
-        await db.SaveChangesAsync();
+        DbSet.Add(brand);
+        await SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(Brand brand)
+    public async Task SoftDeleteAsync(Brand brand, Guid? deletedBy)
     {
-        db.Brands.Remove(brand);
-        await db.SaveChangesAsync();
+        DateTime deletedAt = DateTime.UtcNow;
+        brand.DeletedAt = deletedAt;
+        brand.UpdatedAt = deletedAt;
+        brand.DeletedBy = deletedBy;
+        DbSet.Update(brand);
+        await SaveChangesAsync();
     }
 
     public async Task UpdateAsync(Brand brand)
     {
-        db.Brands.Update(brand);
-        await db.SaveChangesAsync();
+        DbSet.Update(brand);
+        await SaveChangesAsync();
     }
 
     public async Task<(List<Brand> Items, int TotalCount)> GetBrandListAsync(
@@ -29,9 +33,7 @@ public class BrandRepository(AppDbContext db) : BaseRepository<Brand>(db), IBran
         string? sortBy,
         string? sortDirection)
     {
-        IQueryable<Brand> brandsQuery = db.Brands
-            .AsNoTracking()
-            .Where(brand => brand.DeletedAt == null);
+        IQueryable<Brand> brandsQuery = Query().Where(brand => brand.DeletedAt == null);
 
         if (!string.IsNullOrWhiteSpace(search))
         {
@@ -72,10 +74,21 @@ public class BrandRepository(AppDbContext db) : BaseRepository<Brand>(db), IBran
         return (items, totalCount);
     }
 
-    public async Task<Brand?> GetByIdAsync(Guid id)
+    public async Task<Brand?> GetByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        return await Query().FirstOrDefaultAsync(item => item.Id == id && item.DeletedAt == null);
     }
 
+    public async Task<Brand?> GetByIdIncludingDeletedAsync(int id)
+    {
+        return await Query().FirstOrDefaultAsync(item => item.Id == id);
+    }
+
+    public async Task<bool> ExistsAsync(string name, string slug, int? excludedId = null)
+    {
+        return await DbSet.AnyAsync(item =>
+            (excludedId == null || item.Id != excludedId) &&
+            (item.Name == name || item.Slug == slug));
+    }
 
 }
