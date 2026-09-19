@@ -49,6 +49,7 @@ public static class AppDIServiceExtension
     }
     public static IServiceCollection AddPersistenceServices(this IServiceCollection services)
     {
+        services.AddHttpContextAccessor();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IPasswordHasher, PasswordHashder>();
 
