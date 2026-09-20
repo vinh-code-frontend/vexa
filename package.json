@@ -3,15 +3,19 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "prepare": "husky",
     "dev": "concurrently -n FE,BE -c cyan,magenta \"npm run dev:fe\" \"npm run dev:be\"",
     "watch": "concurrently -n FE,BE -c cyan,magenta \"npm run dev:fe\" \"npm run watch:be\"",
     "dev:fe": "cd apps/admin && npm run dev",
     "dev:be": "cd apps/api/src/Vexa.Api && dotnet run",
     "watch:be": "cd apps/api/src/Vexa.Api && dotnet watch",
     "api:admin": "cd apps/admin && npm run generate:api",
+    "lint:admin": "npm --prefix apps/admin run lint",
+    "build:admin": "npm --prefix apps/admin run build",
     "i:be": "cd apps/api && dotnet restore",
     "test:be": "dotnet test apps/api/Vexa.slnx",
     "test:be:coverage": "dotnet test apps/api/Vexa.slnx --collect:\"XPlat Code Coverage\"",
+    "validate": "npm run lint:admin && npm run build:admin && npm run test:be",
     "mgt:add": "node scripts/add-migration.mjs",
     "mgt:remove": "node scripts/remove-migration.mjs",
     "db:up": "node scripts/update-database.mjs",
@@ -21,6 +25,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^10.0.5"
+    "concurrently": "^10.0.5",
+    "@commitlint/cli": "^21.2.3",
+    "@commitlint/config-conventional": "^21.2.3",
+    "husky": "^9.1.7"
   }
 }
