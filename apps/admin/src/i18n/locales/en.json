@@ -8,5 +8,12 @@
   "admin-login.remember-me": "Remember me",
   "admin-login.forgot-password": "Forgot password?",
   "admin-login.submit": "Log in",
-  "admin-login.incorrect-info": "Username or password inccorect"
+  "admin-login.incorrect-info": "Username or password inccorect",
+  "sidebar.dashboard": "Dashboard",
+  "sidebar.product": "Products",
+  "sidebar.brand": "Brands",
+  "sidebar.category": "Categories",
+  "sidebar.user": "Users",
+  "sidebar.order": "Orders",
+  "sidebar.setting": "Settings"
 }
