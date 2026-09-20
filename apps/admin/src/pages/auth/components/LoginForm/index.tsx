@@ -11,7 +11,7 @@ import { useAuth } from '@/providers/AuthProvider';
 import './LoginForm.css';
 
 type FieldType = {
-  email?: string;
+  username?: string;
   password?: string;
   remember?: boolean;
 };
@@ -37,13 +37,14 @@ export const LoginForm = () => {
 
     try {
       await login({
-        username: values.email ?? '',
+        username: values.username ?? '',
         password: values.password ?? '',
       });
 
       const redirectTo = getSafeRedirect(new URLSearchParams(location.search).get('redirectTo'));
       navigate(redirectTo, { replace: true });
-    } catch {
+    } catch (error) {
+      console.error(error);
       setLoginError(i18n.t('admin-login.incorrect-info'));
     }
   };

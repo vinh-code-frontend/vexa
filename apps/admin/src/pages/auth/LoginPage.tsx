@@ -18,9 +18,7 @@ const LoginPage = () => {
               </p>
             </div>
           </div>
-          <div className="">
-            <LoginForm />
-          </div>
+          <LoginForm />
         </div>
       </div>
     </>
