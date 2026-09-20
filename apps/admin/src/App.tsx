@@ -1,7 +1,7 @@
 import { RouterProvider } from 'react-router/dom';
 
 import { router } from '@/router';
-import { DEFAULT_PRIMARY_COLOR, usePrimaryColor } from '@/theme/primaryColor';
+import { DEFAULT_PRIMARY_COLOR, usePrimaryColor } from '@/shared/theme/primaryColor';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ConfigProvider } from 'antd';
 import { AuthProvider } from '@/providers/AuthProvider';

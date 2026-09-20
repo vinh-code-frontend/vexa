@@ -8,5 +8,12 @@
   "admin-login.remember-me": "Ghi nhớ đăng nhập",
   "admin-login.forgot-password": "Quên mật khẩu?",
   "admin-login.submit": "Đăng nhập",
-  "admin-login.incorrect-info": "Tên đăng nhập hoặc mật khẩu không chính xác"
+  "admin-login.incorrect-info": "Tên đăng nhập hoặc mật khẩu không chính xác",
+  "sidebar.dashboard": "Tổng quan",
+  "sidebar.product": "Sản phẩm",
+  "sidebar.brand": "Thương hiệu",
+  "sidebar.category": "Danh mục",
+  "sidebar.user": "Người dùng",
+  "sidebar.order": "Đơn hàng",
+  "sidebar.setting": "Cài đặt"
 }

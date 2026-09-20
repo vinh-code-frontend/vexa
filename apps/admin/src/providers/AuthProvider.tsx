@@ -36,9 +36,17 @@ type AuthContextValue = {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
+// A valid, non-expired token means no refresh call is needed, so skip the initializing/spin state entirely.
+const hasValidAccessToken = () => {
+  const accessToken = getAuthSession()?.accessToken ?? getAccessToken();
+  return !!accessToken && !isAccessTokenExpired(accessToken);
+};
+
 export function AuthProvider({ children }: PropsWithChildren) {
-  const [status, setStatus] = useState<AuthStatus>('initializing');
-  const [user, setUser] = useState<AuthUser | null>(null);
+  const [status, setStatus] = useState<AuthStatus>(() =>
+    hasValidAccessToken() ? 'authenticated' : 'initializing',
+  );
+  const [user, setUser] = useState<AuthUser | null>(() => getAuthSession()?.user ?? null);
 
   useEffect(() => {
     let mounted = true;
@@ -65,17 +73,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
     const unregisterSessionChangeHandler = registerAuthSessionChangeHandler(handleSessionChange);
 
     const initializeAuth = async () => {
-      const session = getAuthSession();
-      const accessToken = session?.accessToken ?? getAccessToken();
-
-      if (mounted) {
-        setUser(session?.user ?? null);
+      // Already resolved synchronously during the initial render, no refresh call needed.
+      if (hasValidAccessToken()) {
+        return;
       }
 
       try {
-        if (!accessToken || isAccessTokenExpired(accessToken)) {
-          await refreshAccessToken();
-        }
+        await refreshAccessToken();
 
         if (mounted) {
           setStatus('authenticated');

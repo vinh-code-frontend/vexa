@@ -1,13 +1,13 @@
 import { Navigate, Outlet } from 'react-router';
 
-import AuthLoading from '@/components/AuthLoading';
 import { useAuth } from '@/providers/AuthProvider';
+import { Spin } from 'antd';
 
 const GuestRoute = () => {
   const { status } = useAuth();
 
   if (status === 'initializing') {
-    return <AuthLoading />;
+    return <Spin fullscreen />;
   }
 
   if (status === 'authenticated') {
