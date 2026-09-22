@@ -1,5 +1,10 @@
 namespace Vexa.Application.DTOs;
 
+public class CategoryListRequest : ListRequest
+{
+    public int? ParentId { get; set; }
+}
+
 public class CreateCategoryRequest
 {
     public required string Name { get; set; }

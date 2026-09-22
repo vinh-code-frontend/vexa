@@ -2,24 +2,24 @@ using Vexa.Application.Interfaces;
 
 namespace Vexa.Infrastructure.Repositories;
 
-public class CategoryRepository(AppDbContext db) : ICategoryRepository
+public class CategoryRepository(AppDbContext db) : BaseRepository<Category>(db), ICategoryRepository
 {
     public async Task AddAsync(Category category)
     {
-        db.Categories.Add(category);
-        await db.SaveChangesAsync();
+        DbSet.Add(category);
+        await SaveChangesAsync();
     }
 
     public async Task DeleteAsync(Category category)
     {
-        db.Categories.Remove(category);
-        await db.SaveChangesAsync();
+        DbSet.Remove(category);
+        await SaveChangesAsync();
     }
 
     public async Task UpdateAsync(Category category)
     {
-        db.Categories.Update(category);
-        await db.SaveChangesAsync();
+        DbSet.Update(category);
+        await SaveChangesAsync();
     }
 
     public async Task<List<Category>> GetAllAsync()

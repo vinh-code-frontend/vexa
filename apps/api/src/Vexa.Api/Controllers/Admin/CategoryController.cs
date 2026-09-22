@@ -5,37 +5,37 @@ namespace Vexa.Api.Controllers;
 public class AdminCategoryController(ICategoryService categoryService) : AdminApiControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<PaginationResponse<CategoryResponse>>> GetCategoriesAsync([FromQuery] PaginationRequest request)
+    public async Task<ActionResult<ListResponse<CategoryResponse>>> GetAsync([FromQuery] CategoryListRequest request)
     {
-        PaginationResponse<CategoryResponse> result = await categoryService.GetCategoriesAsync(request);
+        ListResponse<CategoryResponse> result = await categoryService.GetAsync(request);
         return Ok(result);
     }
 
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<CategoryDetailResponse?>> GetCategoryByIdAsync([FromRoute] int id)
+    public async Task<ActionResult<CategoryDetailResponse?>> GetDetailAsync([FromRoute] int id)
     {
-        CategoryDetailResponse? result = await categoryService.GetCategoryByIdAsync(id);
+        CategoryDetailResponse? result = await categoryService.GetDetailAsync(id);
         return Ok(result);
     }
 
     [HttpPost]
-    public async Task<ActionResult<CategoryDetailResponse>> CreateCategoryAsync([FromBody] CreateCategoryRequest request)
+    public async Task<ActionResult<CategoryDetailResponse>> AddAsync([FromBody] CreateCategoryRequest request)
     {
-        CategoryDetailResponse result = await categoryService.CreateCategoryAsync(request);
+        CategoryDetailResponse result = await categoryService.AddAsync(request);
         return Ok(result);
     }
 
     [HttpPut("{id:int}")]
-    public async Task<ActionResult<CategoryDetailResponse>> UpdateCategoryAsync([FromRoute] int id, [FromBody] UpdateCategoryRequest request)
+    public async Task<ActionResult<CategoryDetailResponse>> UpdateAsync([FromRoute] int id, [FromBody] UpdateCategoryRequest request)
     {
-        CategoryDetailResponse result = await categoryService.UpdateCategoryAsync(id, request);
+        CategoryDetailResponse result = await categoryService.UpdateAsync(id, request);
         return Ok(result);
     }
 
     [HttpDelete("{id:int}")]
-    public async Task<ActionResult> DeleteCategoryAsync([FromRoute] int id)
+    public async Task<ActionResult> DeleteAsync([FromRoute] int id)
     {
-        await categoryService.DeleteCategoryAsync(id);
+        await categoryService.DeleteAsync(id);
         return NoContent();
     }
 }

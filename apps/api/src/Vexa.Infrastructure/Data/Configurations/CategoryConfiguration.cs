@@ -1,10 +1,21 @@
 namespace Vexa.Infrastructure.Data.Configurations;
 
-public class CategoryConfiguration : TimestampWithSoftDeleteEntityConfiguration<Category>
+public class CategoryConfiguration : IEntityTypeConfiguration<Category>
 {
-    public override void Configure(EntityTypeBuilder<Category> builder)
+    public void Configure(EntityTypeBuilder<Category> builder)
     {
-        base.Configure(builder);
+        builder.Property(e => e.CreatedAt)
+            .IsRequired()
+            .HasConversion(UtcDateTimeConverters.UtcDateTimeConverter)
+            .ValueGeneratedOnAdd()
+            .HasDefaultValueSql("CURRENT_TIMESTAMP AT TIME ZONE 'UTC'");
+
+        builder.Property(e => e.UpdatedAt)
+            .HasConversion(UtcDateTimeConverters.NullableUtcDateTimeConverter)
+            .ValueGeneratedOnUpdate()
+            .HasDefaultValueSql("CURRENT_TIMESTAMP AT TIME ZONE 'UTC'");
+
+        builder.HasIndex(e => e.DeletedAt);
 
         builder.HasKey(c => c.Id);
         builder.Property(c => c.Id).ValueGeneratedOnAdd();

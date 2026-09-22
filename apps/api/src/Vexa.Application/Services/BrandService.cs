@@ -7,7 +7,7 @@ public class BrandService(
     IMapper mapper,
     ICurrentUserService currentUserService) : IBrandService
 {
-    public async Task<BrandDetailResponse> CreateBrandAsync(CreateBrandRequest request)
+    public async Task<BrandDetailResponse> AddAsync(CreateBrandRequest request)
     {
         Brand brand = mapper.Map<Brand>(request);
         brand.Name = request.Name.Trim();
@@ -22,7 +22,7 @@ public class BrandService(
         return mapper.Map<BrandDetailResponse>(brand);
     }
 
-    public async Task<BrandDetailResponse> UpdateBrandAsync(int id, UpdateBrandRequest request)
+    public async Task<BrandDetailResponse> UpdateAsync(int id, UpdateBrandRequest request)
     {
         Brand? brand = await brandRepository.GetByIdAsync(id);
         if (brand is null)
@@ -32,7 +32,7 @@ public class BrandService(
 
         mapper.Map(request, brand);
         brand.Name = request.Name.Trim();
-        brand.Slug = SlugHelper.GenerateSlug(brand.Name);
+        // brand.Slug = SlugHelper.GenerateSlug(brand.Name);
 
         if (await brandRepository.ExistsAsync(brand.Name, brand.Slug, brand.Id))
         {
@@ -46,7 +46,7 @@ public class BrandService(
         return mapper.Map<BrandDetailResponse>(brand);
     }
 
-    public async Task DeleteBrandAsync(int id)
+    public async Task DeleteAsync(int id)
     {
         Brand? brand = await brandRepository.GetByIdIncludingDeletedAsync(id);
         if (brand is null)
@@ -60,14 +60,14 @@ public class BrandService(
         await brandRepository.SoftDeleteAsync(brand, currentUserService.UserId);
     }
 
-    public async Task<BrandDetailResponse?> GetBrandByIdAsync(int id)
+    public async Task<BrandDetailResponse?> GetDetailAsync(int id)
     {
         Brand? brand = await brandRepository.GetByIdAsync(id);
 
         return brand is null ? null : mapper.Map<BrandDetailResponse>(brand);
     }
 
-    public async Task<PaginationResponse<BrandResponse>> GetBrandsAsync(PaginationRequest request)
+    public async Task<PaginationResponse<BrandResponse>> GetAsync(PaginationRequest request)
     {
         int page = request.Page > 0 ? request.Page : 1;
         int pageSize = request.PageSize > 0 ? request.PageSize : 10;
@@ -77,8 +77,7 @@ public class BrandService(
             request.Search,
             request.SortBy,
             request.SortDirection);
-        List<BrandResponse> items = mapper.Map<List<BrandResponse>>(
-            brandItems);
+        List<BrandResponse> items = mapper.Map<List<BrandResponse>>(brandItems);
 
         return new PaginationResponse<BrandResponse>
         {

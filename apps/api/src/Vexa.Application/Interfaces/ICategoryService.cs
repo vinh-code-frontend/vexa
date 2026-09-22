@@ -2,9 +2,9 @@ namespace Vexa.Application.Interfaces;
 
 public interface ICategoryService
 {
-    Task<CategoryDetailResponse> CreateCategoryAsync(CreateCategoryRequest request);
-    Task<CategoryDetailResponse> UpdateCategoryAsync(int id, UpdateCategoryRequest request);
-    Task DeleteCategoryAsync(int id);
-    Task<PaginationResponse<CategoryResponse>> GetCategoriesAsync(PaginationRequest request);
-    Task<CategoryDetailResponse?> GetCategoryByIdAsync(int id);
+    Task<CategoryDetailResponse> AddAsync(CreateCategoryRequest request);
+    Task<CategoryDetailResponse> UpdateAsync(int id, UpdateCategoryRequest request);
+    Task DeleteAsync(int id);
+    Task<ListResponse<CategoryResponse>> GetAsync(CategoryListRequest request);
+    Task<CategoryDetailResponse?> GetDetailAsync(int id);
 }

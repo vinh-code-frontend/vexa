@@ -2,27 +2,26 @@ namespace Vexa.Application.Services;
 
 public class CategoryService : ICategoryService
 {
-    public Task<CategoryDetailResponse> CreateCategoryAsync(CreateCategoryRequest request)
+    public Task<ListResponse<CategoryResponse>> GetAsync(CategoryListRequest request)
     {
         throw new NotImplementedException();
     }
 
-    public Task<CategoryDetailResponse> UpdateCategoryAsync(int id, UpdateCategoryRequest request)
+    public Task<CategoryDetailResponse?> GetDetailAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+    public Task<CategoryDetailResponse> AddAsync(CreateCategoryRequest request)
     {
         throw new NotImplementedException();
     }
 
-    public Task DeleteCategoryAsync(int id)
+    public Task<CategoryDetailResponse> UpdateAsync(int id, UpdateCategoryRequest request)
     {
         throw new NotImplementedException();
     }
 
-    public Task<PaginationResponse<CategoryResponse>> GetCategoriesAsync(PaginationRequest request)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<CategoryDetailResponse?> GetCategoryByIdAsync(int id)
+    public Task DeleteAsync(int id)
     {
         throw new NotImplementedException();
     }
