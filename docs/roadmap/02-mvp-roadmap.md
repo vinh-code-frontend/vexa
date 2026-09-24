@@ -97,6 +97,15 @@ Phase 3 — Advanced (Sprint 16–20)
 │ Sprint 19 Observability: Logging, Metrics, Error Monitoring    │
 │ Sprint 20 Personalization + Recommendations                    │
 └────────────────────────────────────────────────────────────────┘
+
+Phase 4 — Pre-owned & Recommerce (after core operations)
+┌────────────────────────────────────────────────────────────────┐
+│ Sprint 21  Pre-owned model, inspection, grades, item identity   │
+│ Sprint 22  Used listing, pricing, photos, warranty, returns     │
+│ Sprint 23  Item-level inventory, reservation, fulfillment       │
+│ Sprint 24  Trade-in intake, valuation, ownership checks         │
+│ Sprint 25  Inspection approval, settlement, disputes, reports   │
+└────────────────────────────────────────────────────────────────┘
 ```
 
 ### Dependency Chain
@@ -121,4 +130,18 @@ Auth & RBAC ─── Catalog
                  Promotion  Payment  Customer Account
                               ↓
                           Return & Refund
+
+Core operations stable
+      ↓
+Pre-owned catalog ── Inspection ── Item-level inventory
+                                                        ↓
+                                                Used order flow
+                                                        ↓
+                                          Warranty / Return / Audit
+                                                        ↓
+                                            Trade-in / Buyback
 ```
+
+### Pre-owned Scope Decision
+
+The first release should support selling pre-owned inventory that Vexa has already acquired and inspected. Customer trade-in or buyback is a separate workflow because it requires ownership verification, valuation, handover, settlement, dispute handling, and fraud controls. It should not be hidden inside the normal product CRUD.

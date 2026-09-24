@@ -61,6 +61,9 @@ Stories required to launch MVP end-to-end:
 | PERM-003–004           | Audit Log                                                         | Sprint 17       |
 | ADMIN-001–004          | Bulk Operations + Admin Session Management                        | Sprint 17       |
 | PROD-011–013           | Clone Product + Bulk Update                                       | Sprint 17       |
+| USED-001–008           | Pre-owned catalog, inspection, item identity, pricing, and listing | Sprint 21–23    |
+| USED-009–012           | Used order, item reservation, warranty, return, and audit history | Sprint 22–23    |
+| TRADE-001–006          | Trade-in intake, valuation, ownership checks, and settlement      | Sprint 24–25    |
 
 ---
 
@@ -81,7 +84,8 @@ Stories required to launch MVP end-to-end:
 | Multi-warehouse                 | Multiple fulfillment centers                         |
 | ERP Integration                 | Sync inventory and orders                            |
 | Click & Collect                 | Buy online, pick up in store                         |
-| Trade-in Program                | Old device trade-in during purchase                  |
+| Pre-owned Inventory             | Sell acquired and inspected used phones and goods    |
+| Trade-in / Buyback              | Customer submits an old device for quote and credit  |
 | Product Launch Notifications    | "Notify me when available"                           |
 | Advanced Promotions             | Stacking, tiered discounts, member-exclusive pricing |
 | Customer Segmentation Campaigns | Targeted promotions                                  |
@@ -115,6 +119,8 @@ Stories required to launch MVP end-to-end:
 | EPIC-PERM — Admin Permissions     | P1       | ✅ (basic)   | 4              | Sprint 1, 17                       |
 | EPIC-WISH — Wishlist              | P2       | ❌           | 4              | Sprint 12                          |
 | EPIC-QA — Product Q&A             | P3       | ❌           | 3              | Sprint 13                          |
+| EPIC-USED — Pre-owned Catalog     | P1       | ❌           | 12             | Sprint 21–23                       |
+| EPIC-TRADE — Trade-in / Buyback   | P2       | ❌           | 6              | Sprint 24–25                       |
 
 ---
 
