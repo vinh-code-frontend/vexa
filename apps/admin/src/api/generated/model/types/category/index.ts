@@ -9,5 +9,5 @@ export * from './categoryDetailResponse';
 export * from './categoryResponse';
 export * from './createCategoryRequest';
 export * from './getApiAdminCategoriesParams';
-export * from './paginationResponseOfCategoryResponse';
+export * from './listResponseOfCategoryResponse';
 export * from './updateCategoryRequest';

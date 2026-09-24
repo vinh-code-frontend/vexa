@@ -5,5 +5,6 @@
  * OpenAPI spec version: 1.0.0
  */
 
+export * from './sortDirection';
 export * from './userRole';
 export * from './userStatus';

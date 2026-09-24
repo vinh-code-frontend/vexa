@@ -4,17 +4,18 @@
  * Vexa.Api | admin
  * OpenAPI spec version: 1.0.0
  */
+import type { SortDirection } from '../../enums/shared/sortDirection';
 
 export type GetApiAdminBrandsParams = {
 /**
  * @pattern ^-?(?:0|[1-9]\d*)$
  */
-Page?: number | string;
+PageSize?: number | string;
 /**
  * @pattern ^-?(?:0|[1-9]\d*)$
  */
-PageSize?: number | string;
+Page?: number | string;
 Search?: string;
 SortBy?: string;
-SortDirection?: string;
+SortDirection?: SortDirection;
 };

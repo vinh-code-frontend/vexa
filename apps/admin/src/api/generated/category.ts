@@ -24,7 +24,7 @@ import type {
   CategoryDetailResponse,
   CreateCategoryRequest,
   GetApiAdminCategoriesParams,
-  PaginationResponseOfCategoryResponse,
+  ListResponseOfCategoryResponse,
   UpdateCategoryRequest,
 } from './model';
 
@@ -50,7 +50,7 @@ export const getApiAdminCategories = (
   params?: GetApiAdminCategoriesParams,
   signal?: AbortSignal,
 ) => {
-  return httpClient<PaginationResponseOfCategoryResponse>({
+  return httpClient<ListResponseOfCategoryResponse>({
     url: `/api/admin/categories`,
     method: 'GET',
     params,
