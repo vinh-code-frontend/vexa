@@ -31,6 +31,7 @@ Status values:
 | Brand | `PARTIAL` | Entity, migration, DTOs, and paginated repository listing exist; CRUD service methods are still `NotImplemented`. |
 | Category | `PARTIAL` | Entity with parent-child relationship, migration, and DTOs exist; repository/service CRUD is not implemented yet. |
 | Product | `PLANNED` | No entity, migration, API, or admin screen exists in the current code. |
+| Pre-owned / refurbished catalog | `PLANNED` | Future catalog mode for used phones and other used goods; condition, per-unit identity, inspection, warranty, and pricing rules are not defined yet. |
 | Excel import | `PLANNED` | No import module, validation, preview, or error report exists yet. |
 | Orders / inventory / payments | `PLANNED` | No corresponding entities or API workflows exist yet. |
 
@@ -90,6 +91,7 @@ This is the highest-priority group at the current stage.
 | P1 | Customer management | Profile, addresses, order history, lock/unlock account | M | Standard | `PLANNED` |
 | P1 | Advanced product import | Variants/SKUs, prices, stock, column mapping, duplicate SKU checks | XL | Standard | `PLANNED` |
 | P1 | Basic coupons | Code, validity period, percentage/fixed discount, usage limits | M | Basic | `PLANNED` |
+| P1 | Pre-owned product operations | Condition/grade, inspection notes, per-unit serial or IMEI, battery health where applicable, individual photos, pricing, warranty, and stock state | XL | Standard | `PLANNED` |
 
 ### Phase 3 - Advanced Admin
 
@@ -103,6 +105,66 @@ This is the highest-priority group at the current stage.
 | P2 | Fine-grained permissions | Module/action permissions instead of only Admin/User roles | L | Advanced | `PLANNED` |
 | P2 | Theme and admin UX polish | Theme, dark mode, color customization, animation, shortcuts | M | Advanced | `PLANNED` |
 | P2 | CMS and banners | Banners, homepage content, SEO metadata | L | Advanced | `PLANNED` |
+
+### Phase 7 - Pre-owned and Recommerce
+
+**Goal:** allow Vexa to sell inspected used phones and other used goods without weakening catalog accuracy, stock control, or customer trust.
+
+This phase is intentionally split into two scopes:
+
+1. **Sell pre-owned inventory:** Vexa owns or has already acquired the item, inspects it, then lists and sells it. This is the recommended first scope.
+2. **Trade-in / buyback:** customers submit an item for valuation, hand it over, and receive payment or purchase credit. This should start only after the first scope and the commercial rules are approved.
+
+| Priority | Feature | Initial scope | Complexity | Detail | Status |
+| --- | --- | --- | --- | --- | --- |
+| P1 | Pre-owned catalog model | Product type, condition, grade, inspection result, item-level stock, serial/IMEI where applicable | XL | Standard | `PLANNED` |
+| P1 | Pre-owned listing and pricing | Used-specific title, condition summary, battery health, defects, photos, price, warranty term | L | Standard | `PLANNED` |
+| P1 | Pre-owned customer experience | Condition and inspection display, used/new filters, per-item availability, warranty and return policy | L | Standard | `PLANNED` |
+| P1 | Pre-owned order and inventory | Reserve one unique item, prevent duplicate sale, handover checks, order audit trail | L | Standard | `PLANNED` |
+| P2 | Trade-in / buyback intake | Customer submission, device details, photo upload, preliminary quote, appointment or shipping handover | XL | Basic | `PLANNED` |
+| P2 | Trade-in inspection and settlement | Final inspection, quote approval, customer payout or store credit, status history | XL | Standard | `PLANNED` |
+
+#### Pre-owned Feature Requirements
+
+**Actors:** customer, catalog manager, inventory manager, order manager, customer support, finance or store operator.
+
+**User story:** As a customer, I want to understand the exact condition, defects, included accessories, warranty, and return terms of a used item before purchasing it.
+
+**Functional requirements:**
+
+- Catalog managers can mark an item as new, pre-owned, or refurbished, subject to the final terminology decision.
+- Each pre-owned item can record condition grade, inspection checklist, cosmetic notes, included accessories, battery health when relevant, and item-specific photos.
+- A unique phone or device can have its own serial number or IMEI, purchase cost, selling price, stock state, and history.
+- The client must show condition, known defects, warranty duration, return eligibility, and actual included accessories before checkout.
+- Inventory must reserve the exact item selected and prevent the same unique item from being sold twice.
+- Orders and inventory adjustments must retain an audit trail for the item identity and condition at the time of sale.
+- Trade-in must not create a final purchase or payout until inspection and the customer-approved quote are complete.
+
+**Business rules to confirm:**
+
+- Whether used, refurbished, and open-box are separate product types or one condition taxonomy.
+- Whether IMEI and serial numbers are mandatory for phones and how they are protected from unauthorized exposure.
+- Which inspection grades are allowed and who can approve a grade or change it after inspection.
+- How battery health, missing accessories, cosmetic damage, and functional defects affect price.
+- Whether each physical unit is a separate sellable SKU or a variant with item-level inventory beneath it.
+- Warranty duration, return window, and non-returnable defect disclosures for each condition.
+- Whether trade-in pays cash, store credit, or both, and how fraud, ownership, and stolen-device checks work.
+
+**Acceptance criteria:**
+
+- Given a pre-owned item has an approved inspection, when it is published, then the listing shows its condition, material defects, included accessories, warranty, and return terms.
+- Given a unique item is reserved in an order, when another customer attempts to buy that same item, then the system rejects the second reservation without creating an oversold order.
+- Given a required inspection field is missing, when an admin tries to publish the item, then publication is blocked with field-level validation errors.
+- Given a trade-in quote has not been approved after inspection, when an operator attempts to complete settlement, then the system requires customer approval first.
+- Given an item has already been sold or is included in an active order, when an admin attempts to delete it, then the system preserves history and allows only an appropriate status transition.
+
+**Edge cases:** duplicate IMEI or serial, stolen or blacklisted device, item lost or damaged after listing, condition downgrade after inspection, battery health below the published threshold, missing accessories, customer disputes the final grade, return of a different serial-numbered item, and a pre-owned item sold through another channel.
+
+**Permissions:** catalog managers manage descriptions and inspection data; inventory managers manage item state and adjustments; order managers handle fulfillment and returns; finance or store operators handle trade-in settlement; support can view history but cannot alter inspection or payout records. API authorization must enforce these permissions, not only the UI.
+
+**Dependencies:** stable product, variant, inventory, order, return, warranty, audit-log, image-storage, and reporting workflows; database uniqueness for serial/IMEI where applicable; a privacy and retention policy for device identifiers.
+
+**Definition of done:** the first release supports manually acquired pre-owned inventory end-to-end from inspection to listing, purchase, reservation, fulfillment, return/warranty handling, and audit history. Trade-in is not considered complete until quote approval, ownership checks, settlement, cancellation, and dispute handling are tested.
 
 ## Group 2 - Client / Customer
 
@@ -169,10 +231,12 @@ Import is a shared capability for selected management pages, not a standalone fe
 | Excel library | No package or file convention exists yet. | Choose an `.xlsx` library with streaming support and bounded memory usage. |
 | Soft delete | Entities have a soft-delete base, but delete APIs and uniqueness behavior must be consistent. | Use soft delete for catalog data and define whether deleted slugs/names can be reused. |
 | Image uploads | Brand/category have `LogoUrl`, but there is no upload workflow. | Allow URLs in Phase 1; add upload/object storage when product detail begins. |
+| Pre-owned commercial model | Selling acquired used stock and buying devices from customers have different risks and workflows. | Ship pre-owned inventory sales first; decide trade-in/buyback as a separate phase. |
+| Device identity privacy | IMEI and serial numbers are sensitive operational data. | Restrict access, avoid exposing full identifiers publicly, and define retention before implementation. |
 
 ## Recommended Next Step
 
-Complete Brand and Category CRUD in the backend, add focused service/controller tests, then build two management screens using a shared table/form. Next, complete admin User management and basic Product management. Start Excel import only after these modules work end-to-end from UI to database.
+Complete Brand and Category CRUD in the backend, add focused service/controller tests, then build two management screens using a shared table/form. Next, complete admin User management and basic Product management. Start Excel import only after these modules work end-to-end from UI to database. Do not start pre-owned inventory or trade-in implementation until the normal product, variant, inventory, order, return, warranty, and audit flows are stable and the business rules above are decided.
 
 ## Detailed Documents
 

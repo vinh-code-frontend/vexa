@@ -13,7 +13,7 @@ import type {
 } from '@tanstack/react-query';
 
 import type { LoginRequest, LoginResponse, RegisterRequest } from './model';
-s;
+
 import { httpClient } from '../axios/instance';
 import type { ErrorType, BodyType } from '../axios/instance';
 

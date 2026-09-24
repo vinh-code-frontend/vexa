@@ -9,6 +9,7 @@ These prompts are written for a Figma design agent. Run one phase prompt at a ti
 | 1 | [admin-phase-1-core-catalog.md](./admin-phase-1-core-catalog.md) | Admin shell, authentication, users, brands, categories, basic products, catalog import | 15 |
 | 2 | [admin-phase-2-operations.md](./admin-phase-2-operations.md) | Product operations, variants, inventory, orders, customers, coupons, advanced import | 15 |
 | 3 | [admin-phase-3-advanced.md](./admin-phase-3-advanced.md) | Reports, audit, permissions, batch jobs, CMS, and admin polish | 15 |
+| 4 | [admin-phase-4-pre-owned.md](./admin-phase-4-pre-owned.md) | Pre-owned intake, inspection, grading, item inventory, used orders, warranty, returns, and trade-in | 15 |
 
 ## How to Use
 
@@ -16,11 +17,14 @@ These prompts are written for a Figma design agent. Run one phase prompt at a ti
 2. Ask it to create the named frames on one dedicated Figma page for that phase.
 3. Keep CRUD states as component variants, drawers, modals, or clearly labeled sections inside the named frame unless the prompt explicitly asks for a separate frame.
 4. Review Phase 1 and approve the shared component language before generating Phase 2.
-5. Do not generate mobile layouts yet. Preserve the desktop layout so responsive work can be added later.
+5. Generate Phase 4 only after the core catalog, inventory, order, return, warranty, and audit patterns are approved.
+6. Do not generate mobile layouts yet. Preserve the desktop layout so responsive work can be added later.
 
 ## Shared Product Context
 
-Vexa is an e-commerce platform for mobile phones and electronics. The Admin application is a React desktop web application using Tailwind CSS, Ant Design, and Lucide icons. The current codebase has partial authentication, user, brand, and category API foundations. Product, inventory, order, import, reporting, and permission workflows are planned.
+Vexa is an e-commerce platform for mobile phones and electronics. The Admin application is a React desktop web application using Tailwind CSS, Ant Design, and Lucide icons. The current codebase has partial authentication, user, brand, and category API foundations. Product, inventory, order, import, reporting, permission, pre-owned inventory, and trade-in workflows are planned.
+
+Pre-owned design scope is split into two workflows: first, selling inventory that Vexa has already acquired and inspected; second, trade-in or buyback where a customer submits a device for valuation and settlement. The second workflow must remain separate from normal product CRUD.
 
 ## Shared Visual Direction
 
