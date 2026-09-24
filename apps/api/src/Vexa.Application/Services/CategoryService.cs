@@ -40,6 +40,7 @@ public class CategoryService(ICategoryRepository categoryRepository, IMapper map
     public async Task<CategoryDetailResponse?> GetDetailAsync(int id)
     {
         Category? item = await categoryRepository.GetByIdAsync(id);
+
         return mapper.Map<CategoryDetailResponse>(item);
     }
     public async Task<CategoryDetailResponse> AddAsync(CreateCategoryRequest request)
@@ -64,8 +65,19 @@ public class CategoryService(ICategoryRepository categoryRepository, IMapper map
         throw new NotImplementedException();
     }
 
-    public Task DeleteAsync(int id)
+    public async Task DeleteAsync(int id)
     {
-        throw new NotImplementedException();
+        Category? category = await categoryRepository.GetByIdAsync(id, includeDeleted: true);
+
+        if (category is null)
+        {
+            throw new NotFoundException("Category not found!");
+        }
+        if (category.DeletedAt != null)
+        {
+            throw new ConflictException("Category has already been deleted!");
+        }
+        await categoryRepository.SoftDeleteAsync(category, currentUserService.UserId);
+
     }
 }

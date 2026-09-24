@@ -33,40 +33,40 @@ public class BrandRepository(AppDbContext db) : BaseRepository<Brand>(db), IBran
         string? sortBy,
         SortDirection? sortDirection)
     {
-        IQueryable<Brand> brandsQuery = Query().Where(brand => brand.DeletedAt == null);
+        IQueryable<Brand> query = Query().Where(item => item.DeletedAt == null);
 
         if (!string.IsNullOrWhiteSpace(search))
         {
             string searchPattern = $"%{search.Trim()}%";
-            brandsQuery = brandsQuery.Where(brand =>
-                EF.Functions.ILike(brand.Name, searchPattern) ||
-                EF.Functions.ILike(brand.Slug, searchPattern) ||
-                (brand.Description != null && EF.Functions.ILike(brand.Description, searchPattern)));
+            query = query.Where(item =>
+                EF.Functions.ILike(item.Name, searchPattern) ||
+                EF.Functions.ILike(item.Slug, searchPattern) ||
+                (item.Description != null && EF.Functions.ILike(item.Description, searchPattern)));
         }
 
         bool descending = sortDirection == SortDirection.Desc;
-        brandsQuery = sortBy?.Trim().ToLowerInvariant() switch
+        query = sortBy?.Trim().ToLowerInvariant() switch
         {
             "name" => descending
-                ? brandsQuery.OrderByDescending(brand => brand.Name).ThenBy(brand => brand.Id)
-                : brandsQuery.OrderBy(brand => brand.Name).ThenBy(brand => brand.Id),
+                ? query.OrderByDescending(item => item.Name).ThenBy(item => item.Id)
+                : query.OrderBy(item => item.Name).ThenBy(item => item.Id),
             "slug" => descending
-                ? brandsQuery.OrderByDescending(brand => brand.Slug).ThenBy(brand => brand.Id)
-                : brandsQuery.OrderBy(brand => brand.Slug).ThenBy(brand => brand.Id),
+                ? query.OrderByDescending(item => item.Slug).ThenBy(item => item.Id)
+                : query.OrderBy(item => item.Slug).ThenBy(item => item.Id),
             "displayorder" => descending
-                ? brandsQuery.OrderByDescending(brand => brand.DisplayOrder).ThenBy(brand => brand.Id)
-                : brandsQuery.OrderBy(brand => brand.DisplayOrder).ThenBy(brand => brand.Id),
+                ? query.OrderByDescending(item => item.DisplayOrder).ThenBy(item => item.Id)
+                : query.OrderBy(item => item.DisplayOrder).ThenBy(item => item.Id),
             "createdat" => descending
-                ? brandsQuery.OrderByDescending(brand => brand.CreatedAt).ThenBy(brand => brand.Id)
-                : brandsQuery.OrderBy(brand => brand.CreatedAt).ThenBy(brand => brand.Id),
-            _ => brandsQuery
-                .OrderBy(brand => brand.DisplayOrder)
-                .ThenBy(brand => brand.Name)
-                .ThenBy(brand => brand.Id)
+                ? query.OrderByDescending(item => item.CreatedAt).ThenBy(item => item.Id)
+                : query.OrderBy(item => item.CreatedAt).ThenBy(item => item.Id),
+            _ => query
+                .OrderBy(item => item.DisplayOrder)
+                .ThenBy(item => item.Name)
+                .ThenBy(item => item.Id)
         };
 
-        int totalCount = await brandsQuery.CountAsync();
-        List<Brand> items = await brandsQuery
+        int totalCount = await query.CountAsync();
+        List<Brand> items = await query
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
