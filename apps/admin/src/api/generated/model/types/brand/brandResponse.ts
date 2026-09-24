@@ -9,6 +9,7 @@ export interface BrandResponse {
   /** @pattern ^-?(?:0|[1-9]\d*)$ */
   id?: number | string;
   name: string;
+  slug: string;
   /** @nullable */
   description?: string | null;
   isActive?: boolean;
