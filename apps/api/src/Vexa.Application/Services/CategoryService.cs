@@ -1,19 +1,62 @@
 namespace Vexa.Application.Services;
 
-public class CategoryService : ICategoryService
+public class CategoryService(ICategoryRepository categoryRepository, IMapper mapper, ICurrentUserService currentUserService) : ICategoryService
 {
-    public Task<ListResponse<CategoryResponse>> GetAsync(CategoryListRequest request)
+    public async Task<ListResponse<CategoryResponse>> GetAsync(CategoryListRequest request)
     {
-        throw new NotImplementedException();
+        int take = request.PageSize + 1;
+        List<Category> items = await categoryRepository.GetListAsync(
+            take,
+            request.Skip,
+            request.Search,
+            request.SortBy,
+            request.SortDirection,
+            request.ParentId
+        );
+
+        string? nextLink = null;
+
+        if (items.Count > request.PageSize)
+        {
+            items.RemoveAt(items.Count - 1);
+            nextLink = NextLinkHelper.Build(
+                "categories",
+                request.PageSize,
+                request.Skip + request.PageSize,
+                request.Search,
+                request.SortBy,
+                request.SortDirection.ToString(),
+                request.ParentId
+            );
+        }
+
+        return new ListResponse<CategoryResponse>()
+        {
+            Items = [.. items.Select(mapper.Map<CategoryResponse>)],
+            NextLink = nextLink
+        };
     }
 
-    public Task<CategoryDetailResponse?> GetDetailAsync(int id)
+    public async Task<CategoryDetailResponse?> GetDetailAsync(int id)
     {
-        throw new NotImplementedException();
+        Category? item = await categoryRepository.GetByIdAsync(id);
+        return mapper.Map<CategoryDetailResponse>(item);
     }
-    public Task<CategoryDetailResponse> AddAsync(CreateCategoryRequest request)
+    public async Task<CategoryDetailResponse> AddAsync(CreateCategoryRequest request)
     {
-        throw new NotImplementedException();
+        Category category = mapper.Map<Category>(request);
+
+        category.Name = request.Name.Trim();
+        category.Slug = SlugHelper.GenerateSlug(category.Name);
+
+        if (await categoryRepository.ExistsAsync(category.Name, category.Slug))
+        {
+            throw new ConflictException("Category name or slug already exists!");
+        }
+
+        await categoryRepository.AddAsync(category);
+
+        return mapper.Map<CategoryDetailResponse>(category);
     }
 
     public Task<CategoryDetailResponse> UpdateAsync(int id, UpdateCategoryRequest request)

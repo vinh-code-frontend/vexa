@@ -31,7 +31,7 @@ public class BrandRepository(AppDbContext db) : BaseRepository<Brand>(db), IBran
         int pageSize,
         string? search,
         string? sortBy,
-        string? sortDirection)
+        SortDirection? sortDirection)
     {
         IQueryable<Brand> brandsQuery = Query().Where(brand => brand.DeletedAt == null);
 
@@ -44,7 +44,7 @@ public class BrandRepository(AppDbContext db) : BaseRepository<Brand>(db), IBran
                 (brand.Description != null && EF.Functions.ILike(brand.Description, searchPattern)));
         }
 
-        bool descending = string.Equals(sortDirection, "desc", StringComparison.OrdinalIgnoreCase);
+        bool descending = sortDirection == SortDirection.Desc;
         brandsQuery = sortBy?.Trim().ToLowerInvariant() switch
         {
             "name" => descending

@@ -7,3 +7,4 @@ global using Microsoft.AspNetCore.Http;
 global using FluentValidation;
 global using Vexa.Domain.Enums;
 global using Vexa.Application.Helpers;
+global using Vexa.Application.Exceptions;

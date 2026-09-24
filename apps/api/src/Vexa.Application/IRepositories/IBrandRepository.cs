@@ -13,7 +13,7 @@ public interface IBrandRepository
         int pageSize,
         string? search,
         string? sortBy,
-        string? sortDirection);
+        SortDirection? sortDirection);
 
     Task AddAsync(Brand brand);
 

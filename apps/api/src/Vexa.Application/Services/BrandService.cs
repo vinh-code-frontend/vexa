@@ -1,5 +1,3 @@
-using Vexa.Application.Exceptions;
-
 namespace Vexa.Application.Services;
 
 public class BrandService(

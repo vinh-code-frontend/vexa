@@ -4,7 +4,7 @@ namespace Vexa.Api.Controllers;
 [ApiController]
 [ApiExplorerSettings(GroupName = "client")]
 [AllowAnonymous]
-public class ClientApiControllerBase : ControllerBase
+public abstract class ClientApiControllerBase : ControllerBase
 {
 
 }
