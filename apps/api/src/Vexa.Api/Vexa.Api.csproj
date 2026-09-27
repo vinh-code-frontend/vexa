@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿
 <Project Sdk="Microsoft.NET.Sdk.Web">
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
@@ -7,7 +7,8 @@
 
         <OpenApiDocumentsDirectory>$(MSBuildProjectDirectory)\openapi</OpenApiDocumentsDirectory>
         <OpenApiGenerateDocumentsOptions>--file-name openapi</OpenApiGenerateDocumentsOptions>
-    </PropertyGroup>
+      	<UserSecretsId>db4104f2-aaf7-4df2-a379-5b48ef9a3e2a</UserSecretsId>
+  	</PropertyGroup>
     <ItemGroup>
         <PackageReference Include="FluentValidation.AspNetCore" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
@@ -31,20 +32,12 @@
     </ItemGroup>
 
     <Target Name="EnsureOpenApiDocuments" BeforeTargets="_GenerateOpenApiDocuments">
-        <Delete Files="$(_OpenApiDocumentsCache)"
-                Condition="Exists('$(_OpenApiDocumentsCache)') and
-                    (!Exists('$(OpenApiDocumentsDirectory)\openapi.json') or
-                     !Exists('$(OpenApiDocumentsDirectory)\admin.openapi.json') or
-                     !Exists('$(OpenApiDocumentsDirectory)\client.openapi.json'))" />
+        <Delete Files="$(_OpenApiDocumentsCache)" Condition="Exists('$(_OpenApiDocumentsCache)') and                     (!Exists('$(OpenApiDocumentsDirectory)\openapi.json') or                      !Exists('$(OpenApiDocumentsDirectory)\admin.openapi.json') or                      !Exists('$(OpenApiDocumentsDirectory)\client.openapi.json'))" />
     </Target>
 
     <!-- The GetDocument tool always names non-default documents "openapi_{document}.json"; rename admin's to admin.openapi.json. -->
     <Target Name="RenameAdminOpenApiDocument" AfterTargets="_GenerateOpenApiDocuments">
-        <Move SourceFiles="$(OpenApiDocumentsDirectory)\openapi_admin.json"
-                DestinationFiles="$(OpenApiDocumentsDirectory)\admin.openapi.json"
-                Condition="Exists('$(OpenApiDocumentsDirectory)\openapi_admin.json')" />
-        <Move SourceFiles="$(OpenApiDocumentsDirectory)\openapi_client.json"
-                DestinationFiles="$(OpenApiDocumentsDirectory)\client.openapi.json"
-                Condition="Exists('$(OpenApiDocumentsDirectory)\openapi_client.json')" />
+        <Move SourceFiles="$(OpenApiDocumentsDirectory)\openapi_admin.json" DestinationFiles="$(OpenApiDocumentsDirectory)\admin.openapi.json" Condition="Exists('$(OpenApiDocumentsDirectory)\openapi_admin.json')" />
+        <Move SourceFiles="$(OpenApiDocumentsDirectory)\openapi_client.json" DestinationFiles="$(OpenApiDocumentsDirectory)\client.openapi.json" Condition="Exists('$(OpenApiDocumentsDirectory)\openapi_client.json')" />
     </Target>
 </Project>

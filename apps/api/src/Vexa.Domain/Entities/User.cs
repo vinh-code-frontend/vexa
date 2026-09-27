@@ -9,10 +9,11 @@ public class User
     public string Phone { get; set; } = string.Empty;
     public UserRole Role { get; set; } = UserRole.User;
     public UserStatus Status { get; set; } = UserStatus.Active;
-    public ICollection<RefreshToken> RefreshTokens { get; set; } = [];
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public DateTime? DeletedAt { get; set; }
     public Guid? DeletedBy { get; set; }
+    public ICollection<RefreshToken> RefreshTokens { get; set; } = [];
+    public ICollection<PasswordResetToken> PasswordResetTokens { get; set; } = [];
 
 }

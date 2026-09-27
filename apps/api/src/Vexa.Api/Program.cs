@@ -45,18 +45,21 @@ try
     builder.Services.AddOpenApi("v1", options =>
     {
         options.ShouldInclude = _ => true;
+        options.AddVexaPostmanMetadata(builder.Configuration);
     });
 
     // admin api
     builder.Services.AddOpenApi("admin", options =>
     {
         options.ShouldInclude = apiDesc => apiDesc.GroupName == "admin";
+        options.AddVexaPostmanMetadata(builder.Configuration);
     });
 
     // client api
     builder.Services.AddOpenApi("client", options =>
     {
         options.ShouldInclude = apiDesc => apiDesc.GroupName == "client";
+        options.AddVexaPostmanMetadata(builder.Configuration);
     });
 
     builder.Services.InitCustomServices(builder.Configuration);
@@ -138,3 +141,4 @@ finally
 {
     Log.CloseAndFlush();
 }
+

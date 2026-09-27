@@ -1,6 +1,6 @@
 using System.Reflection;
 using FluentValidation;
-using Vexa.Application.Services;
+using Vexa.Infrastructure.Utilities;
 
 namespace Vexa.Api.Extensions;
 
@@ -52,6 +52,7 @@ public static class AppDIServiceExtension
         services.AddHttpContextAccessor();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IPasswordHasher, PasswordHashder>();
+        services.AddScoped<IEmailService, EmailService>();
 
         return services;
     }
@@ -65,3 +66,4 @@ public static class AppDIServiceExtension
         return services;
     }
 }
+

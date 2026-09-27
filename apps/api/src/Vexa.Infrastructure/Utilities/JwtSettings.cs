@@ -1,4 +1,3 @@
-
 namespace Vexa.Infrastructure.Authentication;
 
 public class JwtSettings
