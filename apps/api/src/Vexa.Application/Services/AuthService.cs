@@ -1,5 +1,3 @@
-using Vexa.Application.Exceptions;
-
 namespace Vexa.Application.Services;
 
 public class AuthService(
@@ -89,6 +87,21 @@ public class AuthService(
             newRefreshToken.ExpiredAt);
     }
 
+    public async Task<bool> ForgotPasswordAsync(string email)
+    {
+        User? user = await userRepository.GetUserByEmailAsync(email);
+
+        if (user == null)
+        {
+            throw new NotFoundException("User not found!");
+        }
+        if (user.Status != UserStatus.Active || user.DeletedAt != null)
+        {
+            throw new ForbiddenException("Cannot reset password for this user");
+        }
+        return true;
+    }
+
     private LoginResponse CreateLoginResponse(
         User user,
         string accessToken,
@@ -107,4 +120,6 @@ public class AuthService(
             User = mapper.Map<UserResponse>(user)
         };
     }
+
+
 }

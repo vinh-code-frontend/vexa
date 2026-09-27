@@ -1,6 +1,6 @@
 namespace Vexa.Application.Validators;
 
-public class LoginRequestValidator : AbstractValidator<LoginRequest>
+public sealed class LoginRequestValidator : AbstractValidator<LoginRequest>
 {
     public LoginRequestValidator()
     {
@@ -14,5 +14,15 @@ public class LoginRequestValidator : AbstractValidator<LoginRequest>
         RuleFor(item => item.Password)
             .NotEmpty()
             .WithMessage("Password is required.");
+    }
+}
+
+public sealed class ForgotPasswordRequestValidator : AbstractValidator<ForgotPasswordRequest>
+{
+    public ForgotPasswordRequestValidator()
+    {
+        RuleFor(item => item.Email)
+            .NotEmpty().WithMessage("Email is required.")
+            .EmailAddress().WithMessage("Invalid email address.");
     }
 }

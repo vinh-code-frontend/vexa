@@ -1,4 +1,5 @@
-﻿using Vexa.Application.Exceptions;
+﻿using Vexa.Api.Extensions;
+using Vexa.Application.Exceptions;
 namespace Vexa.Api.Controllers;
 
 [Route("api/admin/auth")]
@@ -11,7 +12,7 @@ public class AdminAuthController(IAuthService authService, ITokenService tokenSe
     private readonly string _csrfHeaderKey = "X-CSRF-Token";
 
     [HttpPost("register")]
-    public async Task<bool> Register([FromBody] RegisterRequest registerRequest)
+    public async Task<bool> RegisterAsync([FromBody] RegisterRequest registerRequest)
     {
         return await authService.RegisterAsync(registerRequest);
     }
@@ -26,7 +27,8 @@ public class AdminAuthController(IAuthService authService, ITokenService tokenSe
     }
 
     [HttpPost("refresh")]
-    public async Task<LoginResponse> Refresh()
+    [RequireCsrfToken]
+    public async Task<LoginResponse> RefreshAsync()
     {
         string? refreshToken = Request.Cookies[_refreshTokenKey];
         string? csrfToken = Request.Cookies[_csrfTokenKey];
@@ -39,6 +41,13 @@ public class AdminAuthController(IAuthService authService, ITokenService tokenSe
             return result;
         }
         throw new UnauthorizedException("Failed to refresh token");
+    }
+
+    [HttpPost("forgot-passowrd")]
+    public async Task<bool> ForgotPasswordAsync([FromBody] ForgotPasswordRequest request)
+    {
+        await authService.ForgotPasswordAsync(request.Email);
+        return true;
     }
 
     private void AppendAuthCookies(LoginResponse response)

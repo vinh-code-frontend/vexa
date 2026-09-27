@@ -1,7 +1,6 @@
 namespace Vexa.Application.Validators;
 
-public sealed class CreateBrandRequestValidator
-    : AbstractValidator<CreateBrandRequest>
+public sealed class CreateBrandRequestValidator : AbstractValidator<CreateBrandRequest>
 {
     public CreateBrandRequestValidator()
     {
@@ -25,8 +24,7 @@ public sealed class CreateBrandRequestValidator
     }
 }
 
-public sealed class UpdateBrandRequestValidator
-    : AbstractValidator<UpdateBrandRequest>
+public sealed class UpdateBrandRequestValidator : AbstractValidator<UpdateBrandRequest>
 {
     public UpdateBrandRequestValidator()
     {
