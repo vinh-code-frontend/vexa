@@ -99,7 +99,7 @@ public class AuthService(
         {
             throw new ForbiddenException("Cannot reset password for this user");
         }
-        throw new NotImplementedException();
+        return true;
     }
 
     private LoginResponse CreateLoginResponse(

@@ -16,7 +16,7 @@ public class UserRepository(AppDbContext db) : IUserRepository
     {
         string normalizedUsername = username.Trim().ToLower();
 
-        return await db.Users.FirstOrDefaultAsync(user => user.Username.Trim().Equals(normalizedUsername, StringComparison.CurrentCultureIgnoreCase));
+        return await db.Users.FirstOrDefaultAsync(user => user.Username.Trim().ToLower() == normalizedUsername);
     }
 
     public async Task AddUserAsync(User user)
