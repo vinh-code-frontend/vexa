@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using Vexa.Api.Middlewares;
 using Serilog;
+using Serilog.Context;
+using System.Diagnostics;
 using System.Text.Json.Serialization;
 
 Log.Logger = new LoggerConfiguration()
@@ -97,6 +99,15 @@ try
     {
         app.UseHttpsRedirection();
     }
+
+    app.Use(async (context, next) =>
+    {
+        using (LogContext.PushProperty("TraceId", Activity.Current?.TraceId.ToString() ?? context.TraceIdentifier))
+        using (LogContext.PushProperty("SpanId", Activity.Current?.SpanId.ToString() ?? "-"))
+        {
+            await next();
+        }
+    });
 
     app.UseMiddleware<ExceptionHandlingMiddleware>();
 

@@ -1,3 +1,4 @@
+using System.Reflection;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Options;
@@ -8,7 +9,28 @@ namespace Vexa.Infrastructure.Utilities;
 
 public sealed class EmailService(IOptions<MailSettings> options) : IEmailService
 {
+    private const string _passwordResetTemplateResourceName = "Vexa.Infrastructure.Templates.PasswordResetEmail.html";
+    private static readonly Lazy<string> _passwordResetTemplate = new(() => LoadEmbeddedTemplate(_passwordResetTemplateResourceName));
+
     private readonly MailSettings _settings = options.Value;
+
+    public async Task SendPasswordResetEmailAsync(string recipient, string resetUrl, CancellationToken cancellationToken = default)
+    {
+        string body = _passwordResetTemplate.Value
+            .Replace("{{Email}}", recipient)
+            .Replace("{{ResetUrl}}", resetUrl);
+
+        await SendAsync(recipient, "[Vexa] Reset Password", body, isHtml: true, cancellationToken);
+    }
+
+    private static string LoadEmbeddedTemplate(string resourceName)
+    {
+        using Stream? stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName)
+            ?? throw new InvalidOperationException($"Embedded template '{resourceName}' was not found.");
+
+        using StreamReader reader = new(stream);
+        return reader.ReadToEnd();
+    }
 
     public async Task SendAsync(string recipient, string subject, string body, bool isHtml = false, CancellationToken cancellationToken = default)
     {

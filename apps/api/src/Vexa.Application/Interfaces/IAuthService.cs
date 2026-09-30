@@ -5,5 +5,5 @@ public interface IAuthService
     Task<bool> RegisterAsync(RegisterRequest registerRequest);
     Task<LoginResponse> LoginAsync(LoginRequest loginRequest);
     Task<LoginResponse> RefreshTokenAsync(string refreshToken);
-    Task<bool> ForgotPasswordAsync(string email);
+    Task ForgotPasswordAsync(string email);
 }

@@ -33,7 +33,7 @@ public class BrandRepository(AppDbContext db) : BaseRepository<Brand>(db), IBran
         string? sortBy,
         SortDirection? sortDirection)
     {
-        IQueryable<Brand> query = Query().Where(item => item.DeletedAt == null);
+        IQueryable<Brand> query = ReadOnlyQuery().Where(item => item.DeletedAt == null);
 
         if (!string.IsNullOrWhiteSpace(search))
         {
@@ -76,12 +76,12 @@ public class BrandRepository(AppDbContext db) : BaseRepository<Brand>(db), IBran
 
     public async Task<Brand?> GetByIdAsync(int id)
     {
-        return await Query().FirstOrDefaultAsync(item => item.Id == id && item.DeletedAt == null);
+        return await ReadOnlyQuery().FirstOrDefaultAsync(item => item.Id == id && item.DeletedAt == null);
     }
 
     public async Task<Brand?> GetByIdIncludingDeletedAsync(int id)
     {
-        return await Query().FirstOrDefaultAsync(item => item.Id == id);
+        return await ReadOnlyQuery().FirstOrDefaultAsync(item => item.Id == id);
     }
 
     public async Task<bool> ExistsAsync(string name, string slug, int? excludedId = null)

@@ -3,5 +3,5 @@ namespace Vexa.Application.Repositories;
 public interface IPasswordHasher
 {
     string HashPassword(string plainPassword);
-    bool Verify(string plainPassword, string HashedPassword);
+    bool Verify(string plainPassword, string hashedPassword);
 }

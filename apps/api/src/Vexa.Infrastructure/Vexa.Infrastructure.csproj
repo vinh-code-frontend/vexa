@@ -21,4 +21,7 @@
         <ProjectReference Include="..\Vexa.Domain\Vexa.Domain.csproj" />
         <ProjectReference Include="..\Vexa.Application\Vexa.Application.csproj" />
     </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Include="Templates\PasswordResetEmail.html" />
+    </ItemGroup>
 </Project>

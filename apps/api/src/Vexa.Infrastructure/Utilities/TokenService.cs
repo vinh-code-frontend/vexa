@@ -20,7 +20,7 @@ public class TokenService : ITokenService
         byte[] bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(token));
         return Convert.ToHexString(bytes);
     }
-    public string GenerateCstfToken()
+    public string GenerateToken()
     {
         byte[] bytes = RandomNumberGenerator.GetBytes(32);
         return Convert.ToBase64String(bytes);
