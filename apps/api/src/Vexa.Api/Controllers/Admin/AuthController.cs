@@ -1,4 +1,4 @@
-﻿using Vexa.Api.Extensions;
+using Vexa.Api.Extensions;
 using Vexa.Application.Exceptions;
 namespace Vexa.Api.Controllers;
 
@@ -44,10 +44,11 @@ public class AdminAuthController(IAuthService authService, ITokenService tokenSe
     }
 
     [HttpPost("forgot-passowrd")]
-    public async Task<bool> ForgotPasswordAsync([FromBody] ForgotPasswordRequest request)
+    public async Task<IActionResult> ForgotPasswordAsync([FromBody] ForgotPasswordRequest request)
     {
         await authService.ForgotPasswordAsync(request.Email);
-        return true;
+
+        return Ok();
     }
 
     private void AppendAuthCookies(LoginResponse response)

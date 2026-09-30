@@ -5,9 +5,12 @@ public class AuthService(
     IPasswordHasher passwordHasher,
     IUserRepository userRepository,
     IRefreshTokenRepository reFreshTokenRepository,
+    IPasswordResetTokenRepository passwordResetTokenRepository,
+    IEmailService emailService,
     IMapper mapper
     ) : IAuthService
 {
+    private readonly string _adminUrl = "http://localhost:5173";
     public async Task<bool> RegisterAsync(RegisterRequest registerRequest)
     {
         User newUser = new()
@@ -37,7 +40,7 @@ public class AuthService(
 
         (string? accessToken, DateTime accessTokenExpiredAt) = tokenService.GenerateAccessToken(user);
         (RefreshToken? refreshToken, string? plainRefreshToken) = tokenService.GenerateRefreshToken(user.Id);
-        string csrfToken = tokenService.GenerateCstfToken();
+        string csrfToken = tokenService.GenerateToken();
 
         await reFreshTokenRepository.AddRefreshTokenAsync(refreshToken);
 
@@ -74,7 +77,7 @@ public class AuthService(
 
         (string? accessToken, DateTime accessTokenExpiredAt) = tokenService.GenerateAccessToken(user);
         (RefreshToken? newRefreshToken, string? plainRefreshToken) = tokenService.GenerateRefreshToken(session.UserId);
-        string csrfToken = tokenService.GenerateCstfToken();
+        string csrfToken = tokenService.GenerateToken();
 
         await reFreshTokenRepository.AddRefreshTokenAsync(newRefreshToken);
 
@@ -87,7 +90,7 @@ public class AuthService(
             newRefreshToken.ExpiredAt);
     }
 
-    public async Task<bool> ForgotPasswordAsync(string email)
+    public async Task ForgotPasswordAsync(string email)
     {
         User? user = await userRepository.GetUserByEmailAsync(email);
 
@@ -99,7 +102,10 @@ public class AuthService(
         {
             throw new ForbiddenException("Cannot reset password for this user");
         }
-        return true;
+
+        string resetToken = await passwordResetTokenRepository.GenerateTokenByUserIdAsync(user.Id);
+        string resetUrl = $"{_adminUrl}/auth/reset-token?token={resetToken}";
+        await emailService.SendPasswordResetEmailAsync(user.Email, resetUrl);
     }
 
     private LoginResponse CreateLoginResponse(

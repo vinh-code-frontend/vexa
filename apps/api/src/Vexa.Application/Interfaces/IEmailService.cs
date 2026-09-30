@@ -8,4 +8,9 @@ public interface IEmailService
         string body,
         bool isHtml = false,
         CancellationToken cancellationToken = default);
+
+    Task SendPasswordResetEmailAsync(
+        string recipient,
+        string resetUrl,
+        CancellationToken cancellationToken = default);
 }

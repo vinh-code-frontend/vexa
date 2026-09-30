@@ -6,7 +6,7 @@ public class CategoryRepository(AppDbContext db) : BaseRepository<Category>(db),
 {
     public async Task<List<Category>> GetListAsync(int take, int skip, string? search, string? sortBy, SortDirection? sortDirection, int? parentId = null)
     {
-        IQueryable<Category> query = Query().Where(item => item.DeletedAt == null);
+        IQueryable<Category> query = ReadOnlyQuery().Where(item => item.DeletedAt == null);
 
         if (!string.IsNullOrWhiteSpace(search))
         {
@@ -48,7 +48,7 @@ public class CategoryRepository(AppDbContext db) : BaseRepository<Category>(db),
 
     public async Task<Category?> GetByIdAsync(int id, bool includeDeleted = false)
     {
-        return await Query().FirstOrDefaultAsync(item => item.Id == id && (includeDeleted || item.DeletedAt == null));
+        return await ReadOnlyQuery().FirstOrDefaultAsync(item => item.Id == id && (includeDeleted || item.DeletedAt == null));
     }
     public async Task AddAsync(Category category)
     {
