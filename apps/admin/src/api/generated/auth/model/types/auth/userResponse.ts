@@ -4,8 +4,8 @@
  * Vexa.Api | admin
  * OpenAPI spec version: 1.0.0
  */
-import type { UserRole } from './userRole';
-import type { UserStatus } from './userStatus';
+import type { UserRole } from '../../enums/auth/userRole';
+import type { UserStatus } from '../../enums/auth/userStatus';
 
 export interface UserResponse {
   id?: string;

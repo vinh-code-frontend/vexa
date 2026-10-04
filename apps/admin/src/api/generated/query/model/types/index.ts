@@ -5,5 +5,6 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export * from './enums/index';
-export * from './types/index';
+export * from './brand/index';
+export * from './category/index';
+export * from './user/index';

@@ -4,7 +4,7 @@
  * Vexa.Api | admin
  * OpenAPI spec version: 1.0.0
  */
-import type { UserRole } from './userRole';
+import type { UserRole } from '../../enums/user/userRole';
 
 export interface CreateUserRequest {
   username?: string;

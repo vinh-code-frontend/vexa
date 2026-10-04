@@ -4,15 +4,16 @@
  * Vexa.Api | admin
  * OpenAPI spec version: 1.0.0
  */
-import type { UserRole } from './userRole';
-import type { UserStatus } from './userStatus';
+import type { UserRole } from '../../enums/user/userRole';
+import type { UserStatus } from '../../enums/user/userStatus';
 
-export interface CreateUserResponse {
+export interface UserResponse {
   id?: string;
   username?: string;
   email?: string;
   role?: UserRole;
   status?: UserStatus;
   createdAt?: string;
-  tempPassword?: string;
+  /** @nullable */
+  updatedAt?: string | null;
 }

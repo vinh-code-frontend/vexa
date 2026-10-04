@@ -5,5 +5,6 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export * from './enums/index';
-export * from './types/index';
+export * from './createUserRequest';
+export * from './createUserResponse';
+export * from './userResponse';

@@ -19,7 +19,14 @@ export default defineConfig({
     output: {
       mode: 'tags',
       target: './src/api/generated/auth',
-      schemas: './src/api/generated/auth/model',
+      schemas: {
+        path: './src/api/generated/auth/model',
+        routes: {
+          default: 'types',
+          enum: 'enums',
+        },
+        splitByTags: true,
+      },
       client: 'axios',
       httpClient: 'axios',
       clean: true,
@@ -38,7 +45,14 @@ export default defineConfig({
     output: {
       mode: 'tags',
       target: './src/api/generated/query',
-      schemas: './src/api/generated/query/model',
+      schemas: {
+        path: './src/api/generated/query/model',
+        routes: {
+          default: 'types',
+          enum: 'enums',
+        },
+        splitByTags: true,
+      },
       client: 'react-query',
       httpClient: 'axios',
       clean: true,

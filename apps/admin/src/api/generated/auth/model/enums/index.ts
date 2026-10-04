@@ -5,5 +5,4 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export * from './enums/index';
-export * from './types/index';
+export * from './auth/index';
