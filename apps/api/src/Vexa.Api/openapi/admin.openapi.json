@@ -118,6 +118,9 @@
             "name": "X-CSRF-Token",
             "in": "header",
             "required": true,
+            "schema": {
+              "type": "string"
+            },
             "example": "{{csrfToken}}"
           }
         ],
