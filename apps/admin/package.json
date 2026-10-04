@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "generate:api": "orval && node scripts/generate-api-index.mjs"
+    "generate:api": "orval && node scripts/generate-api-index.mjs",
+    "format": "npx prettier --write ."
   },
   "dependencies": {
     "@ant-design/colors": "^8.0.1",
