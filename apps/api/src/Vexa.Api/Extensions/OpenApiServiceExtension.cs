@@ -51,6 +51,7 @@ public static class OpenApiServiceExtension
                     Name = "X-CSRF-Token",
                     In = ParameterLocation.Header,
                     Required = true,
+                    Schema = new OpenApiSchema { Type = JsonSchemaType.String },
                     Example = JsonValue.Create("{{csrfToken}}")
                 });
             }
