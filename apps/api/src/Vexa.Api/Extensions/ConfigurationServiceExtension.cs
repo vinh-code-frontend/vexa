@@ -12,7 +12,7 @@ public static class ConfigurationServiceExtension
     {
         services.AddDbContext<AppDbContext>(options =>
         {
-            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+            options.UseNpgsql(configuration["VexaConnectionStrings:DefaultConnection"]);
         });
         return services;
     }
