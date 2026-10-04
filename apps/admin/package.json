@@ -8,7 +8,9 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "pregenerate:api": "rimraf src/api/generated",
     "generate:api": "orval && node scripts/generate-api-index.mjs",
+    "postgenerate:api": "npx prettier --write \"src/api/generated/**/*.{ts,tsx}\"",
     "format": "npx prettier --write ."
   },
   "dependencies": {
@@ -37,6 +39,7 @@
     "eslint-plugin-react-refresh": "^0.5.3",
     "globals": "^17.7.0",
     "orval": "^8.33.0",
+    "rimraf": "^6.1.3",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.65.0",
     "vite": "^8.2.0"
