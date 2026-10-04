@@ -4,14 +4,50 @@ description: Read-only review end-to-end API ASP.NET Core bằng C#, từ Contro
 argument-hint: Gọi agent, sau đó chọn API (controller/endpoint) cần review
 tools: ['search/codebase', 'search', 'search/usages', 'read/problems', 'web/fetch', 'web/githubRepo']
 handoffs:
-  - label: Sửa các lỗi đã tìm thấy
-    agent: agent
-    prompt: Hãy sửa các vấn đề Critical và High trong báo cáo review ở trên. Giữ thay đổi tối thiểu, và bổ sung unit test cho từng fix.
-    send: false
-  - label: Viết test cho các case còn thiếu
-    agent: agent
-    prompt: Dựa trên mục "Test coverage gaps" trong báo cáo review ở trên, hãy viết các test case còn thiếu.
-    send: false
+- label: Sửa các lỗi đã tìm thấy
+  agent: agent
+  prompt: |
+    Hãy sửa các vấn đề trong báo cáo review ở trên.
+    
+    Yêu cầu:
+    - Giữ thay đổi tối thiểu.
+    - Với mỗi fix, bổ sung unit test chứng minh issue đã được xử lý.
+    - Không xử lý Medium/Low ở bước này.
+    - Không refactor ngoài phạm vi cần thiết.
+  send: false
+
+- label: Viết test cho các case còn thiếu
+  agent: agent
+  prompt: |
+    Dựa trên mục "Test coverage gaps" trong báo cáo review ban đầu,
+    hãy bổ sung các test case còn thiếu.
+
+    Lưu ý:
+    - Không tạo duplicate với các test đã được thêm ở bước sửa Critical/High.
+    - Chỉ bổ sung test cho các coverage gap còn chưa được cover.
+    - Không thay đổi production code chỉ để làm test pass.
+  send: false
+
+- label: Review lại
+  agent: agent
+  prompt: |
+    Hãy review lại toàn bộ các issue trong báo cáo review ban đầu sau khi đã thực hiện các thay đổi.
+
+    Với mỗi issue Critical/High:
+    - Kiểm tra code hiện tại để xác nhận issue đã được giải quyết.
+    - Kiểm tra test liên quan đã cover đúng behavior.
+    - Nếu có thể, chạy test liên quan để verify.
+    - Kiểm tra regression do fix gây ra.
+
+    Nếu issue đã được giải quyết, đánh dấu [Fixed] và ghi ngắn gọn evidence.
+    Nếu issue vẫn còn tồn tại, report lại với:
+    - Severity
+    - Problem
+    - Evidence
+    - Recommended fix
+
+    Không tự ý sửa code ở bước này. Đây chỉ là bước verification.
+  send: false
 ---
 
 # API Flow Auditor
