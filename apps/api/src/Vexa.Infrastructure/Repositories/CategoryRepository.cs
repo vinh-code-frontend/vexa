@@ -2,11 +2,11 @@ using Vexa.Application.Interfaces;
 
 namespace Vexa.Infrastructure.Repositories;
 
-public class CategoryRepository(AppDbContext db) : BaseRepository<Category>(db), ICategoryRepository
+public class CategoryRepository(AppDbContext db) :  ICategoryRepository
 {
     public async Task<List<Category>> GetListAsync(int take, int skip, string? search, string? sortBy, SortDirection? sortDirection, int? parentId = null)
     {
-        IQueryable<Category> query = ReadOnlyQuery().Where(item => item.DeletedAt == null);
+        IQueryable<Category> query = db.Categories.AsNoTracking().Where(item => item.DeletedAt == null);
 
         if (!string.IsNullOrWhiteSpace(search))
         {
@@ -48,12 +48,12 @@ public class CategoryRepository(AppDbContext db) : BaseRepository<Category>(db),
 
     public async Task<Category?> GetByIdAsync(int id, bool includeDeleted = false)
     {
-        return await ReadOnlyQuery().FirstOrDefaultAsync(item => item.Id == id && (includeDeleted || item.DeletedAt == null));
+        return await db.Categories.AsNoTracking().FirstOrDefaultAsync(item => item.Id == id && (includeDeleted || item.DeletedAt == null));
     }
     public async Task AddAsync(Category category)
     {
-        DbSet.Add(category);
-        await SaveChangesAsync();
+        db.Categories.Add(category);
+        await db.SaveChangesAsync();
     }
 
     public async Task SoftDeleteAsync(Category category, Guid? deletedBy)
@@ -62,19 +62,19 @@ public class CategoryRepository(AppDbContext db) : BaseRepository<Category>(db),
         category.DeletedAt = deletedAt;
         category.UpdatedAt = deletedAt;
         category.DeletedBy = deletedBy;
-        DbSet.Update(category);
-        await SaveChangesAsync();
+        db.Categories.Update(category);
+        await db.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(Category category)
     {
-        DbSet.Update(category);
-        await SaveChangesAsync();
+        db.Categories.Update(category);
+        await db.SaveChangesAsync();
     }
 
     public async Task<bool> ExistsAsync(string name, string slug, int? excludedId = null)
     {
-        return await DbSet.AnyAsync(item =>
+        return await db.Categories.AnyAsync(item =>
             (item.Id != excludedId || excludedId == null) &&
             (item.Name == name || item.Slug == slug));
     }

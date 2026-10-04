@@ -1,4 +1,4 @@
-﻿namespace Vexa.Application.Interfaces;
+namespace Vexa.Application.Interfaces;
 
 public interface IAuthService
 {
@@ -6,4 +6,6 @@ public interface IAuthService
     Task<LoginResponse> LoginAsync(LoginRequest loginRequest);
     Task<LoginResponse> RefreshTokenAsync(string refreshToken);
     Task ForgotPasswordAsync(string email);
+    Task<Guid> VerifyResetPasswordTokenAsync(string token);
+    Task ResetPasswordAsync(ResetPasswordRequest request);
 }

@@ -108,6 +108,33 @@ public class AuthService(
         await emailService.SendPasswordResetEmailAsync(user.Email, resetUrl);
     }
 
+    public async Task<Guid> VerifyResetPasswordTokenAsync(string token)
+    {
+        string hashedToken = tokenService.HashToken(token);
+        PasswordResetToken? passwordResetToken = await passwordResetTokenRepository.FindByTokenAsync(hashedToken);
+
+        if (passwordResetToken == null || passwordResetToken.UsedAt != null || passwordResetToken.RevokedAt != null || passwordResetToken.ExpiresAt <= DateTime.UtcNow)
+        {
+            throw new UnauthorizedException("Invalid reset password token");
+        }
+
+        return passwordResetToken.UserId;
+    }
+
+    public async Task ResetPasswordAsync(ResetPasswordRequest request)
+    {
+        Guid userId = await VerifyResetPasswordTokenAsync(request.Token);
+        User? user = await userRepository.GetUserByIdAsync(userId);
+
+        if (user == null || user.Status != UserStatus.Active || user.DeletedAt != null)
+        {
+            throw new NotFoundException("User not found!");
+        }
+
+        user.HashedPassword = passwordHasher.HashPassword(request.NewPassword);
+        await userRepository.UpdateUserAsync(user);
+    }
+
     private LoginResponse CreateLoginResponse(
         User user,
         string accessToken,
@@ -126,6 +153,4 @@ public class AuthService(
             User = mapper.Map<UserResponse>(user)
         };
     }
-
-
 }
