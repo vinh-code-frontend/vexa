@@ -16,8 +16,7 @@ public class TokenService : ITokenService
     }
     public string HashToken(string token)
     {
-        using SHA256 sha = SHA256.Create();
-        byte[] bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(token));
+        byte[] bytes = SHA256.HashData(Encoding.UTF8.GetBytes(token));
         return Convert.ToHexString(bytes);
     }
     public string GenerateToken()

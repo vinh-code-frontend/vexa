@@ -51,6 +51,19 @@ public class AdminAuthController(IAuthService authService, ITokenService tokenSe
         return Ok();
     }
 
+    [HttpPost("verify-reset-password-token")]
+    public async Task<IActionResult> VerifyResetPasswordTokenAsync([FromBody] VerifyResetPasswordTokenRequest request)
+    {
+        _ = await authService.VerifyResetPasswordTokenAsync(request.Token);
+        return Ok();
+    }
+
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPasswordAsync([FromBody] ResetPasswordRequest request)
+    {
+        await authService.ResetPasswordAsync(request);
+        return Ok();
+    }
     private void AppendAuthCookies(LoginResponse response)
     {
         DateTimeOffset expiresAt = DateTimeOffset.UtcNow.AddDays(tokenService.GetExpiredRefreshTokenDays());
