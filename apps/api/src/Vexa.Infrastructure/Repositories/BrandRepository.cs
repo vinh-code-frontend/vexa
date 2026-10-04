@@ -2,12 +2,12 @@ using Vexa.Application.Interfaces;
 
 namespace Vexa.Infrastructure.Repositories;
 
-public class BrandRepository(AppDbContext db) : BaseRepository<Brand>(db), IBrandRepository
+public class BrandRepository(AppDbContext db) : IBrandRepository
 {
     public async Task AddAsync(Brand brand)
     {
-        DbSet.Add(brand);
-        await SaveChangesAsync();
+        db.Brands.Add(brand);
+        await db.SaveChangesAsync();
     }
 
     public async Task SoftDeleteAsync(Brand brand, Guid? deletedBy)
@@ -16,14 +16,16 @@ public class BrandRepository(AppDbContext db) : BaseRepository<Brand>(db), IBran
         brand.DeletedAt = deletedAt;
         brand.UpdatedAt = deletedAt;
         brand.DeletedBy = deletedBy;
-        DbSet.Update(brand);
-        await SaveChangesAsync();
+        db.Brands.Update(brand);
+        await db.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(Brand brand)
     {
-        DbSet.Update(brand);
-        await SaveChangesAsync();
+        brand.UpdatedAt = DateTime.UtcNow;
+
+        db.Brands.Update(brand);
+        await db.SaveChangesAsync();
     }
 
     public async Task<(List<Brand> Items, int TotalCount)> GetBrandListAsync(
@@ -33,7 +35,7 @@ public class BrandRepository(AppDbContext db) : BaseRepository<Brand>(db), IBran
         string? sortBy,
         SortDirection? sortDirection)
     {
-        IQueryable<Brand> query = ReadOnlyQuery().Where(item => item.DeletedAt == null);
+        IQueryable<Brand> query = db.Brands.AsNoTracking().Where(item => item.DeletedAt == null);
 
         if (!string.IsNullOrWhiteSpace(search))
         {
@@ -76,17 +78,17 @@ public class BrandRepository(AppDbContext db) : BaseRepository<Brand>(db), IBran
 
     public async Task<Brand?> GetByIdAsync(int id)
     {
-        return await ReadOnlyQuery().FirstOrDefaultAsync(item => item.Id == id && item.DeletedAt == null);
+        return await db.Brands.AsNoTracking().FirstOrDefaultAsync(item => item.Id == id && item.DeletedAt == null);
     }
 
     public async Task<Brand?> GetByIdIncludingDeletedAsync(int id)
     {
-        return await ReadOnlyQuery().FirstOrDefaultAsync(item => item.Id == id);
+        return await db.Brands.AsNoTracking().FirstOrDefaultAsync(item => item.Id == id);
     }
 
     public async Task<bool> ExistsAsync(string name, string slug, int? excludedId = null)
     {
-        return await DbSet.AnyAsync(item =>
+        return await db.Brands.AnyAsync(item =>
             (excludedId == null || item.Id != excludedId) &&
             (item.Name == name || item.Slug == slug));
     }

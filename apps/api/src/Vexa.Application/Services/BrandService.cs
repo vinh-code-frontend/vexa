@@ -37,8 +37,6 @@ public class BrandService(
             throw new ConflictException("Brand name or slug already exists!");
         }
 
-        brand.UpdatedAt = DateTime.UtcNow;
-
         await brandRepository.UpdateAsync(brand);
 
         return mapper.Map<BrandDetailResponse>(brand);

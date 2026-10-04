@@ -1,4 +1,4 @@
-﻿namespace Vexa.Infrastructure.Repositories;
+namespace Vexa.Infrastructure.Repositories;
 
 public class UserRepository(AppDbContext db) : IUserRepository
 {
@@ -25,6 +25,14 @@ public class UserRepository(AppDbContext db) : IUserRepository
         await db.SaveChangesAsync();
     }
 
+    public async Task UpdateUserAsync(User user)
+    {
+        user.UpdatedAt = DateTime.UtcNow;
+        db.Users.Update(user);
+
+        await db.SaveChangesAsync();
+    }
+
     public async Task DeleteUserAsync(User user)
     {
         db.Users.Remove(user);
@@ -43,6 +51,4 @@ public class UserRepository(AppDbContext db) : IUserRepository
 
         return (isUsernameExist, isEmailExist);
     }
-
-
 }

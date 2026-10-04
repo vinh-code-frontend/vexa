@@ -1,12 +1,17 @@
 namespace Vexa.Infrastructure.Repositories;
 
-public class PasswordResetTokenRepository(AppDbContext db, ITokenService tokenService) : BaseRepository<PasswordResetToken>(db), IPasswordResetTokenRepository
+public class PasswordResetTokenRepository(AppDbContext db, ITokenService tokenService) : IPasswordResetTokenRepository
 {
+    public async Task<PasswordResetToken?> FindByTokenAsync(string token)
+    {
+        return await db.PasswordResetTokens.AsNoTracking().FirstOrDefaultAsync(t => t.HashedToken == token);
+    }
+
     public async Task<string> GenerateTokenByUserIdAsync(Guid userId)
     {
         DateTime now = DateTime.UtcNow;
 
-        List<PasswordResetToken> oldTokens = await DbSet
+        List<PasswordResetToken> oldTokens = await db.PasswordResetTokens.AsNoTracking()
             .Where(t => t.UserId == userId && t.UsedAt == null && t.RevokedAt == null)
             .ToListAsync();
 
@@ -25,8 +30,8 @@ public class PasswordResetTokenRepository(AppDbContext db, ITokenService tokenSe
             CreatedAt = now
         };
 
-        await DbSet.AddAsync(newToken);
-        await SaveChangesAsync();
+        await db.PasswordResetTokens.AddAsync(newToken);
+        await db.SaveChangesAsync();
 
         return token;
     }
