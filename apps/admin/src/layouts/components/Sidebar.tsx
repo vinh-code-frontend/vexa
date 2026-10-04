@@ -6,8 +6,8 @@ import { adminNavItems } from '@/router/admin.routes';
 
 const menuItems: MenuProps['items'] = adminNavItems.map(({ path, label, icon: Icon }) => ({
   key: path,
-  icon: <Icon size={16} />,
-  label,
+  icon: <Icon size={16} color="white" />,
+  label: <span style={{ color: 'white' }}>{label}</span>,
 }));
 
 const Sidebar = () => {
@@ -21,16 +21,17 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="w-62.5 h-dvh border-r border-gray-200">
-      <div className="px-6 py-4 font-bold text-lg">{i18n.t('common.app-name')}</div>
+    <div className="w-62.5 h-dvh border-r border-gray-200 bg-black ">
+      <div className="px-6 py-4 font-bold text-lg text-white">{i18n.t('common.app-name')}</div>
       <Menu
         mode="inline"
         items={menuItems}
         selectedKeys={[activeKey]}
         onClick={handleClick}
         className="border-none!"
+        style={{ background: 'black' }}
       />
-    </div>
+    </div> 
   );
 };
 

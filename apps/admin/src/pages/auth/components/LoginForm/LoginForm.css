@@ -16,6 +16,15 @@
   height: 26px;
 }
 
+.login-form .password-form-item .ant-form-item-label > label {
+  display: flex;
+  width: 100%;
+}
+
+.login-form .password-form-item .ant-form-item-label > label::after {
+  display: none;
+}
+
 .login-form .ant-input-prefix {
   margin-right: 6px;
 }
