@@ -1,4 +1,4 @@
-﻿
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Web">
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
@@ -7,10 +7,9 @@
 
         <OpenApiDocumentsDirectory>$(MSBuildProjectDirectory)\openapi</OpenApiDocumentsDirectory>
         <OpenApiGenerateDocumentsOptions>--file-name openapi</OpenApiGenerateDocumentsOptions>
-      	<UserSecretsId>db4104f2-aaf7-4df2-a379-5b48ef9a3e2a</UserSecretsId>
-  	</PropertyGroup>
+        <UserSecretsId>db4104f2-aaf7-4df2-a379-5b48ef9a3e2a</UserSecretsId>
+    </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="FluentValidation.AspNetCore" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools">
