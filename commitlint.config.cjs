@@ -20,5 +20,11 @@ module.exports = {
         "lint",
       ],
     ],
+
+    "scope-enum": [
+      2,
+      "always",
+      ["admin", "api", "client"],
+    ],
   },
 };
