@@ -1,0 +1,17 @@
+#!/bin/sh
+
+AUTOCRLF=$(git config --local --get core.autocrlf)
+
+if [ "$AUTOCRLF" != "false" ]; then
+    echo ""
+    echo "WARNING: core.autocrlf must be false before committing."
+    echo "Current value: ${AUTOCRLF:-<not set>}"
+    echo ""
+    echo "Run the following command to fix:"
+    echo "git config --local core.autocrlf false"
+    echo ""
+
+    exit 1
+fi
+
+exit 0
