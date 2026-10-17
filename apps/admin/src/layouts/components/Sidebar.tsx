@@ -4,11 +4,19 @@ import { useLocation, useNavigate } from 'react-router';
 import i18n from '@/i18n';
 import { adminNavItems } from '@/router/admin.routes';
 
-const menuItems: MenuProps['items'] = adminNavItems.map(({ path, label, icon: Icon }) => ({
-  key: path,
-  icon: <Icon size={16} color="white" />,
-  label: <span style={{ color: 'white' }}>{label}</span>,
-}));
+const menuItems = adminNavItems.reduce<MenuProps['items']>(
+  (acc, { path, label, icon: Icon, sidebar }) => {
+    if (sidebar && Icon) {
+      acc?.push({
+        key: path,
+        icon: <Icon size={16} color="white" />,
+        label: <span style={{ color: 'white' }}>{label}</span>,
+      });
+    }
+    return acc;
+  },
+  [],
+);
 
 const Sidebar = () => {
   const location = useLocation();
@@ -31,7 +39,7 @@ const Sidebar = () => {
         className="border-none!"
         style={{ background: 'black' }}
       />
-    </div> 
+    </div>
   );
 };
 
