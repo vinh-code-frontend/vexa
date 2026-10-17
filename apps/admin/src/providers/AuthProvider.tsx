@@ -10,7 +10,7 @@ import {
   refreshAccessToken,
   registerAuthRefreshFailureHandler,
 } from '@/api/axios/instance';
-import type { UserResponse } from '@/api/generated/model';
+import type { UserResponse } from '@/api/generated/auth/model';
 
 export type AuthStatus = 'initializing' | 'authenticated' | 'unauthenticated';
 
