@@ -10,7 +10,7 @@ export default defineConfig({
     alias: {
       '@': path.resolve(import.meta.dirname, './src'),
       '@api': path.resolve(import.meta.dirname, './src/api'),
-      '@pages': path.resolve(import.meta.dirname, './src/pages'),
+      '@features': path.resolve(import.meta.dirname, './src/features'),
     },
   },
 });

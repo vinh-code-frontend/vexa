@@ -1,5 +1,5 @@
 import { CircleX } from 'lucide-react';
-import { LoginForm } from './components/LoginForm';
+import { LoginForm } from '../components';
 import i18n from '@/i18n';
 
 const LoginPage = () => {
