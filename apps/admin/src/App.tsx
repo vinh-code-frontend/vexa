@@ -19,6 +19,14 @@ function App() {
           token: {
             colorPrimary: primaryColor,
           },
+          components: {
+            Card: {
+              bodyPadding: 20,
+              bodyPaddingSM: 20,
+              headerPadding: 20,
+              headerPaddingSM: 20,
+            },
+          },
         }}
       >
         <AuthProvider>
