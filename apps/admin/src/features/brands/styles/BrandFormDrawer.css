@@ -1,0 +1,26 @@
+.brand-form-drawer .ant-form-item {
+  margin-bottom: 8px;
+}
+
+.brand-form-drawer.ant-form-vertical .ant-form-item-label {
+  padding-bottom: 0;
+  line-height: 13px;
+}
+
+.brand-form-drawer.ant-form-vertical .ant-form-item-label > label {
+  height: 15px;
+  line-height: 13px;
+  padding-bottom: 6px;
+}
+
+.brand-form-drawer .ant-input,
+.brand-form-drawer .ant-input-number,
+.brand-form-drawer .ant-input-number-input,
+.brand-form-drawer .ant-input-affix-wrapper,
+.brand-form-drawer .ant-upload-drag {
+  border-radius: 6px;
+}
+
+.brand-slug-input .ant-input-prefix {
+  margin-right: 0;
+}
