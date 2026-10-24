@@ -90,11 +90,13 @@ Create these 15 named frames. Keep each frame self-contained and production-orie
 8. `08 - Category Tree List`
    - Category management table/tree with parent-child hierarchy, category name, slug, active status, display order, and child count.
    - Include expand/collapse, search, active filter, reorder affordance, create root category, and create child category actions.
+   - Show the number of configured product attributes/customer filters and provide a `Configure filters` action for each category.
    - Show an empty tree state.
 
 9. `09 - Category Create and Edit Form`
    - Category form in create/edit modes.
    - Fields: name, slug preview, parent category selector, description, image/logo URL placeholder, active status, and display order.
+   - Show a concise summary of product attributes and customer filters assigned to the category, with a `Manage attributes` action. The detailed mapping workflow is specified in the Catalog Filters Addendum.
    - Show invalid parent, duplicate slug, delete restriction because children exist, and successful save states.
 
 10. `10 - Basic Product List`
@@ -104,6 +106,9 @@ Create these 15 named frames. Keep each frame self-contained and production-orie
 
 11. `11 - Basic Product Create and Edit`
     - Desktop product form with fields: product name, slug, description, brand, category, base price, status draft/published, and primary image placeholder.
+   - Add a `Specifications and filters` section driven by the selected category's configured attributes, including representative phone attributes such as chipset, RAM, storage, refresh rate, supported network, display design, and special features.
+   - Distinguish technical specifications from curated multi-select use-case labels (for example Gaming, Long battery life, Great photos, Slim & light, and Compact). Mark which attributes are customer-filterable; keep SKU-specific RAM/storage on the variant when configurations differ.
+   - Show inventory availability as read-only/derived, not as an editable product specification. Show `New arrival` as a time-limited merchandising label or clearly computed state.
     - Use a clear two-column form with sticky action bar.
     - Show validation, unsaved changes warning, saving, and success states.
 
@@ -127,3 +132,5 @@ Create these 15 named frames. Keep each frame self-contained and production-orie
 ### Output quality
 
 Keep spacing, typography, table density, form patterns, navigation, button hierarchy, status colors, and icon sizing consistent across all 15 frames. Make the result feel like one coherent Vexa Admin product that can be implemented with Tailwind CSS, Ant Design, and Lucide rather than a collection of unrelated mockups.
+
+For the missing shared attribute-definition and category-filter configuration workflows, use [admin-catalog-filters-addendum.md](./admin-catalog-filters-addendum.md). That addendum adds two frames on a dedicated page and specifies the updates to these Phase 1 frames and the Phase 2 specifications frame without changing the original Phase 1 frame count.

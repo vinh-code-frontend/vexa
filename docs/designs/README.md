@@ -10,6 +10,7 @@ These prompts are written for a Figma design agent. Run one phase prompt at a ti
 | 2 | [admin-phase-2-operations.md](./admin-phase-2-operations.md) | Product operations, variants, inventory, orders, customers, coupons, advanced import | 15 |
 | 3 | [admin-phase-3-advanced.md](./admin-phase-3-advanced.md) | Reports, audit, permissions, batch jobs, CMS, and admin polish | 15 |
 | 4 | [admin-phase-4-pre-owned.md](./admin-phase-4-pre-owned.md) | Pre-owned intake, inspection, grading, item inventory, used orders, warranty, returns, and trade-in | 15 |
+| Addendum | [admin-catalog-filters-addendum.md](./admin-catalog-filters-addendum.md) | Shared product attributes, category filter configuration, and updates to selected Phase 1/2 frames | 2 new frames + updates |
 
 ## How to Use
 
@@ -19,6 +20,7 @@ These prompts are written for a Figma design agent. Run one phase prompt at a ti
 4. Review Phase 1 and approve the shared component language before generating Phase 2.
 5. Generate Phase 4 only after the core catalog, inventory, order, return, warranty, and audit patterns are approved.
 6. Do not generate mobile layouts yet. Preserve the desktop layout so responsive work can be added later.
+8. After reviewing Phase 1, use the Catalog Filters Addendum to update its category/product frames and add the missing attribute-management workflows; also update the referenced Phase 2 specifications frame when that page is generated.
 
 ## Shared Product Context
 
