@@ -62,7 +62,8 @@ Create these 15 named frames.
 
 4. `04 - Product Images and Specifications`
    - Product media manager with drag-and-drop upload, image order, primary image, alt text, delete confirmation, and upload progress.
-   - Include specifications table with add/edit/delete rows for values such as RAM, storage, color, and dimensions.
+   - Include specifications table with add/edit/delete rows backed by the shared attribute definitions and category configuration. Show attribute label, value, unit, customer-filter status, and whether each value belongs to the product or a specific SKU/variant.
+   - Keep RAM/storage variant-specific when product configurations differ; do not create a separate specification taxonomy. Treat `In stock` as inventory-derived and use network generation as the single source for 4G/5G.
    - Show upload error and empty media states.
 
 5. `05 - Inventory Overview`
