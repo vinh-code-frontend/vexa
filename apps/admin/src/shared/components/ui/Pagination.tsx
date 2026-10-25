@@ -1,4 +1,7 @@
+import { Pagination as AntdPagination } from 'antd';
+
 import i18n from '@/i18n';
+import './Pagination.css';
 
 type PaginationProps = {
   current: number;
@@ -11,54 +14,49 @@ type PaginationProps = {
 export const Pagination = ({ current, total, pageSize, onChange, ariaLabel }: PaginationProps) => {
   const pageCount = Math.max(1, Math.ceil(total / pageSize));
   const activePage = Math.min(Math.max(current, 1), pageCount);
-  const startItem = total === 0 ? 0 : (activePage - 1) * pageSize + 1;
-  const endItem = Math.min(activePage * pageSize, total);
-  const pages = Array.from({ length: pageCount }, (_, index) => index + 1);
-  const buttonClassName =
-    'inline-flex h-[27px] items-center justify-center rounded-sm border px-2.5 py-1.5 text-xs leading-[normal]';
 
   return (
     <div className="flex w-full items-center justify-between gap-4 pt-5">
       <span className="text-xs text-[#6C757D]">
-        {i18n.t('common.pagination.showing-items', { start: startItem, end: endItem, total })}
+        {i18n.t('common.pagination.showing-items', {
+          start: total === 0 ? 0 : (activePage - 1) * pageSize + 1,
+          end: Math.min(activePage * pageSize, total),
+          total,
+        })}
       </span>
-      <nav
+      <AntdPagination
+        current={activePage}
+        total={total}
+        pageSize={pageSize}
+        size="small"
+        showSizeChanger={false}
+        rootClassName="pagination-control"
         aria-label={ariaLabel ?? i18n.t('common.pagination.navigation-label')}
-        className="flex items-center gap-1"
-      >
-        <button
-          type="button"
-          className={`${buttonClassName} border-[#DEE2E6] text-[#212529] hover:bg-[#F8F9FA] disabled:cursor-not-allowed disabled:text-[#ADB5BD]`}
-          disabled={activePage <= 1}
-          onClick={() => onChange(activePage - 1)}
-        >
-          {i18n.t('common.pagination.previous')}
-        </button>
-        {pages.map((page) => (
-          <button
-            type="button"
-            key={page}
-            aria-label={i18n.t('common.pagination.page', { page })}
-            aria-current={activePage === page ? 'page' : undefined}
-            className={
-              activePage === page
-                ? `${buttonClassName} border-primary bg-primary text-white hover:bg-primary`
-                : `${buttonClassName} border-[#DEE2E6] text-[#212529] hover:bg-[#F8F9FA]`
-            }
-            onClick={() => onChange(page)}
-          >
-            {page}
-          </button>
-        ))}
-        <button
-          type="button"
-          className={`${buttonClassName} border-[#DEE2E6] text-[#212529] hover:bg-[#F8F9FA] disabled:cursor-not-allowed disabled:text-[#ADB5BD]`}
-          disabled={activePage >= pageCount}
-          onClick={() => onChange(activePage + 1)}
-        >
-          {i18n.t('common.pagination.next')}
-        </button>
-      </nav>
+        itemRender={(page, type) => {
+          if (type === 'page') {
+            return (
+              <a
+                rel="nofollow"
+                aria-label={i18n.t('common.pagination.page', { page })}
+                aria-current={page === activePage ? 'page' : undefined}
+              >
+                {page}
+              </a>
+            );
+          }
+
+          if (type === 'prev' || type === 'next') {
+            return (
+              <a rel="nofollow">
+                {i18n.t(type === 'prev' ? 'common.pagination.previous' : 'common.pagination.next')}
+              </a>
+            );
+          }
+
+          return null;
+        }}
+        onChange={onChange}
+      />
     </div>
   );
 };

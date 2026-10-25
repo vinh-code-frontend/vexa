@@ -1,0 +1,65 @@
+.pagination-control.ant-pagination {
+  margin: 0;
+}
+
+.pagination-control.ant-pagination .ant-pagination-item,
+.pagination-control.ant-pagination .ant-pagination-prev,
+.pagination-control.ant-pagination .ant-pagination-next {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 27px;
+  min-width: 0;
+  margin: 0 4px 0 0;
+  padding: 0 10px;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  background: #fff;
+  color: #212529;
+  font-size: 12px;
+  line-height: normal;
+}
+
+.pagination-control.ant-pagination .ant-pagination-item a,
+.pagination-control.ant-pagination .ant-pagination-prev a,
+.pagination-control.ant-pagination .ant-pagination-next a {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0;
+  color: inherit;
+  line-height: normal;
+}
+
+.pagination-control.ant-pagination .ant-pagination-item:hover,
+.pagination-control.ant-pagination .ant-pagination-prev:hover,
+.pagination-control.ant-pagination .ant-pagination-next:hover {
+  border-color: #dee2e6;
+  background: #f8f9fa;
+  color: #212529;
+}
+
+.pagination-control.ant-pagination .ant-pagination-item-active,
+.pagination-control.ant-pagination .ant-pagination-item-active:hover {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.pagination-control.ant-pagination .ant-pagination-item-active a,
+.pagination-control.ant-pagination .ant-pagination-item-active:hover a {
+  color: #fff;
+}
+
+.pagination-control.ant-pagination .ant-pagination-prev.ant-pagination-disabled,
+.pagination-control.ant-pagination .ant-pagination-next.ant-pagination-disabled {
+  cursor: not-allowed;
+  color: #adb5bd;
+}
+
+.pagination-control.ant-pagination .ant-pagination-prev.ant-pagination-disabled:hover,
+.pagination-control.ant-pagination .ant-pagination-next.ant-pagination-disabled:hover {
+  border-color: #dee2e6;
+  background: #fff;
+  color: #adb5bd;
+}

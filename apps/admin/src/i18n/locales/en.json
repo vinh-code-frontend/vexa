@@ -61,8 +61,10 @@
   "brands.filter.status.all": "All statuses",
   "brands.filter.status.active": "Active",
   "brands.filter.status.inactive": "Inactive",
-  "brands.pending.title": "Pending Verification Queue",
-  "brands.pending.empty-title": "All caught up!",
-  "brands.pending.empty-description": "No brands are currently flagged for validation review.",
-  "brands.pending.notice": "Brands added from catalog feeds require approval before pushing to production storefronts."
+  "brands.tabs.all": "All Brands",
+  "brands.tabs.verification": "Verification",
+  "brands.verification.title": "Pending Verification Queue",
+  "brands.verification.empty-title": "All caught up!",
+  "brands.verification.empty-description": "No brands are currently flagged for validation review.",
+  "brands.verification.notice": "Brands added from catalog feeds require approval before pushing to production storefronts."
 }
