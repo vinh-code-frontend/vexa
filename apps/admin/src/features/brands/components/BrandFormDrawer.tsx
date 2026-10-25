@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { Button, Drawer, Form, Input, InputNumber, Upload, Typography } from 'antd';
 import type { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
 import { Upload as UploadIcon } from 'lucide-react';
-import { slugify } from '@/shared/utils/Slug';
+import slugify from 'slugify';
 
 import i18n from '@/i18n';
 import '../styles/BrandFormDrawer.css';
@@ -38,7 +38,7 @@ const BrandFormDrawer = ({ open, mode, onClose }: BrandFormDrawerProps) => {
 
   const handleValuesChange = (changedValues: Partial<BrandFormValues>) => {
     if (typeof changedValues.name === 'string') {
-      form.setFieldValue('slug', slugify(changedValues.name));
+      form.setFieldValue('slug', slugify(changedValues.name, { lower: true, strict: true }));
     }
   };
 
