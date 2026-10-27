@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 
 import { Table, Tag, Typography } from 'antd';
+import { DeleteIcon, EditIcon } from '@/shared/components/motions';
 import type { ColumnsType } from 'antd/es/table';
-import { Image, MoreHorizontal } from 'lucide-react';
+import { Image } from 'lucide-react';
 
 import type { BrandResponse } from '@/api/generated/query/model/types/brand';
 import { Pagination } from '../../../shared/components/ui/Pagination';
@@ -64,10 +65,8 @@ const getColumns = (onEdit: () => void): ColumnsType<BrandResponse> => [
     align: 'right',
     render: () => (
       <div className="flex items-center justify-end gap-3">
-        <button type="button" className="font-medium text-violet-700" onClick={onEdit}>
-          {i18n.t('brands.actions.edit')}
-        </button>
-        <MoreHorizontal size={18} className="text-[#6C757D]" aria-hidden="true" />
+        <EditIcon onClick={onEdit} />
+        <DeleteIcon />
       </div>
     ),
   },
