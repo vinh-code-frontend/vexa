@@ -1,6 +1,7 @@
 import { ProductDetailPage, ProductFormPage, ProductListPage } from '@/features/product';
 import i18n from '@/i18n';
-import { BrandPage } from '@/features/brands';
+import { BrandPage } from '@/features/brand';
+import { CategoryPage } from '@/features/category';
 import type { LucideIcon } from 'lucide-react';
 import {
   FolderTree,
@@ -71,7 +72,7 @@ export const adminNavItems: AdminNavItem[] = [
     label: i18n.t('sidebar.category'),
     icon: FolderTree,
     sidebar: true,
-    element: <h2>Categories</h2>,
+    element: <CategoryPage />,
   },
   {
     path: 'user',
