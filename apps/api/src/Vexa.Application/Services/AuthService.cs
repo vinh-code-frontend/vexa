@@ -24,7 +24,7 @@ public class AuthService(
         await userRepository.AddUserAsync(newUser);
         return true;
     }
-    public async Task<LoginResponse> LoginAsync(LoginRequest loginRequest)
+    public async Task<LoginResponse> LoginAsync(LoginRequest loginRequest, bool isAdmin)
     {
         User? user = await userRepository.GetUserByUsernameAsync(loginRequest.Username);
 
@@ -36,6 +36,10 @@ public class AuthService(
         if (!isValidPassword)
         {
             throw new UnauthorizedException("Wrong username or password");
+        }
+        if ((user.Role == UserRole.User && isAdmin) || (user.Role == UserRole.Admin && !isAdmin) || user.Status != UserStatus.Active)
+        {
+            throw new ForbiddenException("You don't have permission to access this page");
         }
 
         (string? accessToken, DateTime accessTokenExpiredAt) = tokenService.GenerateAccessToken(user);
@@ -52,7 +56,7 @@ public class AuthService(
             csrfToken,
             refreshToken.ExpiredAt);
     }
-    public async Task<LoginResponse> RefreshTokenAsync(string refreshToken)
+    public async Task<LoginResponse> RefreshTokenAsync(string refreshToken,bool isAdmin)
     {
         string hashedToken = tokenService.HashToken(refreshToken);
 
@@ -61,6 +65,11 @@ public class AuthService(
         if (session == null || user == null)
         {
             throw new UnauthorizedException("Invalid refresh token");
+        }
+
+        if ((user.Role == UserRole.User && isAdmin) || (user.Role == UserRole.Admin && !isAdmin) || user.Status != UserStatus.Active)
+        {
+            throw new ForbiddenException("You don't have permission to access this page");
         }
 
         if (session.ExpiredAt <= DateTime.UtcNow)
@@ -73,7 +82,6 @@ public class AuthService(
             throw new UnauthorizedException("Refresh token reuse detected");
         }
         session.RevokedAt = DateTime.UtcNow;
-
 
         (string? accessToken, DateTime accessTokenExpiredAt) = tokenService.GenerateAccessToken(user);
         (RefreshToken? newRefreshToken, string? plainRefreshToken) = tokenService.GenerateRefreshToken(session.UserId);

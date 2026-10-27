@@ -36,6 +36,17 @@ public static class ConfigurationServiceExtension
             {
                 OnChallenge = async context =>
                 {
+                    ILogger logger = context.HttpContext.RequestServices
+                        .GetRequiredService<ILoggerFactory>()
+                        .CreateLogger("JwtBearerEvents");
+
+                    logger.LogWarning(
+                        "Authentication challenge for {Method} {Path}. Error: {Error}. Description: {ErrorDescription}",
+                        context.Request.Method,
+                        context.Request.Path,
+                        context.Error ?? "none",
+                        context.ErrorDescription ?? "none");
+
                     context.HandleResponse();
                     context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                     context.Response.ContentType = "application/json";
@@ -50,6 +61,18 @@ public static class ConfigurationServiceExtension
                 },
                 OnForbidden = async context =>
                 {
+                    ILogger logger = context.HttpContext.RequestServices
+                        .GetRequiredService<ILoggerFactory>()
+                        .CreateLogger("JwtBearerEvents");
+
+                    logger.LogWarning(
+                        "Authorization forbidden for {Method} {Path}. User: {User}. AuthenticationType: {AuthenticationType}. Endpoint: {Endpoint}",
+                        context.Request.Method,
+                        context.Request.Path,
+                        context.HttpContext.User.Identity?.Name ?? "anonymous",
+                        context.HttpContext.User.Identity?.AuthenticationType ?? "none",
+                        context.HttpContext.GetEndpoint()?.DisplayName ?? "unknown");
+
                     context.Response.StatusCode = StatusCodes.Status403Forbidden;
                     context.Response.ContentType = "application/json";
 
@@ -63,6 +86,16 @@ public static class ConfigurationServiceExtension
                 },
                 OnAuthenticationFailed = context =>
                 {
+                    ILogger logger = context.HttpContext.RequestServices
+                        .GetRequiredService<ILoggerFactory>()
+                        .CreateLogger("JwtBearerEvents");
+
+                    logger.LogWarning(
+                        context.Exception,
+                        "JWT authentication failed for {Method} {Path}",
+                        context.Request.Method,
+                        context.Request.Path);
+
                     return Task.CompletedTask;
                 }
             };

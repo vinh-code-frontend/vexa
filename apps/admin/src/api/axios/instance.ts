@@ -137,7 +137,7 @@ export function updateAuthSession(update: Partial<AuthSession>) {
 
   saveAuthSession({
     accessToken: update.accessToken ?? currentSession!.accessToken,
-    user: update.user !== undefined ? update.user : currentSession?.user ?? null,
+    user: update.user !== undefined ? update.user : (currentSession?.user ?? null),
   });
 }
 
@@ -182,7 +182,7 @@ export function registerAuthRefreshFailureHandler(handler: () => void) {
 export function refreshAccessToken() {
   if (!refreshPromise) {
     refreshPromise = httpClient
-      .post<TokenResponse>('/admin/auth/refresh', undefined, {
+      .post<TokenResponse>('/api/admin/auth/refresh', undefined, {
         skipAuthRefresh: true,
       })
       .then((response) => {

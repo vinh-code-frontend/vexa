@@ -34,9 +34,9 @@ export const BrandPage = () => {
   }, [search]);
 
   const brandsQuery = useGetApiAdminBrands({
-    Search: debouncedSearch.trim() || undefined,
-    Page: 1,
-    PageSize: 100,
+    search: debouncedSearch.trim() || undefined,
+    page: 1,
+    pageSize: 100,
   });
 
   const brands = brandsQuery.data?.data?.items;
@@ -97,7 +97,7 @@ export const BrandPage = () => {
         activeKey={activeTab}
         onChange={setActiveTab}
         styles={{
-          item: { paddingBlock: 0, lineHeight: 1.5, paddingBottom: 10 , gap: 24 , fontSize: 14 },
+          item: { paddingBlock: 0, lineHeight: 1.5, paddingBottom: 10, gap: 24, fontSize: 14 },
           indicator: { display: 'none' },
         }}
         items={[

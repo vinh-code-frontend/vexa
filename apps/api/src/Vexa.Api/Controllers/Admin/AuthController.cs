@@ -20,7 +20,7 @@ public class AdminAuthController(IAuthService authService, ITokenService tokenSe
     [HttpPost("login")]
     public async Task<LoginResponse> Login([FromBody] LoginRequest loginRequest)
     {
-        LoginResponse result = await authService.LoginAsync(loginRequest);
+        LoginResponse result = await authService.LoginAsync(loginRequest, isAdmin: true);
         AppendAuthCookies(result);
 
         return result;
@@ -35,7 +35,7 @@ public class AdminAuthController(IAuthService authService, ITokenService tokenSe
         string? csrfHeader = Request.Headers[_csrfHeaderKey];
         if (refreshToken is string && csrfToken is string && csrfToken == csrfHeader)
         {
-            LoginResponse result = await authService.RefreshTokenAsync(refreshToken);
+            LoginResponse result = await authService.RefreshTokenAsync(refreshToken, isAdmin: true);
             AppendAuthCookies(result);
 
             return result;
