@@ -13,6 +13,14 @@ public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<Exception
         }
         catch (AppException ex)
         {
+            logger.LogWarning(
+                ex,
+                "Application exception returned {StatusCode} for {Method} {Path}: {Message}",
+                ex.StatusCode,
+                context.Request.Method,
+                context.Request.Path,
+                ex.Message);
+
             await WriteResponseAsync(context, ex.StatusCode, ex.Message, ex.DataPayload);
         }
         catch (Exception ex)

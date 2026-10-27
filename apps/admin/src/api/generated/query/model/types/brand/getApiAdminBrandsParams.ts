@@ -10,12 +10,12 @@ export type GetApiAdminBrandsParams = {
   /**
    * @pattern ^-?(?:0|[1-9]\d*)$
    */
-  PageSize?: number | string;
+  pageSize?: number | string;
   /**
    * @pattern ^-?(?:0|[1-9]\d*)$
    */
-  Page?: number | string;
-  Search?: string;
-  SortBy?: string;
-  SortDirection?: SortDirection;
+  page?: number | string;
+  search?: string;
+  sortBy?: string;
+  sortDirection?: SortDirection;
 };

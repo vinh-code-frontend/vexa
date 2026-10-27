@@ -102,7 +102,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   }, []);
 
   const login = async (credentials: LoginCredentials) => {
-    const response = await httpClient.post<LoginResponse>('/admin/auth/login', credentials, {
+    const response = await httpClient.post<LoginResponse>('/api/admin/auth/login', credentials, {
       skipAuthRefresh: true,
     });
 

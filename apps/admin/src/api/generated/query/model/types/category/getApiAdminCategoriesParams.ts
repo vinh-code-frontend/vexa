@@ -10,16 +10,16 @@ export type GetApiAdminCategoriesParams = {
   /**
    * @pattern ^-?(?:0|[1-9]\d*)$
    */
-  ParentId?: number | string;
+  parentId?: number | string;
   /**
    * @pattern ^-?(?:0|[1-9]\d*)$
    */
-  PageSize?: number | string;
+  pageSize?: number | string;
   /**
    * @pattern ^-?(?:0|[1-9]\d*)$
    */
-  Skip?: number | string;
-  Search?: string;
-  SortBy?: string;
-  SortDirection?: SortDirection;
+  skip?: number | string;
+  search?: string;
+  sortBy?: string;
+  sortDirection?: SortDirection;
 };

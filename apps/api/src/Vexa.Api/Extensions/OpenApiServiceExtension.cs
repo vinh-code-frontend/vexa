@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 
 namespace Vexa.Api.Extensions;
@@ -30,6 +31,17 @@ public static class OpenApiServiceExtension
 
         options.AddOperationTransformer((operation, context, _) =>
         {
+            if (operation.Parameters is not null)
+            {
+                foreach (OpenApiParameter parameter in operation.Parameters)
+                {
+                    if (parameter.In == ParameterLocation.Query)
+                    {
+                        parameter.Name = JsonNamingPolicy.CamelCase.ConvertName(parameter.Name);
+                    }
+                }
+            }
+
             IList<object> metadata = context.Description.ActionDescriptor.EndpointMetadata;
             bool allowsAnonymous = metadata.OfType<IAllowAnonymous>().Any();
             bool requiresAuthorization = !allowsAnonymous && metadata.OfType<IAuthorizeData>().Any();
