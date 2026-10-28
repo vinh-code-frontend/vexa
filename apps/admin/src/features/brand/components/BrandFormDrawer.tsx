@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
 import { Button, Drawer, Form, Input, InputNumber, Upload, Typography } from 'antd';
+import type { FormInstance } from 'antd';
 import type { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
 import { Upload as UploadIcon } from 'lucide-react';
 import slugify from 'slugify';
@@ -24,21 +25,34 @@ type BrandFormDrawerProps = {
 
 const getUploadFileList = (event: UploadChangeParam<UploadFile>) => event.fileList;
 
+type BrandFormApi = FormInstance<BrandFormValues> & {
+  resetFields: () => void;
+  setFieldsValue: (values: Partial<BrandFormValues>) => void;
+  setFieldValue: (name: keyof BrandFormValues, value: unknown) => void;
+};
+
 const BrandFormDrawer = ({ open, mode, onClose }: BrandFormDrawerProps) => {
   const [form] = Form.useForm<BrandFormValues>();
+  const brandForm = form as BrandFormApi;
 
   useEffect(() => {
     if (!open) {
       return;
     }
 
-    form.resetFields();
-    form.setFieldsValue({ name: '', slug: '', description: '', displayOrder: 1, logo: [] });
-  }, [form, mode, open]);
+    brandForm.resetFields();
+    brandForm.setFieldsValue({
+      name: '',
+      slug: '',
+      description: '',
+      displayOrder: 1,
+      logo: [],
+    });
+  }, [brandForm, mode, open]);
 
   const handleValuesChange = (changedValues: Partial<BrandFormValues>) => {
     if (typeof changedValues.name === 'string') {
-      form.setFieldValue('slug', slugify(changedValues.name, { lower: true, strict: true }));
+      brandForm.setFieldValue('slug', slugify(changedValues.name, { lower: true, strict: true }));
     }
   };
 

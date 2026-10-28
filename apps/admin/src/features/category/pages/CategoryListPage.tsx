@@ -1,26 +1,22 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
-import { Alert, Button, Tabs, Typography } from 'antd';
+import { Button, Tabs, Typography } from 'antd';
 import { Plus } from 'lucide-react';
 
 import { useGetApiAdminCategories } from '@/api';
 import type { CategoryResponse } from '@/api/generated/query/model/types/category';
 import i18n from '@/i18n';
+import { QueryErrorAlert } from '@/shared/components/ui';
+import { useDebounce } from '@/shared/hooks';
 
-import { CategoryFilter } from './components/CategoryFilter';
-import { CategoryTable } from './components/CategoryTable';
+import { CategoryFilter, CategoryTable } from '@/features/category/components';
 
 const EMPTY_CATEGORIES: CategoryResponse[] = [];
 
 export const CategoryPage = () => {
   const [search, setSearch] = useState('');
-  const [debouncedSearch, setDebouncedSearch] = useState(search);
   const [status, setStatus] = useState<'active' | 'inactive'>('active');
-
-  useEffect(() => {
-    const timeoutId = window.setTimeout(() => setDebouncedSearch(search), 300);
-    return () => window.clearTimeout(timeoutId);
-  }, [search]);
+  const debouncedSearch = useDebounce(search);
 
   const categoriesQuery = useGetApiAdminCategories();
 
@@ -46,15 +42,9 @@ export const CategoryPage = () => {
 
   if (categoriesQuery.error) {
     return (
-      <Alert
-        type="error"
-        showIcon
+      <QueryErrorAlert
         title={i18n.t('categories.errors.load-title')}
-        description={
-          categoriesQuery.error instanceof Error
-            ? categoriesQuery.error.message
-            : i18n.t('common.errors.unexpected')
-        }
+        error={categoriesQuery.error}
       />
     );
   }
