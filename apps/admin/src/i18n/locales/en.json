@@ -79,5 +79,16 @@
   "categories.filter.status.active": "Active",
   "categories.filter.status.inactive": "Inactive",
   "categories.actions.create-child": "Create Child Category",
-  "categories.actions.create-root": "Create Root Category"
+  "categories.actions.create-root": "Create Root Category",
+  "categories.actions.edit": "Edit {{name}}",
+  "categories.actions.save": "Save Category",
+  "categories.table.actions": "Actions",
+  "categories.form.title.create": "Create category",
+  "categories.form.title.edit": "Edit category",
+  "categories.form.name": "Category Name",
+  "categories.form.parent": "Parent category",
+  "categories.form.root-category": "None (root category)",
+  "categories.form.slug-preview": "Slug Preview",
+  "categories.form.description": "Description",
+  "categories.form.display-order": "Display order"
 }

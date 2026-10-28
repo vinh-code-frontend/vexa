@@ -1,7 +1,7 @@
 import { Pagination as AntdPagination } from 'antd';
 
 import i18n from '@/i18n';
-import './Pagination.css';
+import '../styles/Pagination.css';
 
 type PaginationProps = {
   current: number;
@@ -10,7 +10,7 @@ type PaginationProps = {
   onChange: (page: number) => void;
   ariaLabel?: string;
 };
- const Pagination = ({ current, total, pageSize, onChange, ariaLabel }: PaginationProps) => {
+const Pagination = ({ current, total, pageSize, onChange, ariaLabel }: PaginationProps) => {
   const pageCount = Math.max(1, Math.ceil(total / pageSize));
   const activePage = Math.min(Math.max(current, 1), pageCount);
 
@@ -60,4 +60,4 @@ type PaginationProps = {
   );
 };
 
-export default Pagination
+export default Pagination;
