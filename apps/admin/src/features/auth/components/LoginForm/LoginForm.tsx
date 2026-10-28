@@ -33,7 +33,7 @@ export const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { usernameRules, passwordRules } = useLoginValidation();
 
-  const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
+  const onFinish: FormProps<FieldType>['onFinish'] = async (values: FieldType) => {
     setLoginError('');
     setIsLoading(true);
 

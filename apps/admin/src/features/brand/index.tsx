@@ -1,22 +1,28 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
-import { Alert, Button, Tabs, Typography } from 'antd';
+import { Button, Tabs, Typography } from 'antd';
 import { ArrowLeftRight, Plus } from 'lucide-react';
 import i18n from '@/i18n';
 
-import { BrandTable } from './components/BrandTable';
-import { BrandFilter, type BrandStatusFilter } from './components/BrandFilter';
-import BrandFormDrawer from './components/BrandFormDrawer';
 import { useGetApiAdminBrands } from '@/api';
-import { BrandVerification } from './components/BrandVerification';
+
+import {
+  BrandTable,
+  BrandFilter,
+  BrandFormDrawer,
+  BrandVerification,
+  type BrandStatusFilter,
+} from '@/features/brand/components';
+import { QueryErrorAlert } from '@/shared/components/ui';
+import { useDebounce } from '@/shared/hooks';
 
 export const BrandPage = () => {
   const [search, setSearch] = useState('');
-  const [debouncedSearch, setDebouncedSearch] = useState(search);
   const [status, setStatus] = useState<BrandStatusFilter>('all');
   const [activeTab, setActiveTab] = useState('all');
   const [isBrandDrawerOpen, setIsBrandDrawerOpen] = useState(false);
   const [formMode, setFormMode] = useState<'create' | 'edit'>('create');
+  const debouncedSearch = useDebounce(search);
 
   const openCreateDrawer = () => {
     setFormMode('create');
@@ -27,11 +33,6 @@ export const BrandPage = () => {
     setFormMode('edit');
     setIsBrandDrawerOpen(true);
   };
-
-  useEffect(() => {
-    const timeoutId = window.setTimeout(() => setDebouncedSearch(search), 300);
-    return () => window.clearTimeout(timeoutId);
-  }, [search]);
 
   const brandsQuery = useGetApiAdminBrands({
     search: debouncedSearch.trim() || undefined,
@@ -49,15 +50,9 @@ export const BrandPage = () => {
 
   if (brandsQuery.error) {
     return (
-      <Alert
-        type="error"
-        showIcon
+      <QueryErrorAlert
         title={i18n.t('brands.errors.load-title')}
-        description={
-          brandsQuery.error instanceof Error
-            ? brandsQuery.error.message
-            : i18n.t('common.errors.unexpected')
-        }
+        error={brandsQuery.error}
       />
     );
   }

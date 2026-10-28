@@ -10,8 +10,7 @@ type PaginationProps = {
   onChange: (page: number) => void;
   ariaLabel?: string;
 };
-
-export const Pagination = ({ current, total, pageSize, onChange, ariaLabel }: PaginationProps) => {
+ const Pagination = ({ current, total, pageSize, onChange, ariaLabel }: PaginationProps) => {
   const pageCount = Math.max(1, Math.ceil(total / pageSize));
   const activePage = Math.min(Math.max(current, 1), pageCount);
 
@@ -60,3 +59,5 @@ export const Pagination = ({ current, total, pageSize, onChange, ariaLabel }: Pa
     </div>
   );
 };
+
+export default Pagination
