@@ -74,5 +74,18 @@
   "categories.table.child-count": "Danh mục con",
   "categories.table.empty": "Không tìm thấy danh mục.",
   "categories.filter.status.active": "Đang hoạt động",
-  "categories.filter.status.inactive": "Không hoạt động"
+  "categories.filter.status.inactive": "Không hoạt động",
+  "categories.actions.create-child": "Tạo danh mục con",
+  "categories.actions.create-root": "Tạo danh mục gốc",
+  "categories.actions.edit": "Chỉnh sửa {{name}}",
+  "categories.actions.save": "Lưu danh mục",
+  "categories.table.actions": "Thao tác",
+  "categories.form.title.create": "Tạo danh mục",
+  "categories.form.title.edit": "Chỉnh sửa danh mục",
+  "categories.form.name": "Tên danh mục",
+  "categories.form.parent": "Danh mục cha",
+  "categories.form.root-category": "Không có (danh mục gốc)",
+  "categories.form.slug-preview": "Xem trước slug",
+  "categories.form.description": "Mô tả",
+  "categories.form.display-order": "Thứ tự hiển thị"
 }

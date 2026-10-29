@@ -5,10 +5,10 @@ import { useLocation, useNavigate } from 'react-router';
 
 import { Mail, Lock, Info } from 'lucide-react';
 import i18n from '@/i18n';
-import { useLoginValidation } from '../../hooks/useValidation';
+import { useLoginValidation } from '../hooks/useValidation';
 import { useAuth } from '@/providers/AuthProvider';
 
-import './LoginForm.css';
+import './styles/LoginForm.css';
 
 type FieldType = {
   username?: string;
@@ -33,7 +33,7 @@ export const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { usernameRules, passwordRules } = useLoginValidation();
 
-  const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
+  const onFinish: FormProps<FieldType>['onFinish'] = async (values: FieldType) => {
     setLoginError('');
     setIsLoading(true);
 

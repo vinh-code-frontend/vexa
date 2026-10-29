@@ -1,6 +1,6 @@
-import { Table, Tag, Typography } from 'antd';
+import { Button, Table, Tag, Typography } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { Folder } from 'lucide-react';
+import { Edit2, Folder } from 'lucide-react';
 import slugify from 'slugify';
 
 import type { CategoryResponse } from '@/api/generated/query/model/types/category';
@@ -10,6 +10,7 @@ type CategoryTableProps = {
   categories: CategoryResponse[];
   allCategories: CategoryResponse[];
   loading?: boolean;
+  onEdit: (category: CategoryResponse) => void;
 };
 
 const renderCategoryDetails = (category: CategoryResponse) => (
@@ -21,7 +22,10 @@ const renderCategoryDetails = (category: CategoryResponse) => (
   </div>
 );
 
-const getColumns = (categories: CategoryResponse[]): ColumnsType<CategoryResponse> => [
+const getColumns = (
+  categories: CategoryResponse[],
+  onEdit: (category: CategoryResponse) => void,
+): ColumnsType<CategoryResponse> => [
   {
     title: i18n.t('categories.table.category-name-hierarchy'),
     key: 'categoryName',
@@ -54,19 +58,36 @@ const getColumns = (categories: CategoryResponse[]): ColumnsType<CategoryRespons
     render: (_value, category) =>
       categories.filter((item) => String(item.parentId) === String(category.id)).length,
   },
+  {
+    title: i18n.t('categories.table.actions'),
+    key: 'actions',
+    align: 'right',
+    render: (_value, category) => (
+      <Button
+        type="text"
+        size="small"
+        icon={<Edit2 size={14} />}
+        aria-label={i18n.t('categories.actions.edit', { name: category.name })}
+        onClick={() => onEdit(category)}
+      />
+    ),
+  },
 ];
 
 export const CategoryTable = ({
   categories,
   allCategories,
   loading = false,
-}: CategoryTableProps) => (
-  <Table<CategoryResponse>
-    rowKey={(category) => String(category.id)}
-    columns={getColumns(allCategories)}
-    dataSource={categories}
-    pagination={false}
-    loading={loading}
-    locale={{ emptyText: i18n.t('categories.table.empty') }}
-  />
-);
+  onEdit,
+}: CategoryTableProps) => {
+  return (
+    <Table<CategoryResponse>
+      rowKey={(category) => String(category.id)}
+      columns={getColumns(allCategories, onEdit)}
+      dataSource={categories}
+      pagination={false}
+      loading={loading}
+      locale={{ emptyText: i18n.t('categories.table.empty') }}
+    />
+  );
+};

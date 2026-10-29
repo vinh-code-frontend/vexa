@@ -2,17 +2,18 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { Alert, Button, Tabs, Typography } from 'antd';
 import { Plus } from 'lucide-react';
+import { useNavigate } from 'react-router';
 
 import { useGetApiAdminCategories } from '@/api';
 import type { CategoryResponse } from '@/api/generated/query/model/types/category';
 import i18n from '@/i18n';
 
-import { CategoryFilter } from './components/CategoryFilter';
-import { CategoryTable } from './components/CategoryTable';
+import { CategoryFilter, CategoryTable } from '@/features/category/components';
 
 const EMPTY_CATEGORIES: CategoryResponse[] = [];
 
 export const CategoryPage = () => {
+  const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState(search);
   const [status, setStatus] = useState<'active' | 'inactive'>('active');
@@ -41,6 +42,9 @@ export const CategoryPage = () => {
       categories={filteredCategories}
       allCategories={categories}
       loading={categoriesQuery.isFetching}
+      onEdit={(category) =>
+        navigate(`/category/${category.id}/edit`, { state: { category } })
+      }
     />
   );
 
@@ -72,8 +76,18 @@ export const CategoryPage = () => {
             </Typography.Text>
           </div>
           <div className="flex items-center gap-2">
-            <Button style={{ fontSize: 13 }}>{i18n.t('categories.actions.create-child')}</Button>
-            <Button type="primary" icon={<Plus size={13} />} style={{ fontSize: 13 }}>
+            <Button
+              style={{ fontSize: 13 }}
+              onClick={() => navigate('/category/new')}
+            >
+              {i18n.t('categories.actions.create-child')}
+            </Button>
+            <Button
+              type="primary"
+              icon={<Plus size={13} />}
+              style={{ fontSize: 13 }}
+              onClick={() => navigate('/category/new')}
+            >
               {i18n.t('categories.actions.create-root')}
             </Button>
           </div>

@@ -25,9 +25,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^10.0.5",
     "@commitlint/cli": "^21.2.3",
     "@commitlint/config-conventional": "^21.2.3",
+    "concurrently": "^10.0.5",
     "husky": "^9.1.7"
+  },
+  "dependencies": {
+    "ahooks": "^3.11.0"
   }
 }
