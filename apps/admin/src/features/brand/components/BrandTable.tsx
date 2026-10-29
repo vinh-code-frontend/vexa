@@ -6,7 +6,7 @@ import type { ColumnsType } from 'antd/es/table';
 import { Image } from 'lucide-react';
 
 import type { BrandResponse } from '@/api/generated/query/model/types/brand';
-import { Pagination } from '../../../shared/components/ui/Pagination';
+import Pagination from '../../../shared/components/ui/Pagination';
 import i18n from '@/i18n';
 
 const PAGE_SIZE = 4;
