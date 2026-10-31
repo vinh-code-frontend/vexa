@@ -4,10 +4,10 @@ public class CategoryMappingProfile : Profile
 {
     public CategoryMappingProfile()
     {
-        CreateMap<CreateCategoryRequest, Category>();
-        CreateMap<UpdateCategoryRequest, Category>();
+        CreateMap<CreateCategoryRequest, CategoryEntity>();
+        CreateMap<UpdateCategoryRequest, CategoryEntity>();
 
-        CreateMap<Category, CategoryResponse>();
-        CreateMap<Category, CategoryDetailResponse>();
+        CreateMap<CategoryEntity, CategoryResponse>();
+        CreateMap<CategoryEntity, CategoryDetailResponse>();
     }
 }

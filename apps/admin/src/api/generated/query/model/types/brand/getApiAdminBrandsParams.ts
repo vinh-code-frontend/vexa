@@ -7,6 +7,7 @@
 import type { SortDirection } from '../../enums/shared/sortDirection';
 
 export type GetApiAdminBrandsParams = {
+  isActive?: boolean;
   /**
    * @pattern ^-?(?:0|[1-9]\d*)$
    */

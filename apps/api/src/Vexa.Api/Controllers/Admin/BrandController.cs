@@ -5,7 +5,7 @@ namespace Vexa.Api.Controllers;
 public class AdminBrandController(IBrandService brandService) : AdminApiControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<PaginationResponse<BrandResponse>>> GetAsync([FromQuery] PaginationRequest request)
+    public async Task<ActionResult<PaginationResponse<BrandResponse>>> GetAsync([FromQuery] BrandPaginationRequest request)
     {
         PaginationResponse<BrandResponse> result = await brandService.GetAsync(request);
         return Ok(result);

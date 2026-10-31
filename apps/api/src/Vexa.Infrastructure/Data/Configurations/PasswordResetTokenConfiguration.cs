@@ -1,8 +1,8 @@
 namespace Vexa.Infrastructure.Data.Configurations;
 
-public class PasswordResetTokenConfiguration : IEntityTypeConfiguration<PasswordResetToken>
+public class PasswordResetTokenConfiguration : IEntityTypeConfiguration<PasswordResetTokenEntity>
 {
-    public void Configure(EntityTypeBuilder<PasswordResetToken> builder)
+    public void Configure(EntityTypeBuilder<PasswordResetTokenEntity> builder)
     {
         builder.HasKey(item => item.Id);
 

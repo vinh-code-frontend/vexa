@@ -1,8 +1,8 @@
 namespace Vexa.Infrastructure.Data.Configurations;
 
-public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
+public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshTokenEntity>
 {
-    public void Configure(EntityTypeBuilder<RefreshToken> builder)
+    public void Configure(EntityTypeBuilder<RefreshTokenEntity> builder)
     {
         builder.HasKey(refreshToken => refreshToken.Id);
 

@@ -4,7 +4,7 @@ public class UserMappingProfile : Profile
 {
     public UserMappingProfile()
     {
-        CreateMap<User, UserResponse>();
-        CreateMap<User, CreateUserResponse>();
+        CreateMap<UserEntity, UserResponse>();
+        CreateMap<UserEntity, CreateUserResponse>();
     }
 }

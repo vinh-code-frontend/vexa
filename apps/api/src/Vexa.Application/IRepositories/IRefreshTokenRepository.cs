@@ -2,6 +2,6 @@
 
 public interface IRefreshTokenRepository
 {
-    Task AddRefreshTokenAsync(RefreshToken refreshToken);
-    Task<RefreshToken?> FindRefreshToken(string hashedToken);
+    Task AddRefreshTokenAsync(RefreshTokenEntity refreshToken);
+    Task<RefreshTokenEntity?> FindRefreshToken(string hashedToken);
 }

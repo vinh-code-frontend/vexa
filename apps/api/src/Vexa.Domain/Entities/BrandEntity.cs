@@ -1,6 +1,6 @@
 namespace Vexa.Domain.Entities;
 
-public class Brand
+public class BrandEntity
 {
     public int Id { get; set; }
     public required string Name { get; set; }

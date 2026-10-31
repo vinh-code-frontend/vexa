@@ -11,6 +11,7 @@
     "pregenerate:api": "rimraf src/api/generated",
     "generate:api": "orval && node scripts/generate-api-index.mjs",
     "postgenerate:api": "npx prettier --write \"src/api/generated/**/*.{ts,tsx}\"",
+    "orval": "npm run generate:api",
     "format": "npx prettier --write ."
   },
   "dependencies": {

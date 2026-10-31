@@ -2,8 +2,8 @@ namespace Vexa.Application.Interfaces;
 
 public interface ICategoryRepository
 {
-    Task<Category?> GetByIdAsync(int id, bool includeDeleted = false);
-    Task<List<Category>> GetListAsync(
+    Task<CategoryEntity?> GetByIdAsync(int id, bool includeDeleted = false);
+    Task<List<CategoryEntity>> GetListAsync(
         int take,
         int skip,
         string? search,
@@ -11,8 +11,8 @@ public interface ICategoryRepository
         SortDirection? sortDirection,
         int? parentId = null
     );
-    Task AddAsync(Category category);
-    Task UpdateAsync(Category category);
-    Task SoftDeleteAsync(Category category, Guid? deletedBy);
+    Task AddAsync(CategoryEntity category);
+    Task UpdateAsync(CategoryEntity category);
+    Task SoftDeleteAsync(CategoryEntity category, Guid? deletedBy);
     Task<bool> ExistsAsync(string name, string slug, int? excludedId = null);
 }

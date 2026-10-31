@@ -2,15 +2,15 @@ using Vexa.Application.Interfaces;
 
 namespace Vexa.Infrastructure.Repositories;
 
-public class BrandRepository(AppDbContext db) : IBrandRepository
+public class BrandRepository(AppDbContext db) : BaseRepository<BrandEntity>, IBrandRepository
 {
-    public async Task AddAsync(Brand brand)
+    public async Task AddAsync(BrandEntity brand)
     {
         db.Brands.Add(brand);
         await db.SaveChangesAsync();
     }
 
-    public async Task SoftDeleteAsync(Brand brand, Guid? deletedBy)
+    public async Task SoftDeleteAsync(BrandEntity brand, Guid? deletedBy)
     {
         DateTime deletedAt = DateTime.UtcNow;
         brand.DeletedAt = deletedAt;
@@ -20,7 +20,7 @@ public class BrandRepository(AppDbContext db) : IBrandRepository
         await db.SaveChangesAsync();
     }
 
-    public async Task UpdateAsync(Brand brand)
+    public async Task UpdateAsync(BrandEntity brand)
     {
         brand.UpdatedAt = DateTime.UtcNow;
 
@@ -28,47 +28,30 @@ public class BrandRepository(AppDbContext db) : IBrandRepository
         await db.SaveChangesAsync();
     }
 
-    public async Task<(List<Brand> Items, int TotalCount)> GetBrandListAsync(
+    public async Task<(List<BrandEntity> Items, int TotalCount)> GetBrandListAsync(
         int page,
         int pageSize,
         string? search,
         string? sortBy,
-        SortDirection? sortDirection)
+        SortDirection? sortDirection,
+        bool? isActive)
     {
-        IQueryable<Brand> query = db.Brands.AsNoTracking().Where(item => item.DeletedAt == null);
+        IQueryable<BrandEntity> query = db.Brands.AsNoTracking().Where(item => item.DeletedAt == null);
 
-        if (!string.IsNullOrWhiteSpace(search))
+        if (isActive != null)
         {
-            string searchPattern = $"%{search.Trim()}%";
-            query = query.Where(item =>
-                EF.Functions.ILike(item.Name, searchPattern) ||
-                EF.Functions.ILike(item.Slug, searchPattern) ||
-                (item.Description != null && EF.Functions.ILike(item.Description, searchPattern)));
+            query = query.Where(item => item.IsActive == isActive);
         }
 
-        bool descending = sortDirection == SortDirection.Desc;
-        query = sortBy?.Trim().ToLowerInvariant() switch
-        {
-            "name" => descending
-                ? query.OrderByDescending(item => item.Name).ThenBy(item => item.Id)
-                : query.OrderBy(item => item.Name).ThenBy(item => item.Id),
-            "slug" => descending
-                ? query.OrderByDescending(item => item.Slug).ThenBy(item => item.Id)
-                : query.OrderBy(item => item.Slug).ThenBy(item => item.Id),
-            "displayorder" => descending
-                ? query.OrderByDescending(item => item.DisplayOrder).ThenBy(item => item.Id)
-                : query.OrderBy(item => item.DisplayOrder).ThenBy(item => item.Id),
-            "createdat" => descending
-                ? query.OrderByDescending(item => item.CreatedAt).ThenBy(item => item.Id)
-                : query.OrderBy(item => item.CreatedAt).ThenBy(item => item.Id),
-            _ => query
-                .OrderBy(item => item.DisplayOrder)
-                .ThenBy(item => item.Name)
-                .ThenBy(item => item.Id)
-        };
+        query = ApplySearchQuery(query, search, [
+            item => item.Name,
+            item => item.Slug,
+            item => item.Description]);
+
+        query = ApplySortQuery(query, sortBy, sortDirection);
 
         int totalCount = await query.CountAsync();
-        List<Brand> items = await query
+        List<BrandEntity> items = await query
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
@@ -76,12 +59,12 @@ public class BrandRepository(AppDbContext db) : IBrandRepository
         return (items, totalCount);
     }
 
-    public async Task<Brand?> GetByIdAsync(int id)
+    public async Task<BrandEntity?> GetByIdAsync(int id)
     {
         return await db.Brands.AsNoTracking().FirstOrDefaultAsync(item => item.Id == id && item.DeletedAt == null);
     }
 
-    public async Task<Brand?> GetByIdIncludingDeletedAsync(int id)
+    public async Task<BrandEntity?> GetByIdIncludingDeletedAsync(int id)
     {
         return await db.Brands.AsNoTracking().FirstOrDefaultAsync(item => item.Id == id);
     }

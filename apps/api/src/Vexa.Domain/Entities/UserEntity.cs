@@ -1,6 +1,6 @@
 namespace Vexa.Domain.Entities;
 
-public class User
+public class UserEntity
 {
     public Guid Id { get; set; }
     public string Username { get; set; } = string.Empty;
@@ -13,7 +13,7 @@ public class User
     public DateTime? UpdatedAt { get; set; }
     public DateTime? DeletedAt { get; set; }
     public Guid? DeletedBy { get; set; }
-    public ICollection<RefreshToken> RefreshTokens { get; set; } = [];
-    public ICollection<PasswordResetToken> PasswordResetTokens { get; set; } = [];
+    public ICollection<RefreshTokenEntity> RefreshTokens { get; set; } = [];
+    public ICollection<PasswordResetTokenEntity> PasswordResetTokens { get; set; } = [];
 
 }

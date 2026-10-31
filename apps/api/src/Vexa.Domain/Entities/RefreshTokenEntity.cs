@@ -1,6 +1,6 @@
 namespace Vexa.Domain.Entities;
 
-public class RefreshToken
+public class RefreshTokenEntity
 {
     public Guid Id { get; set; }
     public Guid UserId { get; set; }
@@ -8,5 +8,5 @@ public class RefreshToken
     public DateTime CreatedAt { get; set; }
     public DateTime ExpiredAt { get; set; }
     public DateTime? RevokedAt { get; set; }
-    public User? User { get; set; }
+    public UserEntity? User { get; set; }
 }

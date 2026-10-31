@@ -17,3 +17,8 @@ public class UpdateBrandRequest
     public int? DisplayOrder { get; set; }
     public string? LogoUrl { get; set; }
 }
+
+public class BrandPaginationRequest : PaginationRequest
+{
+    public bool? IsActive { get; set; }
+}

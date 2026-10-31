@@ -5,7 +5,7 @@ public class CategoryService(ICategoryRepository categoryRepository, IMapper map
     public async Task<ListResponse<CategoryResponse>> GetAsync(CategoryListRequest request)
     {
         int take = request.PageSize + 1;
-        List<Category> items = await categoryRepository.GetListAsync(
+        List<CategoryEntity> items = await categoryRepository.GetListAsync(
             take,
             request.Skip,
             request.Search,
@@ -39,13 +39,13 @@ public class CategoryService(ICategoryRepository categoryRepository, IMapper map
 
     public async Task<CategoryDetailResponse?> GetDetailAsync(int id)
     {
-        Category? item = await categoryRepository.GetByIdAsync(id);
+        CategoryEntity? item = await categoryRepository.GetByIdAsync(id);
 
         return mapper.Map<CategoryDetailResponse>(item);
     }
     public async Task<CategoryDetailResponse> AddAsync(CreateCategoryRequest request)
     {
-        Category category = mapper.Map<Category>(request);
+        CategoryEntity category = mapper.Map<CategoryEntity>(request);
 
         category.Name = request.Name.Trim();
         category.Slug = SlugHelper.GenerateSlug(category.Name);
@@ -67,7 +67,7 @@ public class CategoryService(ICategoryRepository categoryRepository, IMapper map
 
     public async Task DeleteAsync(int id)
     {
-        Category? category = await categoryRepository.GetByIdAsync(id, includeDeleted: true);
+        CategoryEntity? category = await categoryRepository.GetByIdAsync(id, includeDeleted: true);
 
         if (category is null)
         {

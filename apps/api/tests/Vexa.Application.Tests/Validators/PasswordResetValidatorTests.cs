@@ -2,7 +2,7 @@ using FluentValidation.Results;
 using Vexa.Application.DTOs;
 using Vexa.Application.Validators;
 
-namespace Vexa.Application.Tests.Validators;
+namespace Vexa.Application.Tests;
 
 public class PasswordResetValidatorTests
 {
