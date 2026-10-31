@@ -1,6 +1,6 @@
 namespace Vexa.Domain.Entities;
 
-public class PasswordResetToken
+public class PasswordResetTokenEntity
 {
     public int Id { get; set; }
     public Guid UserId { get; set; }
@@ -9,5 +9,5 @@ public class PasswordResetToken
     public DateTime? UsedAt { get; set; }
     public DateTime ExpiresAt { get; set; }
     public DateTime? RevokedAt { get; set; }
-    public User User { get; set; } = null!;
+    public UserEntity User { get; set; } = null!;
 }

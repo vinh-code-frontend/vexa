@@ -9,9 +9,9 @@ public class AppDbContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
     }
 
-    public DbSet<User> Users => Set<User>();
-    public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
-    public DbSet<PasswordResetToken> PasswordResetTokens => Set<PasswordResetToken>();
-    public DbSet<Brand> Brands => Set<Brand>();
-    public DbSet<Category> Categories => Set<Category>();
+    public DbSet<UserEntity> Users => Set<UserEntity>();
+    public DbSet<RefreshTokenEntity> RefreshTokens => Set<RefreshTokenEntity>();
+    public DbSet<PasswordResetTokenEntity> PasswordResetTokens => Set<PasswordResetTokenEntity>();
+    public DbSet<BrandEntity> Brands => Set<BrandEntity>();
+    public DbSet<CategoryEntity> Categories => Set<CategoryEntity>();
 }

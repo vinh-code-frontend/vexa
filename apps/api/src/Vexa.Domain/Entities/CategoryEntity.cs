@@ -1,6 +1,6 @@
 namespace Vexa.Domain.Entities;
 
-public class Category
+public class CategoryEntity
 {
     public int Id { get; set; }
     public required string Name { get; set; }
@@ -10,8 +10,8 @@ public class Category
     public int? DisplayOrder { get; set; }
     public string? LogoUrl { get; set; }
     public int? ParentId { get; set; }
-    public ICollection<Category> Children { get; set; } = [];
-    public Category? Parent { get; set; }
+    public ICollection<CategoryEntity> Children { get; set; } = [];
+    public CategoryEntity? Parent { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public DateTime? DeletedAt { get; set; }

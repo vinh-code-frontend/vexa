@@ -7,7 +7,7 @@ public class UserService(
 {
     public async Task<List<UserResponse>> GetAllUsersAsync()
     {
-        List<User> users = await userRepository.GetAllAsync();
+        List<UserEntity> users = await userRepository.GetAllAsync();
 
         return mapper.Map<List<UserResponse>>(users);
     }
@@ -33,7 +33,7 @@ public class UserService(
             throw new Exception($"Email {payload.Email} is already existing! Try another value to process!");
         }
         string tempPwd = PasswordGenerator.Generate();
-        User newUser = new()
+        UserEntity newUser = new()
         {
             Id = Guid.NewGuid(),
             Username = username,
@@ -53,7 +53,7 @@ public class UserService(
     }
     public async Task DeleteUserAsync(Guid userId)
     {
-        User user = await userRepository.GetUserByIdAsync(userId) ?? throw new Exception("User not found");
+        UserEntity user = await userRepository.GetUserByIdAsync(userId) ?? throw new Exception("User not found");
 
         await userRepository.DeleteUserAsync(user);
     }

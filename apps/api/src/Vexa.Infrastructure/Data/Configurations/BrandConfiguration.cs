@@ -1,8 +1,8 @@
 namespace Vexa.Infrastructure.Data.Configurations;
 
-public class BrandConfiguration : IEntityTypeConfiguration<Brand>
+public class BrandConfiguration : IEntityTypeConfiguration<BrandEntity>
 {
-    public void Configure(EntityTypeBuilder<Brand> builder)
+    public void Configure(EntityTypeBuilder<BrandEntity> builder)
     {
         builder.Property(e => e.CreatedAt)
             .IsRequired()

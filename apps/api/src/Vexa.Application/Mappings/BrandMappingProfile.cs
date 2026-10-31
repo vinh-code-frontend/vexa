@@ -4,10 +4,10 @@ public class BrandMappingProfile : Profile
 {
     public BrandMappingProfile()
     {
-        CreateMap<CreateBrandRequest, Brand>();
-        CreateMap<UpdateBrandRequest, Brand>();
+        CreateMap<CreateBrandRequest, BrandEntity>();
+        CreateMap<UpdateBrandRequest, BrandEntity>();
 
-        CreateMap<Brand, BrandResponse>();
-        CreateMap<Brand, BrandDetailResponse>();
+        CreateMap<BrandEntity, BrandResponse>();
+        CreateMap<BrandEntity, BrandDetailResponse>();
     }
 }

@@ -16,7 +16,7 @@ public static class DatabaseSeeder
             return;
         }
 
-        User admin = new()
+        UserEntity admin = new()
 
         {
             Id = Guid.NewGuid(),

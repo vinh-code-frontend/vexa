@@ -2,12 +2,12 @@ namespace Vexa.Application.Repositories;
 
 public interface IUserRepository
 {
-    Task<List<User>> GetAllAsync();
-    Task<User?> GetUserByIdAsync(Guid userId);
-    Task<User?> GetUserByEmailAsync(string email);
-    Task<User?> GetUserByUsernameAsync(string username);
+    Task<List<UserEntity>> GetAllAsync();
+    Task<UserEntity?> GetUserByIdAsync(Guid userId);
+    Task<UserEntity?> GetUserByEmailAsync(string email);
+    Task<UserEntity?> GetUserByUsernameAsync(string username);
     Task<(bool isUsernameExist, bool isEmailExist)> CheckExistAsync(string username, string email);
-    Task AddUserAsync(User user);
-    Task UpdateUserAsync(User user);
-    Task DeleteUserAsync(User user);
+    Task AddUserAsync(UserEntity user);
+    Task UpdateUserAsync(UserEntity user);
+    Task DeleteUserAsync(UserEntity user);
 }

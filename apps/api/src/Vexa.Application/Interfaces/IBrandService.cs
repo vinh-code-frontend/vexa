@@ -5,6 +5,6 @@ public interface IBrandService
     Task<BrandDetailResponse> AddAsync(CreateBrandRequest request);
     Task<BrandDetailResponse> UpdateAsync(int id, UpdateBrandRequest request);
     Task DeleteAsync(int id);
-    Task<PaginationResponse<BrandResponse>> GetAsync(PaginationRequest request);
+    Task<PaginationResponse<BrandResponse>> GetAsync(BrandPaginationRequest request);
     Task<BrandDetailResponse?> GetDetailAsync(int id);
 }

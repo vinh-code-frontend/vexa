@@ -49,7 +49,7 @@ internal sealed class DebugAuthenticationHandler(
 
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        User? user = await userRepository.GetUserByUsernameAsync(_debugUsername);
+        UserEntity? user = await userRepository.GetUserByUsernameAsync(_debugUsername);
         if (user is null || !passwordHasher.Verify(_debugPassword, user.HashedPassword))
         {
             return AuthenticateResult.Fail("Invalid username or password.");

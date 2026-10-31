@@ -2,11 +2,11 @@ using Vexa.Application.Interfaces;
 
 namespace Vexa.Infrastructure.Repositories;
 
-public class CategoryRepository(AppDbContext db) :  ICategoryRepository
+public class CategoryRepository(AppDbContext db) : ICategoryRepository
 {
-    public async Task<List<Category>> GetListAsync(int take, int skip, string? search, string? sortBy, SortDirection? sortDirection, int? parentId = null)
+    public async Task<List<CategoryEntity>> GetListAsync(int take, int skip, string? search, string? sortBy, SortDirection? sortDirection, int? parentId = null)
     {
-        IQueryable<Category> query = db.Categories.AsNoTracking().Where(item => item.DeletedAt == null);
+        IQueryable<CategoryEntity> query = db.Categories.AsNoTracking().Where(item => item.DeletedAt == null);
 
         if (!string.IsNullOrWhiteSpace(search))
         {
@@ -38,7 +38,7 @@ public class CategoryRepository(AppDbContext db) :  ICategoryRepository
                 .ThenBy(item => item.Id)
         };
 
-        List<Category> items = await query
+        List<CategoryEntity> items = await query
             .Take(take)
             .Skip(skip)
             .ToListAsync();
@@ -46,17 +46,17 @@ public class CategoryRepository(AppDbContext db) :  ICategoryRepository
         return items;
     }
 
-    public async Task<Category?> GetByIdAsync(int id, bool includeDeleted = false)
+    public async Task<CategoryEntity?> GetByIdAsync(int id, bool includeDeleted = false)
     {
         return await db.Categories.AsNoTracking().FirstOrDefaultAsync(item => item.Id == id && (includeDeleted || item.DeletedAt == null));
     }
-    public async Task AddAsync(Category category)
+    public async Task AddAsync(CategoryEntity category)
     {
         db.Categories.Add(category);
         await db.SaveChangesAsync();
     }
 
-    public async Task SoftDeleteAsync(Category category, Guid? deletedBy)
+    public async Task SoftDeleteAsync(CategoryEntity category, Guid? deletedBy)
     {
         DateTime deletedAt = DateTime.UtcNow;
         category.DeletedAt = deletedAt;
@@ -66,7 +66,7 @@ public class CategoryRepository(AppDbContext db) :  ICategoryRepository
         await db.SaveChangesAsync();
     }
 
-    public async Task UpdateAsync(Category category)
+    public async Task UpdateAsync(CategoryEntity category)
     {
         db.Categories.Update(category);
         await db.SaveChangesAsync();

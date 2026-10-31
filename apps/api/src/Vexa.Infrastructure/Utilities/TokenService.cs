@@ -28,7 +28,7 @@ public class TokenService : ITokenService
     {
         return _jwtSettings.RefreshTokenDays;
     }
-    public (string token, DateTime expired) GenerateAccessToken(User user)
+    public (string token, DateTime expired) GenerateAccessToken(UserEntity user)
     {
         DateTime expiry = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpireMinutes);
 
@@ -51,11 +51,11 @@ public class TokenService : ITokenService
 
         return (new JwtSecurityTokenHandler().WriteToken(token), expiry);
     }
-    public (RefreshToken entity, string plainToken) GenerateRefreshToken(Guid userId)
+    public (RefreshTokenEntity entity, string plainToken) GenerateRefreshToken(Guid userId)
     {
         string refreshToken = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
 
-        RefreshToken newRefreshToken = new()
+        RefreshTokenEntity newRefreshToken = new()
         {
             Id = new Guid(),
             UserId = userId,

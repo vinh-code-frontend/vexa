@@ -1,8 +1,8 @@
 ﻿namespace Vexa.Infrastructure.Data.Configurations;
 
-public class UserConfiguration : IEntityTypeConfiguration<User>
+public class UserConfiguration : IEntityTypeConfiguration<UserEntity>
 {
-    public void Configure(EntityTypeBuilder<User> builder)
+    public void Configure(EntityTypeBuilder<UserEntity> builder)
     {
         builder.Property(e => e.CreatedAt)
             .IsRequired()

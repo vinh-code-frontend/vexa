@@ -7,7 +7,7 @@ public class BrandService(
 {
     public async Task<BrandDetailResponse> AddAsync(CreateBrandRequest request)
     {
-        Brand brand = mapper.Map<Brand>(request);
+        BrandEntity brand = mapper.Map<BrandEntity>(request);
         brand.Name = request.Name.Trim();
         brand.Slug = SlugHelper.GenerateSlug(brand.Name);
 
@@ -22,7 +22,7 @@ public class BrandService(
 
     public async Task<BrandDetailResponse> UpdateAsync(int id, UpdateBrandRequest request)
     {
-        Brand? brand = await brandRepository.GetByIdAsync(id);
+        BrandEntity? brand = await brandRepository.GetByIdAsync(id);
         if (brand is null)
         {
             throw new NotFoundException("Brand not found!");
@@ -44,7 +44,7 @@ public class BrandService(
 
     public async Task DeleteAsync(int id)
     {
-        Brand? brand = await brandRepository.GetByIdIncludingDeletedAsync(id);
+        BrandEntity? brand = await brandRepository.GetByIdIncludingDeletedAsync(id);
         if (brand is null)
         {
             throw new NotFoundException("Brand not found!");
@@ -58,21 +58,22 @@ public class BrandService(
 
     public async Task<BrandDetailResponse?> GetDetailAsync(int id)
     {
-        Brand? brand = await brandRepository.GetByIdAsync(id);
+        BrandEntity? brand = await brandRepository.GetByIdAsync(id);
 
         return brand is null ? null : mapper.Map<BrandDetailResponse>(brand);
     }
 
-    public async Task<PaginationResponse<BrandResponse>> GetAsync(PaginationRequest request)
+    public async Task<PaginationResponse<BrandResponse>> GetAsync(BrandPaginationRequest request)
     {
         int page = request.Page > 0 ? request.Page : 1;
         int pageSize = request.PageSize > 0 ? request.PageSize : 10;
-        (List<Brand> brandItems, int totalCount) = await brandRepository.GetBrandListAsync(
+        (List<BrandEntity> brandItems, int totalCount) = await brandRepository.GetBrandListAsync(
             page,
             pageSize,
             request.Search,
             request.SortBy,
-            request.SortDirection);
+            request.SortDirection,
+            request.IsActive);
         List<BrandResponse> items = mapper.Map<List<BrandResponse>>(brandItems);
 
         return new PaginationResponse<BrandResponse>

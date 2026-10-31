@@ -13,7 +13,7 @@ public class AuthService(
     private readonly string _adminUrl = "http://localhost:5173";
     public async Task<bool> RegisterAsync(RegisterRequest registerRequest)
     {
-        User newUser = new()
+        UserEntity newUser = new()
         {
             Username = registerRequest.Username.Trim().ToLower(),
             Email = registerRequest.Email.Trim().ToLower(),
@@ -26,7 +26,7 @@ public class AuthService(
     }
     public async Task<LoginResponse> LoginAsync(LoginRequest loginRequest, bool isAdmin)
     {
-        User? user = await userRepository.GetUserByUsernameAsync(loginRequest.Username);
+        UserEntity? user = await userRepository.GetUserByUsernameAsync(loginRequest.Username);
 
         if (user == null)
         {
@@ -43,7 +43,7 @@ public class AuthService(
         }
 
         (string? accessToken, DateTime accessTokenExpiredAt) = tokenService.GenerateAccessToken(user);
-        (RefreshToken? refreshToken, string? plainRefreshToken) = tokenService.GenerateRefreshToken(user.Id);
+        (RefreshTokenEntity? refreshToken, string? plainRefreshToken) = tokenService.GenerateRefreshToken(user.Id);
         string csrfToken = tokenService.GenerateToken();
 
         await reFreshTokenRepository.AddRefreshTokenAsync(refreshToken);
@@ -56,12 +56,12 @@ public class AuthService(
             csrfToken,
             refreshToken.ExpiredAt);
     }
-    public async Task<LoginResponse> RefreshTokenAsync(string refreshToken,bool isAdmin)
+    public async Task<LoginResponse> RefreshTokenAsync(string refreshToken, bool isAdmin)
     {
         string hashedToken = tokenService.HashToken(refreshToken);
 
-        RefreshToken? session = await reFreshTokenRepository.FindRefreshToken(hashedToken);
-        User? user = session?.User;
+        RefreshTokenEntity? session = await reFreshTokenRepository.FindRefreshToken(hashedToken);
+        UserEntity? user = session?.User;
         if (session == null || user == null)
         {
             throw new UnauthorizedException("Invalid refresh token");
@@ -84,7 +84,7 @@ public class AuthService(
         session.RevokedAt = DateTime.UtcNow;
 
         (string? accessToken, DateTime accessTokenExpiredAt) = tokenService.GenerateAccessToken(user);
-        (RefreshToken? newRefreshToken, string? plainRefreshToken) = tokenService.GenerateRefreshToken(session.UserId);
+        (RefreshTokenEntity? newRefreshToken, string? plainRefreshToken) = tokenService.GenerateRefreshToken(session.UserId);
         string csrfToken = tokenService.GenerateToken();
 
         await reFreshTokenRepository.AddRefreshTokenAsync(newRefreshToken);
@@ -100,7 +100,7 @@ public class AuthService(
 
     public async Task ForgotPasswordAsync(string email)
     {
-        User? user = await userRepository.GetUserByEmailAsync(email);
+        UserEntity? user = await userRepository.GetUserByEmailAsync(email);
 
         if (user == null)
         {
@@ -119,7 +119,7 @@ public class AuthService(
     public async Task<Guid> VerifyResetPasswordTokenAsync(string token)
     {
         string hashedToken = tokenService.HashToken(token);
-        PasswordResetToken? passwordResetToken = await passwordResetTokenRepository.FindByTokenAsync(hashedToken);
+        PasswordResetTokenEntity? passwordResetToken = await passwordResetTokenRepository.FindByTokenAsync(hashedToken);
 
         if (passwordResetToken == null || passwordResetToken.UsedAt != null || passwordResetToken.RevokedAt != null || passwordResetToken.ExpiresAt <= DateTime.UtcNow)
         {
@@ -132,7 +132,7 @@ public class AuthService(
     public async Task ResetPasswordAsync(ResetPasswordRequest request)
     {
         Guid userId = await VerifyResetPasswordTokenAsync(request.Token);
-        User? user = await userRepository.GetUserByIdAsync(userId);
+        UserEntity? user = await userRepository.GetUserByIdAsync(userId);
 
         if (user == null || user.Status != UserStatus.Active || user.DeletedAt != null)
         {
@@ -144,7 +144,7 @@ public class AuthService(
     }
 
     private LoginResponse CreateLoginResponse(
-        User user,
+        UserEntity user,
         string accessToken,
         DateTime accessTokenExpiredAt,
         string refreshToken,
