@@ -72,16 +72,6 @@ try
 
     WebApplication app = builder.Build();
 
-    if (args.Contains("seed"))
-    {
-        using IServiceScope scope = app.Services.CreateScope();
-
-        IServiceProvider services = scope.ServiceProvider;
-        await DatabaseSeeder.SeedAsync(services);
-
-        return;
-    }
-
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {

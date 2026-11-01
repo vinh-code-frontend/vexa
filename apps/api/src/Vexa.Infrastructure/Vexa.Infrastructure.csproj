@@ -16,6 +16,7 @@
         <PackageReference Include="Microsoft.IdentityModel.Tokens" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
+        <PackageReference Include="System.Security.Cryptography.Pkcs" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Vexa.Domain\Vexa.Domain.csproj" />

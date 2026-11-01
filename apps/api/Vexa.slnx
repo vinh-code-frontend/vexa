@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+
 <Solution>
     <Folder Name="/src/">
         <Project Path="src/Vexa.Api/Vexa.Api.csproj" />
@@ -8,5 +8,8 @@
     </Folder>
     <Folder Name="/tests/">
         <Project Path="tests/Vexa.Application.Tests/Vexa.Application.Tests.csproj" />
+    </Folder>
+    <Folder Name="/tools/">
+        <Project Path="tools/Vexa.Seeder/Vexa.Seeder.csproj" Id="2c195417-2685-4763-906f-ba22c019db0e" />
     </Folder>
 </Solution>

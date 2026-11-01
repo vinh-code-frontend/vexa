@@ -1,11 +1,14 @@
-using Vexa.Domain.Enums;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Vexa.Domain.Entities;
+using Vexa.Domain.Enums;
+using Vexa.Infrastructure;
 
-namespace Vexa.Infrastructure;
+namespace Vexa.Seeder;
 
-public static class DatabaseSeeder
+public class UserSeeder
 {
-    public static async Task SeedAsync(IServiceProvider services)
+    public static async Task AddFirstAdmin(IServiceProvider services)
     {
         AppDbContext context = services.GetRequiredService<AppDbContext>();
 
@@ -13,11 +16,11 @@ public static class DatabaseSeeder
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("No changes from User seeder");
+            Console.ResetColor();
             return;
         }
 
         UserEntity admin = new()
-
         {
             Id = Guid.NewGuid(),
             Username = "admin",
@@ -30,8 +33,10 @@ public static class DatabaseSeeder
         context.Users.Add(admin);
 
         await context.SaveChangesAsync();
-        Console.WriteLine("Added user seeder succesfully!");
-        Console.ResetColor();
-
+        Console.WriteLine("Added user seeder successfully!");
+    }
+    public static async Task SeedAsync(IServiceProvider services)
+    {
+        await AddFirstAdmin(services);
     }
 }
