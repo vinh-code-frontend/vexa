@@ -12,7 +12,7 @@ import { CategoryFilter, CategoryTable } from '@/features/category/components';
 
 const EMPTY_CATEGORIES: CategoryResponse[] = [];
 
-export const CategoryPage = () => {
+const CategoryPage = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState(search);
@@ -42,9 +42,7 @@ export const CategoryPage = () => {
       categories={filteredCategories}
       allCategories={categories}
       loading={categoriesQuery.isFetching}
-      onEdit={(category) =>
-        navigate(`/category/${category.id}/edit`, { state: { category } })
-      }
+      onEdit={(category) => navigate(`/category/${category.id}/edit`, { state: { category } })}
     />
   );
 
@@ -76,10 +74,7 @@ export const CategoryPage = () => {
             </Typography.Text>
           </div>
           <div className="flex items-center gap-2">
-            <Button
-              style={{ fontSize: 13 }}
-              onClick={() => navigate('/category/new')}
-            >
+            <Button style={{ fontSize: 13 }} onClick={() => navigate('/category/new')}>
               {i18n.t('categories.actions.create-child')}
             </Button>
             <Button
@@ -119,3 +114,5 @@ export const CategoryPage = () => {
     </section>
   );
 };
+
+export default CategoryPage;

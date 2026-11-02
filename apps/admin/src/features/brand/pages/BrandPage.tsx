@@ -1,38 +1,74 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
-import { Button, Tabs, Typography } from 'antd';
+import { Alert, Button, Tabs, Typography } from 'antd';
 import { ArrowLeftRight, Plus } from 'lucide-react';
+import { useQueryClient } from '@tanstack/react-query';
 import i18n from '@/i18n';
 
-import { useGetApiAdminBrands } from '@/api';
+import { useGetApiAdminBrands, usePostApiAdminBrands, usePutApiAdminBrandsId } from '@/api';
+import type { BrandResponse } from '@/api/generated/query/model/types/brand/brandResponse';
 
 import {
   BrandTable,
   BrandFilter,
   BrandFormDrawer,
   BrandVerification,
+  type BrandFormValues,
   type BrandStatusFilter,
 } from '@/features/brand/components';
-import { QueryErrorAlert } from '@/shared/components/ui';
-import { useDebounce } from '@/shared/hooks';
 
-export const BrandPage = () => {
+const BrandPage = () => {
+  const queryClient = useQueryClient();
   const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState(search);
   const [status, setStatus] = useState<BrandStatusFilter>('all');
   const [activeTab, setActiveTab] = useState('all');
   const [isBrandDrawerOpen, setIsBrandDrawerOpen] = useState(false);
   const [formMode, setFormMode] = useState<'create' | 'edit'>('create');
-  const debouncedSearch = useDebounce(search);
+  const [selectedBrand, setSelectedBrand] = useState<BrandResponse | null>(null);
+
+  const createBrandMutation = usePostApiAdminBrands();
+  const updateBrandMutation = usePutApiAdminBrandsId();
 
   const openCreateDrawer = () => {
     setFormMode('create');
+    setSelectedBrand(null);
     setIsBrandDrawerOpen(true);
   };
 
-  const openEditDrawer = () => {
+  const openEditDrawer = (brand: BrandResponse) => {
     setFormMode('edit');
+    setSelectedBrand(brand);
     setIsBrandDrawerOpen(true);
   };
+
+  const handleBrandSubmit = async (values: BrandFormValues) => {
+    const payload = {
+      name: values.name,
+      description: values.description || null,
+      displayOrder: values.displayOrder ?? 1,
+      isActive: true,
+      logoUrl: values.logo?.[0]?.url ?? null,
+    };
+
+    if (formMode === 'create') {
+      await createBrandMutation.mutateAsync({ data: payload });
+    } else if (selectedBrand?.id) {
+      await updateBrandMutation.mutateAsync({
+        id: Number(selectedBrand.id),
+        data: payload,
+      });
+    }
+
+    await queryClient.invalidateQueries({ queryKey: ['/api/admin/brands'] });
+    setIsBrandDrawerOpen(false);
+    setSelectedBrand(null);
+  };
+
+  useEffect(() => {
+    const timeoutId = window.setTimeout(() => setDebouncedSearch(search), 300);
+    return () => window.clearTimeout(timeoutId);
+  }, [search]);
 
   const brandsQuery = useGetApiAdminBrands({
     search: debouncedSearch.trim() || undefined,
@@ -40,19 +76,25 @@ export const BrandPage = () => {
     pageSize: 100,
   });
 
-  const brands = brandsQuery.data?.data?.items;
+  const brands = brandsQuery.data?.data?.items ?? [];
 
   const filteredBrands = useMemo(() => {
-    return (brands ?? []).filter(
+    return brands.filter(
       (brand) => status === 'all' || (status === 'active' ? brand.isActive : !brand.isActive),
     );
   }, [brands, status]);
 
   if (brandsQuery.error) {
     return (
-      <QueryErrorAlert
+      <Alert
+        type="error"
+        showIcon
         title={i18n.t('brands.errors.load-title')}
-        error={brandsQuery.error}
+        description={
+          brandsQuery.error instanceof Error
+            ? brandsQuery.error.message
+            : i18n.t('common.errors.unexpected')
+        }
       />
     );
   }
@@ -117,8 +159,15 @@ export const BrandPage = () => {
       <BrandFormDrawer
         open={isBrandDrawerOpen}
         mode={formMode}
-        onClose={() => setIsBrandDrawerOpen(false)}
+        brand={selectedBrand}
+        onClose={() => {
+          setIsBrandDrawerOpen(false);
+          setSelectedBrand(null);
+        }}
+        onSubmit={handleBrandSubmit}
       />
     </section>
   );
 };
+
+export default BrandPage;

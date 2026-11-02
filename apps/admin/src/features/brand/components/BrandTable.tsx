@@ -5,7 +5,7 @@ import { DeleteIcon, EditIcon } from '@/shared/components/motions';
 import type { ColumnsType } from 'antd/es/table';
 import { Image } from 'lucide-react';
 
-import type { BrandResponse } from '@/api/generated/query/model/types/brand';
+import type { BrandResponse } from '@/api/generated/query/model/types/brand/brandResponse';
 import Pagination from '../../../shared/components/ui/Pagination';
 import i18n from '@/i18n';
 
@@ -14,7 +14,7 @@ const PAGE_SIZE = 4;
 type BrandTableProps = {
   brands: BrandResponse[];
   loading?: boolean;
-  onEdit: () => void;
+  onEdit: (brand: BrandResponse) => void;
 };
 
 const renderBrandDetails = (brand: BrandResponse) => (
@@ -32,7 +32,7 @@ const renderBrandDetails = (brand: BrandResponse) => (
   </div>
 );
 
-const getColumns = (onEdit: () => void): ColumnsType<BrandResponse> => [
+const getColumns = (onEdit: (brand: BrandResponse) => void): ColumnsType<BrandResponse> => [
   {
     title: i18n.t('brands.table.brand-details'),
     key: 'brandDetails',
@@ -63,9 +63,9 @@ const getColumns = (onEdit: () => void): ColumnsType<BrandResponse> => [
     title: i18n.t('brands.table.row-actions'),
     key: 'actions',
     align: 'right',
-    render: () => (
+    render: (_value, brand) => (
       <div className="flex items-center justify-end gap-3">
-        <EditIcon onClick={onEdit} />
+        <EditIcon onClick={() => onEdit(brand)} />
         <DeleteIcon />
       </div>
     ),

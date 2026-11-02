@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 
 import { Button, Drawer, Form, Input, InputNumber, Upload, Typography } from 'antd';
-import type { FormInstance } from 'antd';
 import type { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
 import { Upload as UploadIcon } from 'lucide-react';
 import slugify from 'slugify';
 
+import type { BrandResponse } from '@/api/generated/query/model/types/brand/brandResponse';
 import i18n from '@/i18n';
 import '../styles/BrandFormDrawer.css';
 
@@ -20,44 +20,52 @@ export type BrandFormValues = {
 type BrandFormDrawerProps = {
   open: boolean;
   mode: 'create' | 'edit';
+  brand?: BrandResponse | null;
   onClose: () => void;
+  onSubmit: (values: BrandFormValues) => Promise<void> | void;
 };
 
 const getUploadFileList = (event: UploadChangeParam<UploadFile>) => event.fileList;
 
-type BrandFormApi = FormInstance<BrandFormValues> & {
-  resetFields: () => void;
-  setFieldsValue: (values: Partial<BrandFormValues>) => void;
-  setFieldValue: (name: keyof BrandFormValues, value: unknown) => void;
-};
-
-const BrandFormDrawer = ({ open, mode, onClose }: BrandFormDrawerProps) => {
+const BrandFormDrawer = ({ open, mode, brand, onClose, onSubmit }: BrandFormDrawerProps) => {
   const [form] = Form.useForm<BrandFormValues>();
-  const brandForm = form as BrandFormApi;
 
   useEffect(() => {
     if (!open) {
       return;
     }
 
-    brandForm.resetFields();
-    brandForm.setFieldsValue({
+    const defaultValues: BrandFormValues = {
       name: '',
       slug: '',
       description: '',
       displayOrder: 1,
       logo: [],
-    });
-  }, [brandForm, mode, open]);
+    };
+
+    if (mode === 'edit' && brand) {
+      defaultValues.name = brand.name ?? '';
+      defaultValues.slug = brand.slug ?? '';
+      defaultValues.description = brand.description ?? '';
+      defaultValues.displayOrder = Number(brand.displayOrder ?? 1);
+      defaultValues.logo =
+        brand.logoUrl && brand.logoUrl.trim().length > 0
+          ? [{ uid: `brand-logo-${brand.id ?? 'new'}`, name: brand.name, url: brand.logoUrl }]
+          : [];
+    }
+
+    form.resetFields();
+    form.setFieldsValue(defaultValues);
+  }, [brand, form, mode, open]);
 
   const handleValuesChange = (changedValues: Partial<BrandFormValues>) => {
     if (typeof changedValues.name === 'string') {
-      brandForm.setFieldValue('slug', slugify(changedValues.name, { lower: true, strict: true }));
+      form.setFieldValue('slug', slugify(changedValues.name, { lower: true, strict: true }));
     }
   };
 
-  const handleFinish = (_values: BrandFormValues) => {
-    onClose();
+  const handleFinish = async (values: BrandFormValues) => {
+    await onSubmit(values);
   };
 
   return (
