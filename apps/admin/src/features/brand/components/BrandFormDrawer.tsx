@@ -5,7 +5,7 @@ import type { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
 import { Upload as UploadIcon } from 'lucide-react';
 import slugify from 'slugify';
 
-import type { BrandResponse } from '@/api/generated/query/model/types/brand/brandResponse';
+import type { BrandResponse } from '@/api/generated/query/model/types/brand';
 import i18n from '@/i18n';
 import '../styles/BrandFormDrawer.css';
 

@@ -5,8 +5,8 @@ import { DeleteIcon, EditIcon } from '@/shared/components/motions';
 import type { ColumnsType } from 'antd/es/table';
 import { Image } from 'lucide-react';
 
-import type { BrandResponse } from '@/api/generated/query/model/types/brand/brandResponse';
-import Pagination from '../../../shared/components/ui/Pagination';
+import type { BrandResponse } from '@/api/generated/query/model/types/brand';
+import { Pagination } from '@/shared/components';
 import i18n from '@/i18n';
 
 const PAGE_SIZE = 4;
