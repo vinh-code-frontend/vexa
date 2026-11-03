@@ -25,38 +25,53 @@ type BrandFormDrawerProps = {
   onSubmit: (values: BrandFormValues) => Promise<void> | void;
 };
 
+const defaultValues: BrandFormValues = {
+  name: '',
+  slug: '',
+  description: '',
+  displayOrder: 1,
+  logo: [],
+};
+
 const getUploadFileList = (event: UploadChangeParam<UploadFile>) => event.fileList;
 
 const BrandFormDrawer = ({ open, mode, brand, onClose, onSubmit }: BrandFormDrawerProps) => {
   const [form] = Form.useForm<BrandFormValues>();
 
-  useEffect(() => {
-    if (!open) {
-      return;
-    }
+  const logoFileList = (brand: BrandResponse): BrandFormValues['logo'] => {
+    const url = brand.logoUrl?.trim();
+    if (!url) return [];
 
-    const defaultValues: BrandFormValues = {
-      name: '',
-      slug: '',
-      description: '',
-      displayOrder: 1,
-      logo: [],
+    return [
+      {
+        uid: `brand-logo-${brand.id}`,
+        name: brand.name,
+        url: url,
+      },
+    ];
+  };
+
+  const getBrandDefaultValues = (
+    mode: 'create' | 'edit',
+    brand?: BrandResponse,
+  ): BrandFormValues => {
+    if (mode !== 'edit' || !brand) return defaultValues;
+
+    return {
+      name: brand.name ?? '',
+      slug: brand.slug ?? '',
+      description: brand.description ?? '',
+      displayOrder: Number(brand.displayOrder ?? 1),
+      logo: logoFileList(brand),
     };
+  };
 
-    if (mode === 'edit' && brand) {
-      defaultValues.name = brand.name ?? '';
-      defaultValues.slug = brand.slug ?? '';
-      defaultValues.description = brand.description ?? '';
-      defaultValues.displayOrder = Number(brand.displayOrder ?? 1);
-      defaultValues.logo =
-        brand.logoUrl && brand.logoUrl.trim().length > 0
-          ? [{ uid: `brand-logo-${brand.id ?? 'new'}`, name: brand.name, url: brand.logoUrl }]
-          : [];
-    }
+  useEffect(() => {
+    if (!open) return;
 
     form.resetFields();
-    form.setFieldsValue(defaultValues);
-  }, [brand, form, mode, open]);
+    form.setFieldsValue(getBrandDefaultValues(mode, brand ?? undefined));
+  }, [open, mode, brand, form]);
 
   const handleValuesChange = (changedValues: Partial<BrandFormValues>) => {
     if (typeof changedValues.name === 'string') {

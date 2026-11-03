@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { Alert, Button, Tabs, Typography } from 'antd';
 import { ArrowLeftRight, Plus } from 'lucide-react';
@@ -6,7 +6,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import i18n from '@/i18n';
 
 import { useGetApiAdminBrands, usePostApiAdminBrands, usePutApiAdminBrandsId } from '@/api';
-import type { BrandResponse } from '@/api/generated/query/model/types/brand/brandResponse';
+import { useDebounce } from '@/shared/hooks';
+import type { BrandResponse } from '@/api/generated/query/model';
 
 import {
   BrandTable,
@@ -20,7 +21,6 @@ import {
 const BrandPage = () => {
   const queryClient = useQueryClient();
   const [search, setSearch] = useState('');
-  const [debouncedSearch, setDebouncedSearch] = useState(search);
   const [status, setStatus] = useState<BrandStatusFilter>('all');
   const [activeTab, setActiveTab] = useState('all');
   const [isBrandDrawerOpen, setIsBrandDrawerOpen] = useState(false);
@@ -29,6 +29,7 @@ const BrandPage = () => {
 
   const createBrandMutation = usePostApiAdminBrands();
   const updateBrandMutation = usePutApiAdminBrandsId();
+  const debouncedSearch = useDebounce(search);
 
   const openCreateDrawer = () => {
     setFormMode('create');
@@ -64,11 +65,6 @@ const BrandPage = () => {
     setIsBrandDrawerOpen(false);
     setSelectedBrand(null);
   };
-
-  useEffect(() => {
-    const timeoutId = window.setTimeout(() => setDebouncedSearch(search), 300);
-    return () => window.clearTimeout(timeoutId);
-  }, [search]);
 
   const brandsQuery = useGetApiAdminBrands({
     search: debouncedSearch.trim() || undefined,
