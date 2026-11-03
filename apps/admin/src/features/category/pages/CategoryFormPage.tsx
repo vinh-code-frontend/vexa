@@ -19,7 +19,7 @@ const CategoryFormPage = ({ mode }: CategoryFormPageProps) => {
   const closePage = () => navigate('/category');
 
   return (
-    <section className="flex min-h-[600px] w-full flex-col border border-[#e9ecef] bg-white">
+    <section className="flex min-h-150 w-full flex-col border border-[#e9ecef] bg-white">
       <header className="flex items-center justify-between border-b border-[#e9ecef] px-4 py-3">
         <div>
           <Typography.Title level={5} style={{ margin: 0, fontSize: 14 }}>
