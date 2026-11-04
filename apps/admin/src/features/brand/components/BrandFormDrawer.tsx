@@ -17,9 +17,16 @@ export type BrandFormValues = {
   logo?: UploadFile[];
 };
 
+const defaultValues: BrandFormValues = {
+  name: '',
+  slug: '',
+  description: '',
+  displayOrder: 1,
+  logo: [],
+};
+
 type BrandFormDrawerProps = {
   open: boolean;
-  mode: 'create' | 'edit';
   brand?: BrandResponse | null;
   onClose: () => void;
   onSubmit: (values: BrandFormValues) => Promise<void> | void;
@@ -27,36 +34,43 @@ type BrandFormDrawerProps = {
 
 const getUploadFileList = (event: UploadChangeParam<UploadFile>) => event.fileList;
 
-const BrandFormDrawer = ({ open, mode, brand, onClose, onSubmit }: BrandFormDrawerProps) => {
+const BrandFormDrawer = ({ open, brand, onClose, onSubmit }: BrandFormDrawerProps) => {
   const [form] = Form.useForm<BrandFormValues>();
+  const mode = brand ? 'edit' : 'create';
+
+  const logoFileList = (brand: BrandResponse): BrandFormValues['logo'] => {
+    const url = brand.logoUrl?.trim();
+    if (!url) return [];
+
+    return [
+      {
+        uid: `brand-logo-${brand.id}`,
+        name: brand.name,
+        url: url,
+      },
+    ];
+  };
+
+  const getBrandDefaultValues = (brand?: BrandResponse | null): BrandFormValues => {
+    if (!brand) return defaultValues;
+
+    return {
+      name: brand.name ?? '',
+      slug: brand.slug ?? '',
+      description: brand.description ?? '',
+      displayOrder: Number(brand.displayOrder ?? 1),
+      logo: logoFileList(brand),
+    };
+  };
 
   useEffect(() => {
     if (!open) {
       return;
     }
 
-    const defaultValues: BrandFormValues = {
-      name: '',
-      slug: '',
-      description: '',
-      displayOrder: 1,
-      logo: [],
-    };
-
-    if (mode === 'edit' && brand) {
-      defaultValues.name = brand.name ?? '';
-      defaultValues.slug = brand.slug ?? '';
-      defaultValues.description = brand.description ?? '';
-      defaultValues.displayOrder = Number(brand.displayOrder ?? 1);
-      defaultValues.logo =
-        brand.logoUrl && brand.logoUrl.trim().length > 0
-          ? [{ uid: `brand-logo-${brand.id ?? 'new'}`, name: brand.name, url: brand.logoUrl }]
-          : [];
-    }
-
     form.resetFields();
-    form.setFieldsValue(defaultValues);
-  }, [brand, form, mode, open]);
+    form.setFieldsValue(getBrandDefaultValues(brand));
+  }, [open, mode, brand, form]);
 
   const handleValuesChange = (changedValues: Partial<BrandFormValues>) => {
     if (typeof changedValues.name === 'string') {

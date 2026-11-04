@@ -22,23 +22,15 @@ const BrandPage = () => {
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState(search);
   const [status, setStatus] = useState<BrandStatusFilter>('all');
-  const [activeTab, setActiveTab] = useState('all');
+  const [activeTab, setActiveTab] = useState<'all' | 'verification'>('all');
   const [isBrandDrawerOpen, setIsBrandDrawerOpen] = useState(false);
-  const [formMode, setFormMode] = useState<'create' | 'edit'>('create');
   const [selectedBrand, setSelectedBrand] = useState<BrandResponse | null>(null);
 
   const createBrandMutation = usePostApiAdminBrands();
   const updateBrandMutation = usePutApiAdminBrandsId();
 
-  const openCreateDrawer = () => {
-    setFormMode('create');
-    setSelectedBrand(null);
-    setIsBrandDrawerOpen(true);
-  };
-
-  const openEditDrawer = (brand: BrandResponse) => {
-    setFormMode('edit');
-    setSelectedBrand(brand);
+  const openDrawer = (brand?: BrandResponse) => {
+    setSelectedBrand(brand ?? null);
     setIsBrandDrawerOpen(true);
   };
 
@@ -51,13 +43,13 @@ const BrandPage = () => {
       logoUrl: values.logo?.[0]?.url ?? null,
     };
 
-    if (formMode === 'create') {
-      await createBrandMutation.mutateAsync({ data: payload });
-    } else if (selectedBrand?.id) {
+    if (selectedBrand?.id) {
       await updateBrandMutation.mutateAsync({
         id: Number(selectedBrand.id),
         data: payload,
       });
+    } else if (!selectedBrand) {
+      await createBrandMutation.mutateAsync({ data: payload });
     }
 
     await queryClient.invalidateQueries({ queryKey: ['/api/admin/brands'] });
@@ -117,7 +109,7 @@ const BrandPage = () => {
               type="primary"
               icon={<Plus size={13} />}
               style={{ fontSize: 13 }}
-              onClick={openCreateDrawer}
+              onClick={() => openDrawer()}
             >
               {i18n.t('brands.actions.create')}
             </Button>
@@ -132,7 +124,9 @@ const BrandPage = () => {
       </header>
       <Tabs
         activeKey={activeTab}
-        onChange={setActiveTab}
+        onChange={(key) => {
+          if (key === 'all' || key === 'verification') setActiveTab(key);
+        }}
         styles={{
           item: { paddingBlock: 0, lineHeight: 1.5, paddingBottom: 10, gap: 24, fontSize: 14 },
           indicator: { display: 'none' },
@@ -145,7 +139,7 @@ const BrandPage = () => {
               <BrandTable
                 brands={filteredBrands}
                 loading={brandsQuery.isFetching}
-                onEdit={openEditDrawer}
+                onEdit={openDrawer}
               />
             ),
           },
@@ -158,7 +152,6 @@ const BrandPage = () => {
       />
       <BrandFormDrawer
         open={isBrandDrawerOpen}
-        mode={formMode}
         brand={selectedBrand}
         onClose={() => {
           setIsBrandDrawerOpen(false);
