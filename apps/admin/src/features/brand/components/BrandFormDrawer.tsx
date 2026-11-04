@@ -19,7 +19,6 @@ export type BrandFormValues = {
 
 type BrandFormDrawerProps = {
   open: boolean;
-  mode: 'create' | 'edit';
   brand?: BrandResponse | null;
   onClose: () => void;
   onSubmit: (values: BrandFormValues) => Promise<void> | void;
@@ -35,8 +34,9 @@ const defaultValues: BrandFormValues = {
 
 const getUploadFileList = (event: UploadChangeParam<UploadFile>) => event.fileList;
 
-const BrandFormDrawer = ({ open, mode, brand, onClose, onSubmit }: BrandFormDrawerProps) => {
+const BrandFormDrawer = ({ open, brand, onClose, onSubmit }: BrandFormDrawerProps) => {
   const [form] = Form.useForm<BrandFormValues>();
+  const mode = brand ? 'edit' : 'create';
 
   const logoFileList = (brand: BrandResponse): BrandFormValues['logo'] => {
     const url = brand.logoUrl?.trim();
@@ -51,11 +51,8 @@ const BrandFormDrawer = ({ open, mode, brand, onClose, onSubmit }: BrandFormDraw
     ];
   };
 
-  const getBrandDefaultValues = (
-    mode: 'create' | 'edit',
-    brand?: BrandResponse,
-  ): BrandFormValues => {
-    if (mode !== 'edit' || !brand) return defaultValues;
+  const getBrandDefaultValues = (brand?: BrandResponse | null): BrandFormValues => {
+    if (!brand) return defaultValues;
 
     return {
       name: brand.name ?? '',
@@ -70,7 +67,7 @@ const BrandFormDrawer = ({ open, mode, brand, onClose, onSubmit }: BrandFormDraw
     if (!open) return;
 
     form.resetFields();
-    form.setFieldsValue(getBrandDefaultValues(mode, brand ?? undefined));
+    form.setFieldsValue(getBrandDefaultValues(brand));
   }, [open, mode, brand, form]);
 
   const handleValuesChange = (changedValues: Partial<BrandFormValues>) => {
