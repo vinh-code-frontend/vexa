@@ -1,26 +1,28 @@
-import { useEffect, useMemo, useState } from 'react';
-
+import { useMemo, useState } from 'react';
 import { Alert, Button, Tabs, Typography } from 'antd';
 import { ArrowLeftRight, Plus } from 'lucide-react';
-import { useQueryClient } from '@tanstack/react-query';
+import { useDebounce } from '@/shared/hooks';
 import i18n from '@/i18n';
-
-import { useGetApiAdminBrands, usePostApiAdminBrands, usePutApiAdminBrandsId } from '@/api';
-import type { BrandResponse } from '@/api/generated/query/model/types/brand/brandResponse';
-
+import {
+  getGetApiAdminBrandsQueryKey,
+  useGetApiAdminBrands,
+  usePostApiAdminBrands,
+  usePutApiAdminBrandsId,
+} from '@/api';
 import {
   BrandTable,
   BrandFilter,
   BrandFormDrawer,
   BrandVerification,
-  type BrandFormValues,
-  type BrandStatusFilter,
 } from '@/features/brand/components';
+import type {
+  BrandResponse,
+  BrandFormValues,
+  BrandStatusFilter,
+} from '@/features/brand/types/types';
 
 const BrandPage = () => {
-  const queryClient = useQueryClient();
   const [search, setSearch] = useState('');
-  const [debouncedSearch, setDebouncedSearch] = useState(search);
   const [status, setStatus] = useState<BrandStatusFilter>('all');
   const [activeTab, setActiveTab] = useState<'all' | 'verification'>('all');
   const [isBrandDrawerOpen, setIsBrandDrawerOpen] = useState(false);
@@ -28,6 +30,8 @@ const BrandPage = () => {
 
   const createBrandMutation = usePostApiAdminBrands();
   const updateBrandMutation = usePutApiAdminBrandsId();
+
+  const debouncedSearch = useDebounce(search, 500);
 
   const openDrawer = (brand?: BrandResponse) => {
     setSelectedBrand(brand ?? null);
@@ -52,18 +56,13 @@ const BrandPage = () => {
       await createBrandMutation.mutateAsync({ data: payload });
     }
 
-    await queryClient.invalidateQueries({ queryKey: ['/api/admin/brands'] });
+    await getGetApiAdminBrandsQueryKey;
     setIsBrandDrawerOpen(false);
     setSelectedBrand(null);
   };
 
-  useEffect(() => {
-    const timeoutId = window.setTimeout(() => setDebouncedSearch(search), 300);
-    return () => window.clearTimeout(timeoutId);
-  }, [search]);
-
   const brandsQuery = useGetApiAdminBrands({
-    search: debouncedSearch.trim() || undefined,
+    search: debouncedSearch.trim() || '',
     page: 1,
     pageSize: 100,
   });

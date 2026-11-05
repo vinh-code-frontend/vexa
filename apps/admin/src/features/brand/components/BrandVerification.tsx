@@ -2,7 +2,7 @@ import { Typography } from 'antd';
 import { ClipboardCheck, Info } from 'lucide-react';
 import i18n from '@/i18n';
 
-export const BrandVerification = () => {
+const BrandVerification = () => {
   return (
     <div className="flex min-h-80 flex-col">
       <Typography.Text className="text-sm font-semibold text-[#212529]">
@@ -30,3 +30,5 @@ export const BrandVerification = () => {
     </div>
   );
 };
+
+export default BrandVerification

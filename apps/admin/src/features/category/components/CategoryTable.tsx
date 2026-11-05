@@ -3,15 +3,8 @@ import type { ColumnsType } from 'antd/es/table';
 import { Edit2, Folder } from 'lucide-react';
 import slugify from 'slugify';
 
-import type { CategoryResponse } from '@/api/generated/query/model/types/category';
 import i18n from '@/i18n';
-
-type CategoryTableProps = {
-  categories: CategoryResponse[];
-  allCategories: CategoryResponse[];
-  loading?: boolean;
-  onEdit: (category: CategoryResponse) => void;
-};
+import type { CategoryResponse, CategoryTableProps } from '../types/types';
 
 const renderCategoryDetails = (category: CategoryResponse) => (
   <div className="flex items-center gap-3">

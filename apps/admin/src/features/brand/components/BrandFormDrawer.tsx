@@ -1,21 +1,12 @@
 import { useEffect } from 'react';
-
 import { Button, Drawer, Form, Input, InputNumber, Upload, Typography } from 'antd';
-import type { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
 import { Upload as UploadIcon } from 'lucide-react';
+import { v4 as uuidv4 } from 'uuid';
 import slugify from 'slugify';
-
-import type { BrandResponse } from '@/api/generated/query/model/types/brand';
 import i18n from '@/i18n';
+import type { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
+import type { BrandFormDrawerProps, BrandFormValues, BrandResponse } from '../types/types';
 import '../styles/BrandFormDrawer.css';
-
-export type BrandFormValues = {
-  name: string;
-  slug: string;
-  description?: string;
-  displayOrder?: number;
-  logo?: UploadFile[];
-};
 
 const defaultValues: BrandFormValues = {
   name: '',
@@ -23,13 +14,6 @@ const defaultValues: BrandFormValues = {
   description: '',
   displayOrder: 1,
   logo: [],
-};
-
-type BrandFormDrawerProps = {
-  open: boolean;
-  brand?: BrandResponse | null;
-  onClose: () => void;
-  onSubmit: (values: BrandFormValues) => Promise<void> | void;
 };
 
 const getUploadFileList = (event: UploadChangeParam<UploadFile>) => event.fileList;
@@ -44,7 +28,7 @@ const BrandFormDrawer = ({ open, brand, onClose, onSubmit }: BrandFormDrawerProp
 
     return [
       {
-        uid: `brand-logo-${brand.id}`,
+        uid: uuidv4(),
         name: brand.name,
         url: url,
       },
@@ -52,7 +36,7 @@ const BrandFormDrawer = ({ open, brand, onClose, onSubmit }: BrandFormDrawerProp
   };
 
   const getBrandDefaultValues = (brand?: BrandResponse | null): BrandFormValues => {
-    if (!brand) return defaultValues;
+    if (!brand) return { ...defaultValues, logo: [] };
 
     return {
       name: brand.name ?? '',
@@ -64,13 +48,11 @@ const BrandFormDrawer = ({ open, brand, onClose, onSubmit }: BrandFormDrawerProp
   };
 
   useEffect(() => {
-    if (!open) {
-      return;
-    }
+    if (!open) return;
 
     form.resetFields();
     form.setFieldsValue(getBrandDefaultValues(brand));
-  }, [open, mode, brand, form]);
+  }, [open, brand, form]);
 
   const handleValuesChange = (changedValues: Partial<BrandFormValues>) => {
     if (typeof changedValues.name === 'string') {

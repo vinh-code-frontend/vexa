@@ -3,23 +3,20 @@ import { X } from 'lucide-react';
 import slugify from 'slugify';
 import { useLocation, useNavigate } from 'react-router';
 
-import type { CategoryResponse } from '@/api/generated/query/model/types/category';
 import i18n from '@/i18n';
-
-type CategoryFormPageProps = {
-  mode: 'create' | 'edit';
-};
+import type { CategoryFormLocationState, CategoryFormPageProps } from '../types/types';
 
 const CategoryFormPage = ({ mode }: CategoryFormPageProps) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const category = (location.state as { category?: CategoryResponse } | null)?.category;
+  const category = (location.state as CategoryFormLocationState)?.category;
+
   const slug = slugify(category?.name ?? '', { lower: true, strict: true });
 
   const closePage = () => navigate('/category');
 
   return (
-    <section className="flex min-h-[600px] w-full flex-col border border-[#e9ecef] bg-white">
+    <section className="flex min-h-150 w-full flex-col border border-[#e9ecef] bg-white">
       <header className="flex items-center justify-between border-b border-[#e9ecef] px-4 py-3">
         <div>
           <Typography.Title level={5} style={{ margin: 0, fontSize: 14 }}>
