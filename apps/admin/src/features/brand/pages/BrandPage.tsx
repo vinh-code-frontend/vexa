@@ -30,6 +30,7 @@ const BrandPage = () => {
 
   const createBrandMutation = usePostApiAdminBrands();
   const updateBrandMutation = usePutApiAdminBrandsId();
+  const debouncedSearch = useDebounce(search);
 
   const debouncedSearch = useDebounce(search, 500);
 

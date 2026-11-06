@@ -16,6 +16,14 @@ const defaultValues: BrandFormValues = {
   logo: [],
 };
 
+const defaultValues: BrandFormValues = {
+  name: '',
+  slug: '',
+  description: '',
+  displayOrder: 1,
+  logo: [],
+};
+
 const getUploadFileList = (event: UploadChangeParam<UploadFile>) => event.fileList;
 
 const BrandFormDrawer = ({ open, brand, onClose, onSubmit }: BrandFormDrawerProps) => {
