@@ -1,28 +1,19 @@
 import { useEffect } from 'react';
-
 import { Button, Drawer, Form, Input, InputNumber, Upload, Typography } from 'antd';
-import type { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
 import { Upload as UploadIcon } from 'lucide-react';
+import { v4 as uuidv4 } from 'uuid';
 import slugify from 'slugify';
-
-import type { BrandResponse } from '@/api/generated/query/model/types/brand';
 import i18n from '@/i18n';
+import type { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
+import type { BrandFormDrawerProps, BrandFormValues, BrandResponse } from '../types/types';
 import '../styles/BrandFormDrawer.css';
 
-export type BrandFormValues = {
-  name: string;
-  slug: string;
-  description?: string;
-  displayOrder?: number;
-  logo?: UploadFile[];
-};
-
-type BrandFormDrawerProps = {
-  open: boolean;
-  mode: 'create' | 'edit';
-  brand?: BrandResponse | null;
-  onClose: () => void;
-  onSubmit: (values: BrandFormValues) => Promise<void> | void;
+const defaultValues: BrandFormValues = {
+  name: '',
+  slug: '',
+  description: '',
+  displayOrder: 1,
+  logo: [],
 };
 
 const defaultValues: BrandFormValues = {
@@ -35,8 +26,9 @@ const defaultValues: BrandFormValues = {
 
 const getUploadFileList = (event: UploadChangeParam<UploadFile>) => event.fileList;
 
-const BrandFormDrawer = ({ open, mode, brand, onClose, onSubmit }: BrandFormDrawerProps) => {
+const BrandFormDrawer = ({ open, brand, onClose, onSubmit }: BrandFormDrawerProps) => {
   const [form] = Form.useForm<BrandFormValues>();
+  const mode = brand ? 'edit' : 'create';
 
   const logoFileList = (brand: BrandResponse): BrandFormValues['logo'] => {
     const url = brand.logoUrl?.trim();
@@ -44,18 +36,15 @@ const BrandFormDrawer = ({ open, mode, brand, onClose, onSubmit }: BrandFormDraw
 
     return [
       {
-        uid: `brand-logo-${brand.id}`,
+        uid: uuidv4(),
         name: brand.name,
         url: url,
       },
     ];
   };
 
-  const getBrandDefaultValues = (
-    mode: 'create' | 'edit',
-    brand?: BrandResponse,
-  ): BrandFormValues => {
-    if (mode !== 'edit' || !brand) return defaultValues;
+  const getBrandDefaultValues = (brand?: BrandResponse | null): BrandFormValues => {
+    if (!brand) return { ...defaultValues, logo: [] };
 
     return {
       name: brand.name ?? '',
@@ -70,8 +59,8 @@ const BrandFormDrawer = ({ open, mode, brand, onClose, onSubmit }: BrandFormDraw
     if (!open) return;
 
     form.resetFields();
-    form.setFieldsValue(getBrandDefaultValues(mode, brand ?? undefined));
-  }, [open, mode, brand, form]);
+    form.setFieldsValue(getBrandDefaultValues(brand));
+  }, [open, brand, form]);
 
   const handleValuesChange = (changedValues: Partial<BrandFormValues>) => {
     if (typeof changedValues.name === 'string') {

@@ -3,17 +3,14 @@ import { X } from 'lucide-react';
 import slugify from 'slugify';
 import { useLocation, useNavigate } from 'react-router';
 
-import type { CategoryResponse } from '@/api/generated/query/model/types/category';
 import i18n from '@/i18n';
-
-type CategoryFormPageProps = {
-  mode: 'create' | 'edit';
-};
+import type { CategoryFormLocationState, CategoryFormPageProps } from '../types/types';
 
 const CategoryFormPage = ({ mode }: CategoryFormPageProps) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const category = (location.state as { category?: CategoryResponse } | null)?.category;
+  const category = (location.state as CategoryFormLocationState)?.category;
+
   const slug = slugify(category?.name ?? '', { lower: true, strict: true });
 
   const closePage = () => navigate('/category');
