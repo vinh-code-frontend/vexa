@@ -1,25 +1,15 @@
 import { useEffect } from 'react';
-
 import { Button, Drawer, Form, Input, InputNumber, Upload, Typography } from 'antd';
-import type { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
 import { Upload as UploadIcon } from 'lucide-react';
+import { v4 as uuidv4 } from 'uuid';
 import slugify from 'slugify';
-
-import type { BrandResponse } from '@/api/generated/query/model/types/brand';
 import i18n from '@/i18n';
+import type { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
+import type { BrandFormValues, BrandResponse } from '../types/types';
 import '../styles/BrandFormDrawer.css';
-
-export type BrandFormValues = {
-  name: string;
-  slug: string;
-  description?: string;
-  displayOrder?: number;
-  logo?: UploadFile[];
-};
 
 type BrandFormDrawerProps = {
   open: boolean;
-  mode: 'create' | 'edit';
   brand?: BrandResponse | null;
   onClose: () => void;
   onSubmit: (values: BrandFormValues) => Promise<void> | void;
@@ -35,36 +25,34 @@ const defaultValues: BrandFormValues = {
 
 const getUploadFileList = (event: UploadChangeParam<UploadFile>) => event.fileList;
 
-const BrandFormDrawer = ({ open, mode, brand, onClose, onSubmit }: BrandFormDrawerProps) => {
+const getLogoFileList = (brand: BrandResponse): BrandFormValues['logo'] => {
+  const url = brand.logoUrl?.trim();
+  if (!url) return [];
+
+  return [
+    {
+      uid: uuidv4(),
+      name: brand.name,
+      url,
+    },
+  ];
+};
+
+const getBrandDefaultValues = (mode: 'create' | 'edit', brand?: BrandResponse): BrandFormValues => {
+  if (mode !== 'edit' || !brand) return defaultValues;
+
+  return {
+    name: brand.name ?? '',
+    slug: brand.slug ?? '',
+    description: brand.description ?? '',
+    displayOrder: Number(brand.displayOrder ?? 1),
+    logo: getLogoFileList(brand),
+  };
+};
+
+const BrandFormDrawer = ({ open, brand, onClose, onSubmit }: BrandFormDrawerProps) => {
   const [form] = Form.useForm<BrandFormValues>();
-
-  const logoFileList = (brand: BrandResponse): BrandFormValues['logo'] => {
-    const url = brand.logoUrl?.trim();
-    if (!url) return [];
-
-    return [
-      {
-        uid: `brand-logo-${brand.id}`,
-        name: brand.name,
-        url: url,
-      },
-    ];
-  };
-
-  const getBrandDefaultValues = (
-    mode: 'create' | 'edit',
-    brand?: BrandResponse,
-  ): BrandFormValues => {
-    if (mode !== 'edit' || !brand) return defaultValues;
-
-    return {
-      name: brand.name ?? '',
-      slug: brand.slug ?? '',
-      description: brand.description ?? '',
-      displayOrder: Number(brand.displayOrder ?? 1),
-      logo: logoFileList(brand),
-    };
-  };
+  const mode = brand ? 'edit' : 'create';
 
   useEffect(() => {
     if (!open) return;

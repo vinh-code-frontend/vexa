@@ -1,31 +1,28 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { Alert, Button, Tabs, Typography } from 'antd';
 import { Plus } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
 import { useGetApiAdminCategories } from '@/api';
-import type { CategoryResponse } from '@/api/generated/query/model/types/category';
 import i18n from '@/i18n';
 
 import { CategoryFilter, CategoryTable } from '@/features/category/components';
+import type { CategoryResponse } from '@/features/category/types/types';
+import { useDebounce } from '@/shared/hooks';
 
 const EMPTY_CATEGORIES: CategoryResponse[] = [];
 
 const CategoryPage = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
-  const [debouncedSearch, setDebouncedSearch] = useState(search);
+
   const [status, setStatus] = useState<'active' | 'inactive'>('active');
 
-  useEffect(() => {
-    const timeoutId = window.setTimeout(() => setDebouncedSearch(search), 300);
-    return () => window.clearTimeout(timeoutId);
-  }, [search]);
-
   const categoriesQuery = useGetApiAdminCategories();
-
   const categories = categoriesQuery.data?.data?.items ?? EMPTY_CATEGORIES;
+
+  const debouncedSearch = useDebounce(search, 500);
 
   const filteredCategories = useMemo(() => {
     const query = debouncedSearch.trim().toLocaleLowerCase();

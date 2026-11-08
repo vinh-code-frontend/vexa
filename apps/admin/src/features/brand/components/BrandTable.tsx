@@ -1,21 +1,15 @@
-import { useEffect, useState } from 'react';
-
+import { useState } from 'react';
 import { Table, Tag, Typography } from 'antd';
 import { DeleteIcon, EditIcon } from '@/shared/components/motions';
+import { Pagination } from '@/shared/components';
 import type { ColumnsType } from 'antd/es/table';
 import { Image } from 'lucide-react';
+import type { BrandTableProps } from '../types/types';
 
 import type { BrandResponse } from '@/api/generated/query/model';
-import { Pagination } from '@/shared/components';
 import i18n from '@/i18n';
 
 const PAGE_SIZE = 4;
-
-type BrandTableProps = {
-  brands: BrandResponse[];
-  loading?: boolean;
-  onEdit: (brand: BrandResponse) => void;
-};
 
 const renderBrandDetails = (brand: BrandResponse) => (
   <div className="flex items-center gap-3">
@@ -72,14 +66,11 @@ const getColumns = (onEdit: (brand: BrandResponse) => void): ColumnsType<BrandRe
   },
 ];
 
-export const BrandTable = ({ brands, loading = false, onEdit }: BrandTableProps) => {
-  const [currentPage, setCurrentPage] = useState(1);
+const BrandTable = ({ brands, loading = false, onEdit }: BrandTableProps) => {
+  const [pageState, setPageState] = useState({ brands, page: 1 });
   const pageCount = Math.max(1, Math.ceil(brands.length / PAGE_SIZE));
+  const currentPage = pageState.brands === brands ? pageState.page : 1;
   const visiblePage = Math.min(currentPage, pageCount);
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [brands]);
 
   const paginatedBrands = brands.slice((visiblePage - 1) * PAGE_SIZE, visiblePage * PAGE_SIZE);
 
@@ -97,9 +88,11 @@ export const BrandTable = ({ brands, loading = false, onEdit }: BrandTableProps)
         current={visiblePage}
         total={brands.length}
         pageSize={PAGE_SIZE}
-        onChange={setCurrentPage}
+        onChange={(page) => setPageState({ brands, page })}
         ariaLabel={i18n.t('brands.pagination.navigation-label')}
       />
     </>
   );
 };
+
+export default BrandTable;
