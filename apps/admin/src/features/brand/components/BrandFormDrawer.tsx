@@ -17,9 +17,16 @@ export type BrandFormValues = {
   logo?: UploadFile[];
 };
 
+const defaultValues: BrandFormValues = {
+  name: '',
+  slug: '',
+  description: '',
+  displayOrder: 1,
+  logo: [],
+};
+
 type BrandFormDrawerProps = {
   open: boolean;
-  mode: 'create' | 'edit';
   brand?: BrandResponse | null;
   onClose: () => void;
   onSubmit: (values: BrandFormValues) => Promise<void> | void;
