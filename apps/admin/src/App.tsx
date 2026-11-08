@@ -2,17 +2,15 @@ import { RouterProvider } from 'react-router/dom';
 
 import { router } from '@/router';
 import { DEFAULT_PRIMARY_COLOR, usePrimaryColor } from '@/shared/theme/primaryColor';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ConfigProvider } from 'antd';
 import { AuthProvider } from '@/providers/AuthProvider';
-
-const queryClient = new QueryClient();
+import { QueryProvider } from '@/providers/QueryProvider';
 
 function App() {
   const [primaryColor] = usePrimaryColor(DEFAULT_PRIMARY_COLOR);
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <QueryProvider>
       <ConfigProvider
         componentSize="large"
         theme={{
@@ -33,7 +31,7 @@ function App() {
           <RouterProvider router={router} />
         </AuthProvider>
       </ConfigProvider>
-    </QueryClientProvider>
+    </QueryProvider>
   );
 }
 
