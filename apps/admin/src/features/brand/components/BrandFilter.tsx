@@ -1,16 +1,8 @@
 import i18n from '@/i18n';
 import { Input, Select, Space } from 'antd';
+import type { BrandFilterProps } from '../types/types';
 
-export type BrandStatusFilter = 'all' | 'active' | 'inactive';
-
-type BrandFilterProps = {
-  search: string;
-  status: BrandStatusFilter;
-  onSearchChange: (value: string) => void;
-  onStatusChange: (value: BrandStatusFilter) => void;
-};
-
-export const BrandFilter = ({ search, status, onSearchChange, onStatusChange }: BrandFilterProps) => {
+const BrandFilter = ({ search, status, onSearchChange, onStatusChange }: BrandFilterProps) => {
   return (
     <Space wrap className="mb-4 h-8 w-full">
       <Input
@@ -39,3 +31,5 @@ export const BrandFilter = ({ search, status, onSearchChange, onStatusChange }: 
     </Space>
   );
 };
+
+export default BrandFilter;

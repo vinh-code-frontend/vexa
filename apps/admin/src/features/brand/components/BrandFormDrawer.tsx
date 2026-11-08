@@ -1,21 +1,12 @@
 import { useEffect } from 'react';
-
 import { Button, Drawer, Form, Input, InputNumber, Upload, Typography } from 'antd';
-import type { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
 import { Upload as UploadIcon } from 'lucide-react';
+import { v4 as uuidv4 } from 'uuid';
 import slugify from 'slugify';
-
-import type { BrandResponse } from '@/api/generated/query/model/types/brand';
 import i18n from '@/i18n';
+import type { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
+import type { BrandFormDrawerProps, BrandFormValues, BrandResponse } from '../types/types';
 import '../styles/BrandFormDrawer.css';
-
-export type BrandFormValues = {
-  name: string;
-  slug: string;
-  description?: string;
-  displayOrder?: number;
-  logo?: UploadFile[];
-};
 
 const defaultValues: BrandFormValues = {
   name: '',
@@ -51,7 +42,7 @@ const BrandFormDrawer = ({ open, mode, brand, onClose, onSubmit }: BrandFormDraw
 
     return [
       {
-        uid: `brand-logo-${brand.id}`,
+        uid: uuidv4(),
         name: brand.name,
         url: url,
       },
@@ -74,6 +65,7 @@ const BrandFormDrawer = ({ open, mode, brand, onClose, onSubmit }: BrandFormDraw
   };
 
   useEffect(() => {
+    if (!open) return;
     if (!open) return;
 
     form.resetFields();

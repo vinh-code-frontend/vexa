@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 
 import { Alert, Button, Tabs, Typography } from 'antd';
 import { ArrowLeftRight, Plus } from 'lucide-react';
-import { useQueryClient } from '@tanstack/react-query';
+import { useDebounce } from '@/shared/hooks';
 import i18n from '@/i18n';
 
 import { useGetApiAdminBrands, usePostApiAdminBrands, usePutApiAdminBrandsId } from '@/api';
@@ -14,12 +14,14 @@ import {
   BrandFilter,
   BrandFormDrawer,
   BrandVerification,
-  type BrandFormValues,
-  type BrandStatusFilter,
 } from '@/features/brand/components';
+import type {
+  BrandResponse,
+  BrandFormValues,
+  BrandStatusFilter,
+} from '@/features/brand/types/types';
 
 const BrandPage = () => {
-  const queryClient = useQueryClient();
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState<BrandStatusFilter>('all');
   const [activeTab, setActiveTab] = useState<'all' | 'verification'>('all');
@@ -53,13 +55,13 @@ const BrandPage = () => {
       await createBrandMutation.mutateAsync({ data: payload });
     }
 
-    await queryClient.invalidateQueries({ queryKey: ['/api/admin/brands'] });
+    await getGetApiAdminBrandsQueryKey;
     setIsBrandDrawerOpen(false);
     setSelectedBrand(null);
   };
 
   const brandsQuery = useGetApiAdminBrands({
-    search: debouncedSearch.trim() || undefined,
+    search: debouncedSearch.trim() || '',
     page: 1,
     pageSize: 100,
   });
