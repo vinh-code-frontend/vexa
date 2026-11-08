@@ -5,16 +5,8 @@ import { v4 as uuidv4 } from 'uuid';
 import slugify from 'slugify';
 import i18n from '@/i18n';
 import type { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
-import type { BrandFormDrawerProps, BrandFormValues, BrandResponse } from '../types/types';
+import type { BrandFormValues, BrandResponse } from '../types/types';
 import '../styles/BrandFormDrawer.css';
-
-const defaultValues: BrandFormValues = {
-  name: '',
-  slug: '',
-  description: '',
-  displayOrder: 1,
-  logo: [],
-};
 
 type BrandFormDrawerProps = {
   open: boolean;
@@ -33,39 +25,36 @@ const defaultValues: BrandFormValues = {
 
 const getUploadFileList = (event: UploadChangeParam<UploadFile>) => event.fileList;
 
-const BrandFormDrawer = ({ open, mode, brand, onClose, onSubmit }: BrandFormDrawerProps) => {
+const getLogoFileList = (brand: BrandResponse): BrandFormValues['logo'] => {
+  const url = brand.logoUrl?.trim();
+  if (!url) return [];
+
+  return [
+    {
+      uid: uuidv4(),
+      name: brand.name,
+      url,
+    },
+  ];
+};
+
+const getBrandDefaultValues = (mode: 'create' | 'edit', brand?: BrandResponse): BrandFormValues => {
+  if (mode !== 'edit' || !brand) return defaultValues;
+
+  return {
+    name: brand.name ?? '',
+    slug: brand.slug ?? '',
+    description: brand.description ?? '',
+    displayOrder: Number(brand.displayOrder ?? 1),
+    logo: getLogoFileList(brand),
+  };
+};
+
+const BrandFormDrawer = ({ open, brand, onClose, onSubmit }: BrandFormDrawerProps) => {
   const [form] = Form.useForm<BrandFormValues>();
-
-  const logoFileList = (brand: BrandResponse): BrandFormValues['logo'] => {
-    const url = brand.logoUrl?.trim();
-    if (!url) return [];
-
-    return [
-      {
-        uid: uuidv4(),
-        name: brand.name,
-        url: url,
-      },
-    ];
-  };
-
-  const getBrandDefaultValues = (
-    mode: 'create' | 'edit',
-    brand?: BrandResponse,
-  ): BrandFormValues => {
-    if (mode !== 'edit' || !brand) return defaultValues;
-
-    return {
-      name: brand.name ?? '',
-      slug: brand.slug ?? '',
-      description: brand.description ?? '',
-      displayOrder: Number(brand.displayOrder ?? 1),
-      logo: logoFileList(brand),
-    };
-  };
+  const mode = brand ? 'edit' : 'create';
 
   useEffect(() => {
-    if (!open) return;
     if (!open) return;
 
     form.resetFields();

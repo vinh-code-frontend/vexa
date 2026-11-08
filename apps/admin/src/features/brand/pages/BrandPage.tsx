@@ -1,13 +1,17 @@
 import { useMemo, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { Alert, Button, Tabs, Typography } from 'antd';
 import { ArrowLeftRight, Plus } from 'lucide-react';
 import { useDebounce } from '@/shared/hooks';
 import i18n from '@/i18n';
 
-import { useGetApiAdminBrands, usePostApiAdminBrands, usePutApiAdminBrandsId } from '@/api';
-import { useDebounce } from '@/shared/hooks';
-import type { BrandResponse } from '@/api/generated/query/model';
+import {
+  getGetApiAdminBrandsQueryKey,
+  useGetApiAdminBrands,
+  usePostApiAdminBrands,
+  usePutApiAdminBrandsId,
+} from '@/api';
 
 import {
   BrandTable,
@@ -21,7 +25,10 @@ import type {
   BrandStatusFilter,
 } from '@/features/brand/types/types';
 
+const EMPTY_BRANDS: BrandResponse[] = [];
+
 const BrandPage = () => {
+  const queryClient = useQueryClient();
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState<BrandStatusFilter>('all');
   const [activeTab, setActiveTab] = useState<'all' | 'verification'>('all');
@@ -55,7 +62,7 @@ const BrandPage = () => {
       await createBrandMutation.mutateAsync({ data: payload });
     }
 
-    await getGetApiAdminBrandsQueryKey;
+    await queryClient.invalidateQueries({ queryKey: getGetApiAdminBrandsQueryKey() });
     setIsBrandDrawerOpen(false);
     setSelectedBrand(null);
   };
@@ -66,7 +73,7 @@ const BrandPage = () => {
     pageSize: 100,
   });
 
-  const brands = brandsQuery.data?.data?.items ?? [];
+  const brands = brandsQuery.data?.data?.items ?? EMPTY_BRANDS;
 
   const filteredBrands = useMemo(() => {
     return brands.filter(
