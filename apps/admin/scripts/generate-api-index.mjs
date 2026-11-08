@@ -3,14 +3,21 @@ import path from 'node:path';
 
 const apiDir = path.resolve('src/api');
 
-const files = await getFilesFromPath(['src/api/generated/auth', 'src/api/generated/query']);
+const apiSections = ['auth', 'query'];
+const files = await getFilesFromPath(apiSections.map((section) => `src/api/generated/${section}`));
 
-const exports = files
+const apiExports = files
   .filter((file) => file.endsWith('.ts'))
   .filter((file) => !file.endsWith('index.ts'))
   .sort()
-  .map((file) => `export * from './${file.replace('.ts', '')}';`)
-  .join('\n');
+  .map((file) => `export * from './${file.replace('.ts', '')}';`);
+
+const modelExports = apiSections.map((section) => {
+  const namespace = `${section[0].toUpperCase()}${section.slice(1)}Models`;
+  return `export * as ${namespace} from './generated/${section}/model';`;
+});
+
+const exports = [...apiExports, ...modelExports].sort().join('\n');
 
 await writeFile(path.join(apiDir, 'index.ts'), `${exports}\n`);
 
