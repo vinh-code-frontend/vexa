@@ -1,17 +1,8 @@
 import clsx from 'clsx';
 import type { Transition, Variants } from 'motion/react';
 import { motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
 import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-
-export interface DeleteIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
-}
-
-interface DeleteIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
-}
+import type { IMotionIconProps, MotionIconHandle } from '../types/motions';
 
 const LID_VARIANTS: Variants = {
   normal: { y: 0 },
@@ -24,7 +15,7 @@ const SPRING_TRANSITION: Transition = {
   damping: 30,
 };
 
-const DeleteIcon = forwardRef<DeleteIconHandle, DeleteIconProps>(
+const DeleteIcon = forwardRef<MotionIconHandle, IMotionIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 20, ...props }, ref) => {
     const controls = useAnimation();
     const isControlledRef = useRef(false);
