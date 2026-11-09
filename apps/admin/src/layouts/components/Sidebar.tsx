@@ -1,12 +1,14 @@
-import { Menu, type MenuProps } from 'antd';
+import { Menu, Tag, theme, type MenuProps } from 'antd';
 import {
   ArrowDownToLine,
+  Box,
   FolderTree,
   LayoutDashboard,
+  Layers3,
   Package,
   Settings,
   ShoppingCart,
-  Tag,
+  Tag as TagIcon,
   Users,
 } from 'lucide-react';
 import { useState } from 'react';
@@ -14,18 +16,20 @@ import { useLocation, useNavigate } from 'react-router';
 
 import i18n from '@/i18n';
 import { adminNavItems } from '@/router/admin.routes';
+import { DribbbleIcon } from '@/shared/components/motions/DribbleIcon';
+import clsx from 'clsx';
 
 const rootSubmenuKeys = ['catalog', 'inventory'];
 
 const catalogItems: MenuProps['items'] = [
   {
     key: 'product',
-    icon: <Package size={16} strokeWidth={2.2} />,
+    icon: <Box size={16} strokeWidth={2.2} />,
     label: 'Products',
   },
   {
     key: 'brand',
-    icon: <Tag size={16} strokeWidth={2.2} />,
+    icon: <TagIcon size={16} strokeWidth={2.2} />,
     label: 'Brands',
   },
   {
@@ -71,17 +75,19 @@ const menuItems: MenuProps['items'] = [
   },
   {
     key: 'catalog',
+    icon: <Layers3 size={16} strokeWidth={2.2} />,
     label: 'Catalog',
     children: catalogItems,
   },
   {
     key: 'inventory',
+    icon: <Package size={16} strokeWidth={2.2} />,
     label: 'Inventory',
     children: inventoryItems,
   },
 ];
 
-const Sidebar = () => {
+const Sidebar = ({ collapsed }: { collapsed: boolean }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [openKeys, setOpenKeys] = useState<string[]>(['catalog']);
@@ -113,9 +119,41 @@ const Sidebar = () => {
     navigate(`/${target}`);
   };
 
+  const { token } = theme.useToken();
+
   return (
-    <aside className="h-dvh w-65 border-r border-[#e5e7eb] bg-[#f8f9fb]">
-      <div className="px-4 py-5">
+    <div>
+      <div className="flex items-center gap-2.5 p-4 pb-0">
+        <div className="rounded-sm bg-primary p-1.5">
+          <DribbbleIcon size={23} className="text-white" />
+        </div>
+        {!collapsed && (
+          <div
+            aria-hidden={collapsed}
+            className={`min-w-0 overflow-hidden whitespace-nowrap transition-[max-width] duration-200 ease-in-out ${
+              collapsed ? 'max-w-0' : 'max-w-40'
+            }`}
+          >
+            <div
+              className={`flex items-center gap-2.5 transition-opacity duration-200 ease-in-out ${
+                collapsed ? 'pointer-events-none opacity-0 delay-0' : 'opacity-100 delay-200'
+              }`}
+            >
+              <div className="text-lg font-bold">Vexa</div>
+              <Tag
+                style={{
+                  color: token.colorPrimary,
+                  backgroundColor: token.colorPrimaryBg,
+                  borderColor: token.colorPrimaryBorder,
+                }}
+              >
+                Admin
+              </Tag>
+            </div>
+          </div>
+        )}
+      </div>
+      <div className={clsx('p-4 transition-all', collapsed && 'px-2')}>
         <Menu
           mode="inline"
           items={menuItems}
@@ -129,10 +167,9 @@ const Sidebar = () => {
             fontSize: 14,
           }}
           inlineIndent={18}
-          className="sidebar-menu"
         />
       </div>
-    </aside>
+    </div>
   );
 };
 
