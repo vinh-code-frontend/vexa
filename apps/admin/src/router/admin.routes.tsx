@@ -1,9 +1,7 @@
 import { ProductDetailPage, ProductFormPage, ProductListPage } from '@/features/product';
 import i18n from '@/i18n';
 import { BrandDetailPage, BrandPage } from '@/features/brand/index';
-import { CategoryPage } from '@/features/category/index';
-import CategoryFormPage from '@/features/category/pages/CategoryFormPage';
-
+import { CategoryPage, CategoryFormPage } from '@/features/category/index';
 import type { LucideIcon } from 'lucide-react';
 import {
   FolderTree,
