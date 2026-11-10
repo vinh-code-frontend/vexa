@@ -5,8 +5,16 @@ import { v4 as uuidv4 } from 'uuid';
 import slugify from 'slugify';
 import i18n from '@/i18n';
 import type { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
-import type { BrandFormValues, BrandResponse } from '../types/types';
+import type { BrandResponse } from '@/api/generated/query/model';
 import '../styles/BrandFormDrawer.css';
+
+export type BrandFormValues = {
+  name: string;
+  slug: string;
+  description?: string;
+  displayOrder?: number;
+  logo?: UploadFile[];
+};
 
 type BrandFormDrawerProps = {
   open: boolean;
@@ -14,6 +22,7 @@ type BrandFormDrawerProps = {
   onClose: () => void;
   onSubmit: (values: BrandFormValues) => Promise<void> | void;
 };
+
 
 const defaultValues: BrandFormValues = {
   name: '',

@@ -8,7 +8,7 @@ import { useGetApiAdminCategories } from '@/api';
 import i18n from '@/i18n';
 
 import { CategoryFilter, CategoryTable } from '@/features/category/components';
-import type { CategoryResponse } from '@/features/category/types/types';
+import type { CategoryResponse } from '@/api/generated/query/model';
 import { useDebounce } from '@/shared/hooks';
 
 const EMPTY_CATEGORIES: CategoryResponse[] = [];

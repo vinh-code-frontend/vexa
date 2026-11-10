@@ -6,6 +6,9 @@ import { ArrowLeftRight, Plus } from 'lucide-react';
 import { useDebounce } from '@/shared/hooks';
 import i18n from '@/i18n';
 
+import type { BrandResponse } from '@/api/generated/query/model';
+import type { BrandFormValues } from '../components/BrandFormDrawer';
+
 import {
   getGetApiAdminBrandsQueryKey,
   useGetApiAdminBrands,
@@ -19,11 +22,7 @@ import {
   BrandFormDrawer,
   BrandVerification,
 } from '@/features/brand/components';
-import type {
-  BrandResponse,
-  BrandFormValues,
-  BrandStatusFilter,
-} from '@/features/brand/types/types';
+import type { BrandStatusFilter } from '@/features/brand/types/types';
 
 const EMPTY_BRANDS: BrandResponse[] = [];
 
