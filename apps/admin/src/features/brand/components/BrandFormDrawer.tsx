@@ -1,4 +1,6 @@
 import { useEffect } from 'react';
+import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Button, Drawer, Form, Input, InputNumber, Upload, Typography } from 'antd';
 import { Upload as UploadIcon } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
@@ -6,6 +8,13 @@ import slugify from 'slugify';
 import i18n from '@/i18n';
 import type { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
 import type { BrandResponse } from '@/api/generated/query/model';
+import {
+  getGetApiAdminBrandsIdQueryKey,
+  getGetApiAdminBrandsQueryKey,
+  usePostApiAdminBrands,
+  usePutApiAdminBrandsId,
+} from '@/api';
+import { QueryErrorAlert } from '@/shared/components/ui';
 import '../styles/BrandFormDrawer.css';
 
 export type BrandFormValues = {
@@ -20,9 +29,7 @@ type BrandFormDrawerProps = {
   open: boolean;
   brand?: BrandResponse | null;
   onClose: () => void;
-  onSubmit: (values: BrandFormValues) => Promise<void> | void;
 };
-
 
 const defaultValues: BrandFormValues = {
   name: '',
@@ -59,9 +66,14 @@ const getBrandDefaultValues = (mode: 'create' | 'edit', brand?: BrandResponse): 
   };
 };
 
-const BrandFormDrawer = ({ open, brand, onClose, onSubmit }: BrandFormDrawerProps) => {
+const BrandFormDrawer = ({ open, brand, onClose }: BrandFormDrawerProps) => {
+  const queryClient = useQueryClient();
   const [form] = Form.useForm<BrandFormValues>();
+  const [submitError, setSubmitError] = useState<unknown>(null);
+  const createBrandMutation = usePostApiAdminBrands();
+  const updateBrandMutation = usePutApiAdminBrandsId();
   const mode = brand ? 'edit' : 'create';
+  const isSubmitting = createBrandMutation.isPending || updateBrandMutation.isPending;
 
   useEffect(() => {
     if (!open) return;
@@ -70,6 +82,11 @@ const BrandFormDrawer = ({ open, brand, onClose, onSubmit }: BrandFormDrawerProp
     form.setFieldsValue(getBrandDefaultValues(mode, brand ?? undefined));
   }, [open, mode, brand, form]);
 
+  const handleClose = () => {
+    setSubmitError(null);
+    onClose();
+  };
+
   const handleValuesChange = (changedValues: Partial<BrandFormValues>) => {
     if (typeof changedValues.name === 'string') {
       form.setFieldValue('slug', slugify(changedValues.name, { lower: true, strict: true }));
@@ -77,13 +94,46 @@ const BrandFormDrawer = ({ open, brand, onClose, onSubmit }: BrandFormDrawerProp
   };
 
   const handleFinish = async (values: BrandFormValues) => {
-    await onSubmit(values);
+    setSubmitError(null);
+
+    const payload = {
+      name: values.name,
+      description: values.description || null,
+      displayOrder: values.displayOrder ?? 1,
+      logoUrl: values.logo?.[0]?.url ?? null,
+    };
+
+    try {
+      if (brand) {
+        const brandId = Number(brand.id);
+        if (!Number.isSafeInteger(brandId) || brandId <= 0) {
+          throw new Error('Cannot update a brand without a valid ID.');
+        }
+
+        await updateBrandMutation.mutateAsync({
+          id: brandId,
+          data: { ...payload, isActive: brand.isActive ?? true },
+        });
+        await queryClient.invalidateQueries({
+          queryKey: getGetApiAdminBrandsIdQueryKey(brandId),
+        });
+      } else {
+        await createBrandMutation.mutateAsync({
+          data: { ...payload, isActive: true },
+        });
+      }
+
+      await queryClient.invalidateQueries({ queryKey: getGetApiAdminBrandsQueryKey() });
+      handleClose();
+    } catch (error) {
+      setSubmitError(error);
+    }
   };
 
   return (
     <Drawer
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       placement="right"
       closable={{ placement: 'end' }}
       size={480}
@@ -105,12 +155,17 @@ const BrandFormDrawer = ({ open, brand, onClose, onSubmit }: BrandFormDrawerProp
       footer={
         <div className="flex justify-end gap-4">
           <Button onClick={onClose}>{i18n.t('common.actions.cancel')}</Button>
-          <Button type="primary" htmlType="submit" form="brand-form">
+          <Button type="primary" htmlType="submit" form="brand-form" loading={isSubmitting}>
             {i18n.t('brands.actions.save')}
           </Button>
         </div>
       }
     >
+      {submitError !== null && (
+        <div style={{ marginBottom: 16 }}>
+          <QueryErrorAlert title={i18n.t('brands.form.submit-error')} error={submitError} />
+        </div>
+      )}
       <Form<BrandFormValues>
         id="brand-form"
         form={form}

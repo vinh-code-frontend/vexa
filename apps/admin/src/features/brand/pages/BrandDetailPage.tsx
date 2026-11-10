@@ -1,21 +1,13 @@
 import { useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
 import { Alert, Button, Card, Tabs, Tag, Typography } from 'antd';
 import { Image, Pencil } from 'lucide-react';
 import { useParams } from 'react-router';
-import {
-  getGetApiAdminBrandsIdQueryKey,
-  getGetApiAdminBrandsQueryKey,
-  useGetApiAdminBrandsId,
-  usePutApiAdminBrandsId,
-} from '@/api';
+import { useGetApiAdminBrandsId } from '@/api';
 import { Loading, QueryErrorAlert } from '@/shared/components/ui';
 import i18n from '@/i18n';
 import { BrandFormDrawer } from '@/features/brand/components';
-import type { BrandFormValues } from '@/features/brand/components/BrandFormDrawer';
 
 const BrandDetailPage = () => {
-  const queryClient = useQueryClient();
   const [isEditDrawerOpen, setIsEditDrawerOpen] = useState(false);
   const { id } = useParams();
   const brandId = Number(id);
@@ -23,27 +15,7 @@ const BrandDetailPage = () => {
   const brandQuery = useGetApiAdminBrandsId(brandId, {
     query: { enabled: hasValidBrandId },
   });
-  const updateBrandMutation = usePutApiAdminBrandsId();
   const brand = brandQuery.data?.data;
-
-  const handleBrandUpdate = async (values: BrandFormValues) => {
-    await updateBrandMutation.mutateAsync({
-      id: brandId,
-      data: {
-        name: values.name,
-        description: values.description || null,
-        displayOrder: values.displayOrder,
-        isActive: brand?.isActive ?? false,
-        logoUrl: values.logo?.[0]?.url ?? null,
-      },
-    });
-
-    await Promise.all([
-      queryClient.invalidateQueries({ queryKey: getGetApiAdminBrandsIdQueryKey(brandId) }),
-      queryClient.invalidateQueries({ queryKey: getGetApiAdminBrandsQueryKey() }),
-    ]);
-    setIsEditDrawerOpen(false);
-  };
 
   if (!hasValidBrandId) {
     return <Alert type="error" showIcon title={i18n.t('brands.detail.errors.invalid-id')} />;
@@ -108,11 +80,10 @@ const BrandDetailPage = () => {
         <Button
           type="primary"
           size="small"
-          icon={<Pencil size={12} />}
-          style={{ height: 28, borderRadius: 6, paddingInline: 12, fontSize: 11 }}
+          style={{ height: 28, borderRadius: 6, paddingInline: 12, fontSize: 13 }}
           onClick={() => setIsEditDrawerOpen(true)}
         >
-          {i18n.t('brands.actions.edit')}
+          {i18n.t('brands.detail.actions.edit')}
         </Button>
       </header>
 
@@ -244,7 +215,6 @@ const BrandDetailPage = () => {
         open={isEditDrawerOpen}
         brand={brand}
         onClose={() => setIsEditDrawerOpen(false)}
-        onSubmit={handleBrandUpdate}
       />
     </main>
   );
