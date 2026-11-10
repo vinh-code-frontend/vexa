@@ -1,6 +1,6 @@
 import { ProductDetailPage, ProductFormPage, ProductListPage } from '@/features/product';
 import i18n from '@/i18n';
-import { BrandPage } from '@/features/brand/index';
+import { BrandDetailPage, BrandPage } from '@/features/brand/index';
 import { CategoryPage } from '@/features/category/index';
 import CategoryFormPage from '@/features/category/pages/CategoryFormPage';
 
@@ -68,6 +68,11 @@ export const adminNavItems: AdminNavItem[] = [
     icon: Tag,
     element: <BrandPage />,
     sidebar: true,
+  },
+  {
+    path: 'brand/:id',
+    label: i18n.t('sidebar.brand'),
+    element: <BrandDetailPage />,
   },
   {
     path: 'category',

@@ -4,7 +4,15 @@ import { Edit2, Folder } from 'lucide-react';
 import slugify from 'slugify';
 
 import i18n from '@/i18n';
-import type { CategoryResponse, CategoryTableProps } from '../types/types';
+import type { CategoryResponse } from '@/api/generated/query/model';
+
+
+type CategoryTableProps = {
+  categories: CategoryResponse[];
+  allCategories: CategoryResponse[];
+  loading?: boolean;
+  onEdit: (category: CategoryResponse) => void;
+};
 
 const renderCategoryDetails = (category: CategoryResponse) => (
   <div className="flex items-center gap-3">

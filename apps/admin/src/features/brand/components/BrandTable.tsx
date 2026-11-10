@@ -4,12 +4,18 @@ import { DeleteIcon, EditIcon } from '@/shared/components/motions';
 import { Pagination } from '@/shared/components';
 import type { ColumnsType } from 'antd/es/table';
 import { Image } from 'lucide-react';
-import type { BrandTableProps } from '../types/types';
+import { Link } from 'react-router';
 
 import type { BrandResponse } from '@/api/generated/query/model';
 import i18n from '@/i18n';
 
 const PAGE_SIZE = 4;
+
+export type BrandTableProps = {
+  brands: BrandResponse[];
+  loading?: boolean;
+  onEdit: (brand: BrandResponse) => void;
+};
 
 const renderBrandDetails = (brand: BrandResponse) => (
   <div className="flex items-center gap-3">
@@ -20,9 +26,22 @@ const renderBrandDetails = (brand: BrandResponse) => (
         <Image size={16} className="text-[#495057]" aria-hidden="true" />
       )}
     </div>
-    <Typography.Text className="text-[#212529]" strong title={brand.name}>
-      {brand.name}
-    </Typography.Text>
+    {brand.id !== undefined && brand.id !== null ? (
+      <Link
+        to={`/brand/${brand.id}`}
+        title={brand.name}
+        style={{
+          color: '#212529',
+          fontWeight: 600,
+        }}
+      >
+        {brand.name}
+      </Link>
+    ) : (
+      <Typography.Text style={{ color: '#212529' }} strong title={brand.name}>
+        {brand.name}
+      </Typography.Text>
+    )}
   </div>
 );
 
@@ -48,7 +67,7 @@ const getColumns = (onEdit: (brand: BrandResponse) => void): ColumnsType<BrandRe
     dataIndex: 'isActive',
     key: 'isActive',
     render: (isActive?: boolean) => (
-      <Tag color={isActive ? 'green' : 'default'} style={{ fontWeight: 500 }}>
+      <Tag color={isActive ? 'green' : 'red'} style={{ fontWeight: 500 }}>
         {isActive ? i18n.t('brands.filter.status.active') : i18n.t('brands.filter.status.inactive')}
       </Tag>
     ),
