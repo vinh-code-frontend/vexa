@@ -7,10 +7,10 @@ import { v4 as uuidv4 } from 'uuid';
 import slugify from 'slugify';
 import i18n from '@/i18n';
 import type { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
-import type { BrandResponse } from '@/api/generated/query/model';
 import {
   getGetApiAdminBrandsIdQueryKey,
   getGetApiAdminBrandsQueryKey,
+  QueryModels,
   usePostApiAdminBrands,
   usePutApiAdminBrandsId,
 } from '@/api';
@@ -27,7 +27,7 @@ type BrandFormValues = {
 
 type BrandFormDrawerProps = {
   open: boolean;
-  brand?: BrandResponse | null;
+  brand?: QueryModels.BrandResponse | null;
   onClose: () => void;
 };
 
@@ -41,7 +41,7 @@ const defaultValues: BrandFormValues = {
 
 const getUploadFileList = (event: UploadChangeParam<UploadFile>) => event.fileList;
 
-const getLogoFileList = (brand: BrandResponse): BrandFormValues['logo'] => {
+const getLogoFileList = (brand: QueryModels.BrandResponse): BrandFormValues['logo'] => {
   const url = brand.logoUrl?.trim();
   if (!url) return [];
 
@@ -54,7 +54,10 @@ const getLogoFileList = (brand: BrandResponse): BrandFormValues['logo'] => {
   ];
 };
 
-const getBrandDefaultValues = (mode: 'create' | 'edit', brand?: BrandResponse): BrandFormValues => {
+const getBrandDefaultValues = (
+  mode: 'create' | 'edit',
+  brand?: QueryModels.BrandResponse,
+): BrandFormValues => {
   if (mode !== 'edit' || !brand) return defaultValues;
 
   return {

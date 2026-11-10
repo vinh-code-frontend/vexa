@@ -6,18 +6,18 @@ import type { ColumnsType } from 'antd/es/table';
 import { Image } from 'lucide-react';
 import { Link } from 'react-router';
 
-import type { BrandResponse } from '@/api/generated/query/model';
+import { QueryModels } from '@/api';
 import i18n from '@/i18n';
 
 const PAGE_SIZE = 4;
 
 type BrandTableProps = {
-  brands: BrandResponse[];
+  brands: QueryModels.BrandResponse[];
   loading?: boolean;
-  onEdit: (brand: BrandResponse) => void;
+  onEdit: (brand: QueryModels.BrandResponse) => void;
 };
 
-const renderBrandDetails = (brand: BrandResponse) => (
+const renderBrandDetails = (brand: QueryModels.BrandResponse) => (
   <div className="flex items-center gap-3">
     <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-[#F1F3F5]">
       {brand.logoUrl ? (
@@ -45,7 +45,9 @@ const renderBrandDetails = (brand: BrandResponse) => (
   </div>
 );
 
-const getColumns = (onEdit: (brand: BrandResponse) => void): ColumnsType<BrandResponse> => [
+const getColumns = (
+  onEdit: (brand: QueryModels.BrandResponse) => void,
+): ColumnsType<QueryModels.BrandResponse> => [
   {
     title: i18n.t('brands.table.brand-details'),
     key: 'brandDetails',
@@ -95,7 +97,7 @@ const BrandTable = ({ brands, loading = false, onEdit }: BrandTableProps) => {
 
   return (
     <>
-      <Table<BrandResponse>
+      <Table<QueryModels.BrandResponse>
         rowKey={(brand) => String(brand.id)}
         columns={getColumns(onEdit)}
         dataSource={paginatedBrands}

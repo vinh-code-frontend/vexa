@@ -4,17 +4,16 @@ import { Edit2, Folder } from 'lucide-react';
 import slugify from 'slugify';
 
 import i18n from '@/i18n';
-import type { CategoryResponse } from '@/api/generated/query/model';
-
+import { QueryModels } from '@/api';
 
 type CategoryTableProps = {
-  categories: CategoryResponse[];
-  allCategories: CategoryResponse[];
+  categories: QueryModels.CategoryResponse[];
+  allCategories: QueryModels.CategoryResponse[];
   loading?: boolean;
-  onEdit: (category: CategoryResponse) => void;
+  onEdit: (category: QueryModels.CategoryResponse) => void;
 };
 
-const renderCategoryDetails = (category: CategoryResponse) => (
+const renderCategoryDetails = (category: QueryModels.CategoryResponse) => (
   <div className="flex items-center gap-3">
     <Folder size={14} className="shrink-0 text-violet-700" aria-hidden="true" />
     <Typography.Text className="text-[#212529]" strong title={category.name}>
@@ -24,9 +23,9 @@ const renderCategoryDetails = (category: CategoryResponse) => (
 );
 
 const getColumns = (
-  categories: CategoryResponse[],
-  onEdit: (category: CategoryResponse) => void,
-): ColumnsType<CategoryResponse> => [
+  categories: QueryModels.CategoryResponse[],
+  onEdit: (category: QueryModels.CategoryResponse) => void,
+): ColumnsType<QueryModels.CategoryResponse> => [
   {
     title: i18n.t('categories.table.category-name-hierarchy'),
     key: 'categoryName',
@@ -82,7 +81,7 @@ export const CategoryTable = ({
   onEdit,
 }: CategoryTableProps) => {
   return (
-    <Table<CategoryResponse>
+    <Table<QueryModels.CategoryResponse>
       rowKey={(category) => String(category.id)}
       columns={getColumns(allCategories, onEdit)}
       dataSource={categories}

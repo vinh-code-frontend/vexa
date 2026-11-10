@@ -5,7 +5,7 @@ import { ArrowLeftRight, Plus } from 'lucide-react';
 import { useDebounce } from '@/shared/hooks';
 import i18n from '@/i18n';
 
-import type { BrandResponse } from '@/api/generated/query/model';
+import { QueryModels } from '@/api';
 
 import { useGetApiAdminBrands } from '@/api';
 
@@ -18,18 +18,18 @@ import {
 import type { BrandStatusFilter } from '@/features/brand/types/types';
 import { QueryErrorAlert } from '@/shared/components/ui';
 
-const EMPTY_BRANDS: BrandResponse[] = [];
+const EMPTY_BRANDS: QueryModels.BrandResponse[] = [];
 
 const BrandPage = () => {
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState<BrandStatusFilter>('all');
   const [activeTab, setActiveTab] = useState<'all' | 'verification'>('all');
   const [isBrandDrawerOpen, setIsBrandDrawerOpen] = useState(false);
-  const [selectedBrand, setSelectedBrand] = useState<BrandResponse | null>(null);
+  const [selectedBrand, setSelectedBrand] = useState<QueryModels.BrandResponse | null>(null);
 
   const debouncedSearch = useDebounce(search);
 
-  const openDrawer = (brand?: BrandResponse) => {
+  const openDrawer = (brand?: QueryModels.BrandResponse) => {
     setSelectedBrand(brand ?? null);
     setIsBrandDrawerOpen(true);
   };
@@ -49,9 +49,7 @@ const BrandPage = () => {
   }, [brands, status]);
 
   if (brandsQuery.error) {
-    return (
-      <QueryErrorAlert title={i18n.t('brands.errors.load-title')} error={brandsQuery.error} />
-    );
+    return <QueryErrorAlert title={i18n.t('brands.errors.load-title')} error={brandsQuery.error} />;
   }
 
   return (

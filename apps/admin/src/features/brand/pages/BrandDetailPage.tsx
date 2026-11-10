@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Alert, Button, Card, Tabs, Tag, Typography } from 'antd';
-import { Image, Pencil } from 'lucide-react';
+import { Image } from 'lucide-react';
 import { useParams } from 'react-router';
 import { useGetApiAdminBrandsId } from '@/api';
 import { Loading, QueryErrorAlert } from '@/shared/components/ui';
