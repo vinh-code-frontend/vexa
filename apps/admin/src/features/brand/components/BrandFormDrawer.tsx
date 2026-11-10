@@ -17,7 +17,7 @@ import {
 import { QueryErrorAlert } from '@/shared/components/ui';
 import '../styles/BrandFormDrawer.css';
 
-export type BrandFormValues = {
+type BrandFormValues = {
   name: string;
   slug: string;
   description?: string;

@@ -2,7 +2,7 @@ import i18n from '@/i18n';
 import { Input, Select, Space } from 'antd';
 import type { BrandStatusFilter } from '../types/types';
 
-export type BrandFilterProps = {
+type BrandFilterProps = {
   search: string;
   status: BrandStatusFilter;
   onSearchChange: (value: string) => void;

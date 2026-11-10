@@ -11,7 +11,7 @@ import i18n from '@/i18n';
 
 const PAGE_SIZE = 4;
 
-export type BrandTableProps = {
+type BrandTableProps = {
   brands: BrandResponse[];
   loading?: boolean;
   onEdit: (brand: BrandResponse) => void;
