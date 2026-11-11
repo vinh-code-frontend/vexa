@@ -1,6 +1,13 @@
 import i18n from '@/i18n';
 import { Input, Select, Space } from 'antd';
-import type { BrandFilterProps } from '../types/types';
+import type { BrandStatusFilter } from '../types/types';
+
+type BrandFilterProps = {
+  search: string;
+  status: BrandStatusFilter;
+  onSearchChange: (value: string) => void;
+  onStatusChange: (value: BrandStatusFilter) => void;
+};
 
 const BrandFilter = ({ search, status, onSearchChange, onStatusChange }: BrandFilterProps) => {
   return (

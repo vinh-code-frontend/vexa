@@ -4,14 +4,20 @@ import { DeleteIcon, EditIcon } from '@/shared/components/motions';
 import { Pagination } from '@/shared/components';
 import type { ColumnsType } from 'antd/es/table';
 import { Image } from 'lucide-react';
-import type { BrandTableProps } from '../types/types';
+import { Link } from 'react-router';
 
-import type { BrandResponse } from '@/api/generated/query/model';
+import { QueryModels } from '@/api';
 import i18n from '@/i18n';
 
 const PAGE_SIZE = 4;
 
-const renderBrandDetails = (brand: BrandResponse) => (
+type BrandTableProps = {
+  brands: QueryModels.BrandResponse[];
+  loading?: boolean;
+  onEdit: (brand: QueryModels.BrandResponse) => void;
+};
+
+const renderBrandDetails = (brand: QueryModels.BrandResponse) => (
   <div className="flex items-center gap-3">
     <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-[#F1F3F5]">
       {brand.logoUrl ? (
@@ -20,13 +26,28 @@ const renderBrandDetails = (brand: BrandResponse) => (
         <Image size={16} className="text-[#495057]" aria-hidden="true" />
       )}
     </div>
-    <Typography.Text className="text-[#212529]" strong title={brand.name}>
-      {brand.name}
-    </Typography.Text>
+    {brand.id !== undefined && brand.id !== null ? (
+      <Link
+        to={`/brand/${brand.id}`}
+        title={brand.name}
+        style={{
+          color: '#212529',
+          fontWeight: 600,
+        }}
+      >
+        {brand.name}
+      </Link>
+    ) : (
+      <Typography.Text style={{ color: '#212529' }} strong title={brand.name}>
+        {brand.name}
+      </Typography.Text>
+    )}
   </div>
 );
 
-const getColumns = (onEdit: (brand: BrandResponse) => void): ColumnsType<BrandResponse> => [
+const getColumns = (
+  onEdit: (brand: QueryModels.BrandResponse) => void,
+): ColumnsType<QueryModels.BrandResponse> => [
   {
     title: i18n.t('brands.table.brand-details'),
     key: 'brandDetails',
@@ -48,7 +69,7 @@ const getColumns = (onEdit: (brand: BrandResponse) => void): ColumnsType<BrandRe
     dataIndex: 'isActive',
     key: 'isActive',
     render: (isActive?: boolean) => (
-      <Tag color={isActive ? 'green' : 'default'} style={{ fontWeight: 500 }}>
+      <Tag color={isActive ? 'green' : 'red'} style={{ fontWeight: 500 }}>
         {isActive ? i18n.t('brands.filter.status.active') : i18n.t('brands.filter.status.inactive')}
       </Tag>
     ),
@@ -76,7 +97,7 @@ const BrandTable = ({ brands, loading = false, onEdit }: BrandTableProps) => {
 
   return (
     <>
-      <Table<BrandResponse>
+      <Table<QueryModels.BrandResponse>
         rowKey={(brand) => String(brand.id)}
         columns={getColumns(onEdit)}
         dataSource={paginatedBrands}

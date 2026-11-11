@@ -1,7 +1,11 @@
 import { Input } from 'antd';
 
 import i18n from '@/i18n';
-import type { CategoryFilterProps } from '../types/types';
+
+type CategoryFilterProps = {
+  search: string;
+  onSearchChange: (value: string) => void;
+};
 
 export const CategoryFilter = ({ search, onSearchChange }: CategoryFilterProps) => (
   <div className="mb-3">

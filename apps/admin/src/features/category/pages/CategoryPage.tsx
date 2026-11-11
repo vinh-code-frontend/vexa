@@ -4,14 +4,15 @@ import { Alert, Button, Tabs, Typography } from 'antd';
 import { Plus } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
-import { useGetApiAdminCategories } from '@/api';
+import { QueryModels, useGetApiAdminCategories } from '@/api';
 import i18n from '@/i18n';
 
 import { CategoryFilter, CategoryTable } from '@/features/category/components';
-import type { CategoryResponse } from '@/features/category/types/types';
 import { useDebounce } from '@/shared/hooks';
 
-const EMPTY_CATEGORIES: CategoryResponse[] = [];
+
+const EMPTY_CATEGORIES: QueryModels.CategoryResponse[] = [];
+
 
 const CategoryPage = () => {
   const navigate = useNavigate();

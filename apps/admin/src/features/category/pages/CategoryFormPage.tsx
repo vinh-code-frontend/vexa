@@ -4,7 +4,15 @@ import slugify from 'slugify';
 import { useLocation, useNavigate } from 'react-router';
 
 import i18n from '@/i18n';
-import type { CategoryFormLocationState, CategoryFormPageProps } from '../types/types';
+import { QueryModels } from '@/api';
+
+type CategoryFormPageProps = {
+  mode: 'create' | 'edit';
+};
+
+type CategoryFormLocationState = {
+  category?: QueryModels.CategoryResponse;
+} | null;
 
 const CategoryFormPage = ({ mode }: CategoryFormPageProps) => {
   const navigate = useNavigate();
