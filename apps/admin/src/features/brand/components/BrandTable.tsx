@@ -9,7 +9,7 @@ import { Link } from 'react-router';
 import { QueryModels } from '@/api';
 import i18n from '@/i18n';
 
-const PAGE_SIZE = 4;
+const PAGE_SIZE = 10;
 
 type BrandTableProps = {
   brands: QueryModels.BrandResponse[];
