@@ -15,7 +15,7 @@ const Pagination = ({ current, total, pageSize, onChange, ariaLabel }: Paginatio
   const activePage = Math.min(Math.max(current, 1), pageCount);
 
   return (
-    <div className="flex w-full items-center justify-between gap-4 pt-5">
+    <div className="flex w-full items-center justify-between gap-4 py-4">
       <span className="text-xs text-[#6C757D]">
         {i18n.t('common.pagination.showing-items', {
           start: total === 0 ? 0 : (activePage - 1) * pageSize + 1,
