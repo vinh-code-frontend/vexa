@@ -1,144 +1,234 @@
 {
-  "common.app-name": "Vexa",
-  "admin-login.welcome-back": "Welcome Back",
-  "admin-login.login-description": "Enter your credentials to manage Vexa Admin",
-  "admin-login.error-message": "Unable to sign in. Check your username and password.",
-  "admin-login.username-label": "Username",
-  "admin-login.username-placeholder": "Enter your username",
-  "admin-login.password-label": "Password",
-  "admin-login.password-placeholder": "Enter your password",
-  "admin-login.remember-me": "Remember this device for 30 days",
-  "admin-login.forgot-password": "Forgot password?",
-  "admin-login.submit": "Sign In to Dashboard",
-  "admin-login.incorrect-info": "Enter a valid username and password.",
-  "admin-login.sidebar-middle-message": "Precision control for next-gen mobile retail",
-  "admin-login.sidebar-middle-description": "Manage brands, inventory, roles, and order streams in one beautiful operational command center.",
-  "admin-login.sidebar-footer-app-version": "Vexa Admin Suite v{0}",
-  "admin-login.sidebar-footer-app-copyright": "© 2024 Vexa Inc. All rights reserved.",
-  "sidebar.dashboard": "Dashboard",
-  "sidebar.product": "Products",
-  "sidebar.brand": "Brands",
-  "sidebar.category": "Categories",
-  "sidebar.user": "Users",
-  "sidebar.order": "Orders",
-  "sidebar.setting": "Settings",
-  "common.pagination.showing-items": "Showing {{start}}-{{end}} of {{total}} items",
-  "common.pagination.previous": "Previous",
-  "common.pagination.next": "Next",
-  "common.pagination.navigation-label": "Pagination",
-  "common.pagination.page": "Page {{page}}",
-  "common.errors.unexpected": "An unexpected error occurred.",
-  "common.actions.cancel": "Cancel",
-  "users.page.title": "Users & Permissions",
-  "users.page.description": "Manage internal operator access across categories and branches.",
-  "users.errors.load-title": "Unable to load users",
-  "users.actions.bulk": "Bulk actions",
-  "users.actions.export": "Export CSV",
-  "users.actions.create": "Create User",
-  "users.selection.selected-count": "{{count}} selected",
-  "users.filter.search-placeholder": "Search user or email...",
-  "users.filter.role-label": "Role",
-  "users.filter.status-label": "Status",
-  "users.filter.roles.all": "All Roles",
-  "users.filter.roles.admin": "Admin",
-  "users.filter.roles.user": "User",
-  "users.filter.statuses.all": "All Statuses",
-  "users.filter.statuses.active": "Active",
-  "users.filter.statuses.suspended": "Suspended",
-  "users.filter.statuses.pending": "Pending Invitation",
-  "users.filter.statuses.deleted": "Deleted",
-  "users.table.profile": "User Profile",
-  "users.table.email": "Email",
-  "users.table.role": "Role",
-  "users.table.status": "Status",
-  "users.table.created-date": "Created Date",
-  "users.table.row-actions": "Row Actions",
-  "users.table.empty": "No users found.",
-  "users.table.view": "View",
-  "users.table.actions-for": "Actions for {{name}}",
-  "users.pagination.navigation-label": "Users pagination",
-  "users.roles.admin": "Admin",
-  "users.roles.user": "User",
-  "users.status.active": "Active",
-  "users.status.suspended": "Suspended",
-  "users.status.pending": "Pending Invitation",
-  "users.status.deleted": "Deleted",
-  "users.fallback.unknown-name": "Unknown user",
-  "brands.page.title": "Brands",
-  "brands.page.description": "Configure brand profiles, logos, and global visibility ordering.",
-  "brands.errors.load-title": "Could not load brands",
-  "brands.detail.errors.invalid-id": "Invalid brand ID.",
-  "brands.detail.errors.load-title": "Could not load brand",
-  "brands.detail.errors.no-data": "Brand details were not returned.",
-  "brands.detail.tabs.aria-label": "Brand details",
-  "brands.detail.tabs.overview": "Overview",
-  "brands.detail.tabs.activity": "Activity",
-  "brands.detail.overview.aria-label": "Brand overview",
-  "brands.detail.information-title": "Brand Information",
-  "brands.detail.profile-title": "Brand Profile",
-  "brands.detail.no-description": "No brand description has been added.",
-  "brands.detail.logo-alt": "{{name}} logo",
-  "brands.detail.no-logo": "No logo uploaded",
-  "brands.detail.logo-unavailable": "Logo image is not available",
-  "brands.actions.import-csv": "Import CSV",
-  "brands.actions.create": "Create Brand",
-  "brands.actions.edit": "Edit",
-  "brands.detail.actions.edit": "Edit Brand",
-  "brands.actions.save": "Save Brand",
-  "brands.table.brand-details": "Brand Details",
-  "brands.table.slug": "Slug",
-  "brands.table.display-order": "Display Order",
-  "brands.table.status": "Status",
-  "brands.table.row-actions": "Row Actions",
-  "brands.table.empty": "No brands found.",
-  "brands.pagination.navigation-label": "Brand pagination",
-  "brands.form.title.create": "Create Brand Profile",
-  "brands.form.title.edit": "Edit Brand Profile",
-  "brands.form.description": "Define brand attributes, slug matching, and catalogs.",
-  "brands.form.submit-error": "Could not save brand",
-  "brands.form.name": "Brand Name",
-  "brands.form.name-required": "Enter a brand name.",
-  "brands.form.name-placeholder": "Enter brand name",
-  "brands.form.slug-preview": "Slug Preview",
-  "brands.form.slug-prefix": "vexa.co/brands/",
-  "brands.form.description-label": "Brand Description",
-  "brands.form.description-placeholder": "Describe this brand",
-  "brands.form.display-order": "Display Order",
-  "brands.form.logo-image": "Logo Image",
-  "brands.form.logo-drop-image": "Drop logo image here, or browse local files",
-  "brands.filter.search-placeholder": "Search brand name or slug...",
-  "brands.filter.status-label": "Status",
-  "brands.filter.status.all": "All statuses",
-  "brands.filter.status.active": "Active",
-  "brands.filter.status.inactive": "Inactive",
-  "brands.tabs.all": "All Brands",
-  "brands.tabs.verification": "Verification",
-  "brands.verification.title": "Pending Verification Queue",
-  "brands.verification.empty-title": "All caught up!",
-  "brands.verification.empty-description": "No brands are currently flagged for validation review.",
-  "brands.verification.notice": "Brands added from catalog feeds require approval before pushing to production storefronts.",
-  "categories.page.title": "Categories",
-  "categories.page.description": "Organize products into a searchable parent-child category tree.",
-  "categories.errors.load-title": "Could not load categories",
-  "categories.table.category-name-hierarchy": "Category",
-  "categories.table.slug": "Slug preview",
-  "categories.table.status": "Status",
-  "categories.table.child-count": "Child categories",
-  "categories.table.empty": "No categories found.",
-  "categories.filter.search-placeholder": "Search categories...",
-  "categories.filter.status.active": "Active",
-  "categories.filter.status.inactive": "Inactive",
-  "categories.actions.create-child": "Create Child Category",
-  "categories.actions.create-root": "Create Root Category",
-  "categories.actions.edit": "Edit {{name}}",
-  "categories.actions.save": "Save Category",
-  "categories.table.actions": "Actions",
-  "categories.form.title.create": "Create category",
-  "categories.form.title.edit": "Edit category",
-  "categories.form.name": "Category Name",
-  "categories.form.parent": "Parent category",
-  "categories.form.root-category": "None (root category)",
-  "categories.form.slug-preview": "Slug Preview",
-  "categories.form.description": "Description",
-  "categories.form.display-order": "Display order"
+  "common": {
+    "app-name": "Vexa",
+    "pagination": {
+      "showing-items": "Showing {{start}}-{{end}} of {{total}} items",
+      "previous": "Previous",
+      "next": "Next",
+      "navigation-label": "Pagination",
+      "page": "Page {{page}}"
+    },
+    "errors": {
+      "unexpected": "An unexpected error occurred."
+    },
+    "actions": {
+      "cancel": "Cancel"
+    }
+  },
+  "admin-login": {
+    "welcome-back": "Welcome Back",
+    "login-description": "Enter your credentials to manage Vexa Admin",
+    "error-message": "Unable to sign in. Check your username and password.",
+    "username-label": "Username",
+    "username-placeholder": "Enter your username",
+    "password-label": "Password",
+    "password-placeholder": "Enter your password",
+    "remember-me": "Remember this device for 30 days",
+    "forgot-password": "Forgot password?",
+    "submit": "Sign In to Dashboard",
+    "incorrect-info": "Enter a valid username and password.",
+    "sidebar-middle-message": "Precision control for next-gen mobile retail",
+    "sidebar-middle-description": "Manage brands, inventory, roles, and order streams in one beautiful operational command center.",
+    "sidebar-footer-app-version": "Vexa Admin Suite v{0}",
+    "sidebar-footer-app-copyright": "© 2024 Vexa Inc. All rights reserved."
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "product": "Products",
+    "brand": "Brands",
+    "category": "Categories",
+    "user": "Users",
+    "order": "Orders",
+    "setting": "Settings"
+  },
+  "users": {
+    "page": {
+      "title": "Users & Permissions",
+      "description": "Manage internal operator access across categories and branches."
+    },
+    "errors": {
+      "load-title": "Unable to load users"
+    },
+    "actions": {
+      "bulk": "Bulk actions",
+      "export": "Export CSV",
+      "create": "Create User"
+    },
+    "selection": {
+      "selected-count": "{{count}} selected"
+    },
+    "filter": {
+      "search-placeholder": "Search user or email...",
+      "role-label": "Role",
+      "status-label": "Status",
+      "roles": {
+        "all": "All Roles",
+        "admin": "Admin",
+        "user": "User"
+      },
+      "statuses": {
+        "all": "All Statuses",
+        "active": "Active",
+        "suspended": "Suspended",
+        "pending": "Pending Invitation",
+        "deleted": "Deleted"
+      }
+    },
+    "table": {
+      "profile": "User Profile",
+      "email": "Email",
+      "role": "Role",
+      "status": "Status",
+      "created-date": "Created Date",
+      "row-actions": "Row Actions",
+      "empty": "No users found.",
+      "view": "View",
+      "actions-for": "Actions for {{name}}"
+    },
+    "pagination": {
+      "navigation-label": "Users pagination"
+    },
+    "roles": {
+      "admin": "Admin",
+      "user": "User"
+    },
+    "status": {
+      "active": "Active",
+      "suspended": "Suspended",
+      "pending": "Pending Invitation",
+      "deleted": "Deleted"
+    },
+    "fallback": {
+      "unknown-name": "Unknown user"
+    }
+  },
+  "brands": {
+    "page": {
+      "title": "Brands",
+      "description": "Configure brand profiles, logos, and global visibility ordering."
+    },
+    "errors": {
+      "load-title": "Could not load brands"
+    },
+    "detail": {
+      "errors": {
+        "invalid-id": "Invalid brand ID.",
+        "load-title": "Could not load brand",
+        "no-data": "Brand details were not returned."
+      },
+      "tabs": {
+        "aria-label": "Brand details",
+        "overview": "Overview",
+        "activity": "Activity"
+      },
+      "overview": {
+        "aria-label": "Brand overview"
+      },
+      "information-title": "Brand Information",
+      "profile-title": "Brand Profile",
+      "no-description": "No brand description has been added.",
+      "logo-alt": "{{name}} logo",
+      "no-logo": "No logo uploaded",
+      "logo-unavailable": "Logo image is not available",
+      "actions": {
+        "edit": "Edit Brand"
+      }
+    },
+    "actions": {
+      "import-csv": "Import CSV",
+      "create": "Create Brand",
+      "edit": "Edit",
+      "save": "Save Brand"
+    },
+    "table": {
+      "brand-details": "Brand Details",
+      "slug": "Slug",
+      "display-order": "Display Order",
+      "status": "Status",
+      "row-actions": "Row Actions",
+      "empty": "No brands found."
+    },
+    "pagination": {
+      "navigation-label": "Brand pagination"
+    },
+    "form": {
+      "title": {
+        "create": "Create Brand Profile",
+        "edit": "Edit Brand Profile"
+      },
+      "description": "Define brand attributes, slug matching, and catalogs.",
+      "submit-error": "Could not save brand",
+      "name": "Brand Name",
+      "name-required": "Enter a brand name.",
+      "name-placeholder": "Enter brand name",
+      "slug-preview": "Slug Preview",
+      "slug-prefix": "vexa.co/brands/",
+      "description-label": "Brand Description",
+      "description-placeholder": "Describe this brand",
+      "display-order": "Display Order",
+      "logo-image": "Logo Image",
+      "logo-drop-image": "Drop logo image here, or browse local files"
+    },
+    "filter": {
+      "search-placeholder": "Search brand name or slug...",
+      "status-label": "Status",
+      "status": {
+        "all": "All statuses",
+        "active": "Active",
+        "inactive": "Inactive"
+      }
+    },
+    "tabs": {
+      "all": "All Brands",
+      "verification": "Verification"
+    },
+    "verification": {
+      "title": "Pending Verification Queue",
+      "empty-title": "All caught up!",
+      "empty-description": "No brands are currently flagged for validation review.",
+      "notice": "Brands added from catalog feeds require approval before pushing to production storefronts."
+    }
+  },
+  "categories": {
+    "page": {
+      "title": "Categories",
+      "description": "Organize products into a searchable parent-child category tree."
+    },
+    "errors": {
+      "load-title": "Could not load categories"
+    },
+    "table": {
+      "category-name-hierarchy": "Category",
+      "slug": "Slug preview",
+      "status": "Status",
+      "child-count": "Child categories",
+      "empty": "No categories found.",
+      "actions": "Actions"
+    },
+    "filter": {
+      "search-placeholder": "Search categories...",
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive"
+      }
+    },
+    "actions": {
+      "create-child": "Create Child Category",
+      "create-root": "Create Root Category",
+      "edit": "Edit {{name}}",
+      "save": "Save Category"
+    },
+    "form": {
+      "title": {
+        "create": "Create category",
+        "edit": "Edit category"
+      },
+      "name": "Category Name",
+      "parent": "Parent category",
+      "root-category": "None (root category)",
+      "slug-preview": "Slug Preview",
+      "description": "Description",
+      "display-order": "Display order"
+    }
+  }
 }

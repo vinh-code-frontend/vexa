@@ -1,141 +1,227 @@
 {
-  "common.app-name": "Vexa",
-  "admin-login.welcome-back": "Chào mừng trở lại",
-  "admin-login.error-message": "Thông tin đăng nhập không đúng. Thử: admin@vexa.com / admin123",
-  "admin-login.login-description": "Nhập thông tin để đăng nhập Vexa Admin",
-  "admin-login.username-label": "Tên đăng nhập",
-  "admin-login.username-placeholder": "Nhập tên đăng nhập của bạn",
-  "admin-login.password-label": "Mật khẩu",
-  "admin-login.password-placeholder": "Nhập mật khẩu của bạn",
-  "admin-login.remember-me": "Ghi nhớ thiết bị này trong 30 ngày",
-  "admin-login.forgot-password": "Quên mật khẩu?",
-  "admin-login.submit": "Đăng nhập vào bảng điều khiển",
-  "admin-login.incorrect-info": "Tên đăng nhập hoặc mật khẩu không chính xác",
-  "admin-login.sidebar-middle-message": "Kiểm soát chính xác cho hệ thống bán di động thế hệ mới",
-  "admin-login.sidebar-middle-description": "Quản lý thương hiệu, hàng tồn kho, vai trò và quy trình đơn hàng trong một trung tâm điều hành hiện đại.",
-  "admin-login.sidebar-footer-app-version": "Bộ quản trị Vexa v{0}",
-  "admin-login.sidebar-footer-app-copyright": "© 2024 Vexa Inc. Bảo lưu mọi quyền.",
-  "sidebar.dashboard": "Tổng quan",
-  "sidebar.product": "Sản phẩm",
-  "sidebar.brand": "Thương hiệu",
-  "sidebar.category": "Danh mục",
-  "sidebar.user": "Người dùng",
-  "sidebar.order": "Đơn hàng",
-  "sidebar.setting": "Cài đặt",
-  "common.pagination.showing-items": "Hiển thị {{start}}-{{end}} trong tổng số {{total}} mục",
-  "common.pagination.previous": "Trước",
-  "common.pagination.next": "Tiếp",
-  "common.pagination.navigation-label": "Phân trang",
-  "common.pagination.page": "Trang {{page}}",
-  "common.errors.unexpected": "Đã xảy ra lỗi không mong muốn.",
-  "common.actions.cancel": "Hủy",
-  "users.page.title": "Người dùng & Quyền hạn",
-  "users.page.description": "Quản lý quyền truy cập của nhân viên nội bộ theo danh mục và chi nhánh.",
-  "users.errors.load-title": "Không thể tải danh sách người dùng",
-  "users.actions.bulk": "Thao tác hàng loạt",
-  "users.actions.export": "Xuất CSV",
-  "users.actions.create": "Tạo người dùng",
-  "users.selection.selected-count": "Đã chọn {{count}}",
-  "users.filter.search-placeholder": "Tìm người dùng hoặc email...",
-  "users.filter.role-label": "Vai trò",
-  "users.filter.status-label": "Trạng thái",
-  "users.filter.roles.all": "Tất cả vai trò",
-  "users.filter.roles.admin": "Quản trị viên",
-  "users.filter.roles.user": "Người dùng",
-  "users.filter.statuses.all": "Tất cả trạng thái",
-  "users.filter.statuses.active": "Đang hoạt động",
-  "users.filter.statuses.suspended": "Đã tạm ngưng",
-  "users.filter.statuses.pending": "Đang chờ lời mời",
-  "users.filter.statuses.deleted": "Đã xóa",
-  "users.table.profile": "Hồ sơ người dùng",
-  "users.table.email": "Email",
-  "users.table.role": "Vai trò",
-  "users.table.status": "Trạng thái",
-  "users.table.created-date": "Ngày tạo",
-  "users.table.row-actions": "Thao tác",
-  "users.table.empty": "Không tìm thấy người dùng.",
-  "users.table.view": "Xem",
-  "users.table.actions-for": "Thao tác cho {{name}}",
-  "users.pagination.navigation-label": "Phân trang người dùng",
-  "users.roles.admin": "Quản trị viên",
-  "users.roles.user": "Người dùng",
-  "users.status.active": "Đang hoạt động",
-  "users.status.suspended": "Đã tạm ngưng",
-  "users.status.pending": "Đang chờ lời mời",
-  "users.status.deleted": "Đã xóa",
-  "users.fallback.unknown-name": "Người dùng không xác định",
-  "brands.page.title": "Thương hiệu",
-  "brands.page.description": "Quản lý hồ sơ, logo và thứ tự hiển thị của thương hiệu.",
-  "brands.errors.load-title": "Không thể tải danh sách thương hiệu",
-  "brands.detail.errors.invalid-id": "Mã thương hiệu không hợp lệ.",
-  "brands.detail.errors.load-title": "Không thể tải thông tin thương hiệu",
-  "brands.detail.errors.no-data": "Không có thông tin thương hiệu được trả về.",
-  "brands.detail.tabs.aria-label": "Chi tiết thương hiệu",
-  "brands.detail.tabs.overview": "Tổng quan",
-  "brands.detail.tabs.activity": "Hoạt động",
-  "brands.detail.overview.aria-label": "Tổng quan thương hiệu",
-  "brands.detail.information-title": "Thông tin thương hiệu",
-  "brands.detail.profile-title": "Hồ sơ thương hiệu",
-  "brands.detail.no-description": "Chưa có mô tả thương hiệu.",
-  "brands.detail.logo-alt": "Logo {{name}}",
-  "brands.detail.no-logo": "Chưa tải lên logo",
-  "brands.detail.logo-unavailable": "Không có ảnh logo",
-  "brands.actions.import-csv": "Nhập CSV",
-  "brands.actions.create": "Tạo thương hiệu",
-  "brands.actions.edit": "Chỉnh sửa",
-  "brands.actions.save": "Lưu thương hiệu",
-  "brands.detail.actions.edit": "Chỉnh sửa thương hiệu",
-  "brands.table.brand-details": "Chi tiết thương hiệu",
-  "brands.table.slug": "Slug",
-  "brands.table.display-order": "Thứ tự hiển thị",
-  "brands.table.status": "Trạng thái",
-  "brands.table.updated-date": "Ngày cập nhật",
-  "brands.table.row-actions": "Thao tác",
-  "brands.table.empty": "Không tìm thấy thương hiệu.",
-  "brands.pagination.navigation-label": "Phân trang thương hiệu",
-  "brands.form.title.create": "Tạo hồ sơ thương hiệu",
-  "brands.form.title.edit": "Chỉnh sửa hồ sơ thương hiệu",
-  "brands.form.description": "Định nghĩa thuộc tính thương hiệu, slug và danh mục.",
-  "brands.form.submit-error": "Không thể lưu thương hiệu",
-  "brands.form.name": "Tên thương hiệu",
-  "brands.form.name-required": "Vui lòng nhập tên thương hiệu.",
-  "brands.form.name-placeholder": "Nhập tên thương hiệu",
-  "brands.form.slug-preview": "Xem trước slug",
-  "brands.form.slug-prefix": "vexa.co/brands",
-  "brands.form.description-label": "Mô tả thương hiệu",
-  "brands.form.description-placeholder": "Mô tả thương hiệu này",
-  "brands.form.display-order": "Thứ tự hiển thị",
-  "brands.form.logo-image": "Ảnh logo",
-  "brands.form.logo-drop-image": "Thả logo vào đây hoặc duyệt tệp trên thiết bị",
-  "brands.filter.search-placeholder": "Tìm theo tên hoặc slug thương hiệu...",
-  "brands.filter.status-label": "Trạng thái",
-  "brands.filter.status.all": "Tất cả trạng thái",
-  "brands.filter.status.active": "Đang hoạt động",
-  "brands.filter.status.inactive": "Không hoạt động",
-  "brands.pending.title": "Hàng chờ xác minh",
-  "brands.pending.empty-title": "Đã xử lý hết!",
-  "brands.pending.empty-description": "Hiện không có thương hiệu nào được đánh dấu cần xem xét xác thực.",
-  "brands.pending.notice": "Thương hiệu được thêm từ nguồn cấp danh mục cần được phê duyệt trước khi đưa lên cửa hàng chính thức.",
-  "categories.page.title": "Danh mực",
-  "categories.page.description": "Sắp xếp các danh mục trên mặt tiền cửa hàng của bạn",
-  "categories.table.category-name-hierarchy": "Danh mục",
-  "categories.table.slug": "Slug",
-  "categories.table.status": "Trạng thái",
-  "categories.table.child-count": "Danh mục con",
-  "categories.table.empty": "Không tìm thấy danh mục.",
-  "categories.filter.status.active": "Đang hoạt động",
-  "categories.filter.status.inactive": "Không hoạt động",
-  "categories.actions.create-child": "Tạo danh mục con",
-  "categories.actions.create-root": "Tạo danh mục gốc",
-  "categories.actions.edit": "Chỉnh sửa {{name}}",
-  "categories.actions.save": "Lưu danh mục",
-  "categories.table.actions": "Thao tác",
-  "categories.form.title.create": "Tạo danh mục",
-  "categories.form.title.edit": "Chỉnh sửa danh mục",
-  "categories.form.name": "Tên danh mục",
-  "categories.form.parent": "Danh mục cha",
-  "categories.form.root-category": "Không có (danh mục gốc)",
-  "categories.form.slug-preview": "Xem trước slug",
-  "categories.form.description": "Mô tả",
-  "categories.form.display-order": "Thứ tự hiển thị"
+  "common": {
+    "app-name": "Vexa",
+    "pagination": {
+      "showing-items": "Hiển thị {{start}}-{{end}} trong tổng số {{total}} mục",
+      "previous": "Trước",
+      "next": "Tiếp",
+      "navigation-label": "Phân trang",
+      "page": "Trang {{page}}"
+    },
+    "errors": {
+      "unexpected": "Đã xảy ra lỗi không mong muốn."
+    },
+    "actions": {
+      "cancel": "Hủy"
+    }
+  },
+  "admin-login": {
+    "welcome-back": "Chào mừng trở lại",
+    "error-message": "Thông tin đăng nhập không đúng. Thử: admin@vexa.com / admin123",
+    "login-description": "Nhập thông tin để đăng nhập Vexa Admin",
+    "username-label": "Tên đăng nhập",
+    "username-placeholder": "Nhập tên đăng nhập của bạn",
+    "password-label": "Mật khẩu",
+    "password-placeholder": "Nhập mật khẩu của bạn",
+    "remember-me": "Ghi nhớ thiết bị này trong 30 ngày",
+    "forgot-password": "Quên mật khẩu?",
+    "submit": "Đăng nhập vào bảng điều khiển",
+    "incorrect-info": "Tên đăng nhập hoặc mật khẩu không chính xác",
+    "sidebar-middle-message": "Kiểm soát chính xác cho hệ thống bán di động thế hệ mới",
+    "sidebar-middle-description": "Quản lý thương hiệu, hàng tồn kho, vai trò và quy trình đơn hàng trong một trung tâm điều hành hiện đại.",
+    "sidebar-footer-app-version": "Bộ quản trị Vexa v{0}",
+    "sidebar-footer-app-copyright": "© 2024 Vexa Inc. Bảo lưu mọi quyền."
+  },
+  "sidebar": {
+    "dashboard": "Tổng quan",
+    "product": "Sản phẩm",
+    "brand": "Thương hiệu",
+    "category": "Danh mục",
+    "user": "Người dùng",
+    "order": "Đơn hàng",
+    "setting": "Cài đặt"
+  },
+  "users": {
+    "page": {
+      "title": "Người dùng & Quyền hạn",
+      "description": "Quản lý quyền truy cập của nhân viên nội bộ theo danh mục và chi nhánh."
+    },
+    "errors": {
+      "load-title": "Không thể tải danh sách người dùng"
+    },
+    "actions": {
+      "bulk": "Thao tác hàng loạt",
+      "export": "Xuất CSV",
+      "create": "Tạo người dùng"
+    },
+    "selection": {
+      "selected-count": "Đã chọn {{count}}"
+    },
+    "filter": {
+      "search-placeholder": "Tìm người dùng hoặc email...",
+      "role-label": "Vai trò",
+      "status-label": "Trạng thái",
+      "roles": {
+        "all": "Tất cả vai trò",
+        "admin": "Quản trị viên",
+        "user": "Người dùng"
+      },
+      "statuses": {
+        "all": "Tất cả trạng thái",
+        "active": "Đang hoạt động",
+        "suspended": "Đã tạm ngưng",
+        "pending": "Đang chờ lời mời",
+        "deleted": "Đã xóa"
+      }
+    },
+    "table": {
+      "profile": "Hồ sơ người dùng",
+      "email": "Email",
+      "role": "Vai trò",
+      "status": "Trạng thái",
+      "created-date": "Ngày tạo",
+      "row-actions": "Thao tác",
+      "empty": "Không tìm thấy người dùng.",
+      "view": "Xem",
+      "actions-for": "Thao tác cho {{name}}"
+    },
+    "pagination": {
+      "navigation-label": "Phân trang người dùng"
+    },
+    "roles": {
+      "admin": "Quản trị viên",
+      "user": "Người dùng"
+    },
+    "status": {
+      "active": "Đang hoạt động",
+      "suspended": "Đã tạm ngưng",
+      "pending": "Đang chờ lời mời",
+      "deleted": "Đã xóa"
+    },
+    "fallback": {
+      "unknown-name": "Người dùng không xác định"
+    }
+  },
+  "brands": {
+    "page": {
+      "title": "Thương hiệu",
+      "description": "Quản lý hồ sơ, logo và thứ tự hiển thị của thương hiệu."
+    },
+    "errors": {
+      "load-title": "Không thể tải danh sách thương hiệu"
+    },
+    "detail": {
+      "errors": {
+        "invalid-id": "Mã thương hiệu không hợp lệ.",
+        "load-title": "Không thể tải thông tin thương hiệu",
+        "no-data": "Không có thông tin thương hiệu được trả về."
+      },
+      "tabs": {
+        "aria-label": "Chi tiết thương hiệu",
+        "overview": "Tổng quan",
+        "activity": "Hoạt động"
+      },
+      "overview": {
+        "aria-label": "Tổng quan thương hiệu"
+      },
+      "information-title": "Thông tin thương hiệu",
+      "profile-title": "Hồ sơ thương hiệu",
+      "no-description": "Chưa có mô tả thương hiệu.",
+      "logo-alt": "Logo {{name}}",
+      "no-logo": "Chưa tải lên logo",
+      "logo-unavailable": "Không có ảnh logo",
+      "actions": {
+        "edit": "Chỉnh sửa thương hiệu"
+      }
+    },
+    "actions": {
+      "import-csv": "Nhập CSV",
+      "create": "Tạo thương hiệu",
+      "edit": "Chỉnh sửa",
+      "save": "Lưu thương hiệu"
+    },
+    "table": {
+      "brand-details": "Chi tiết thương hiệu",
+      "slug": "Slug",
+      "display-order": "Thứ tự hiển thị",
+      "status": "Trạng thái",
+      "updated-date": "Ngày cập nhật",
+      "row-actions": "Thao tác",
+      "empty": "Không tìm thấy thương hiệu."
+    },
+    "pagination": {
+      "navigation-label": "Phân trang thương hiệu"
+    },
+    "form": {
+      "title": {
+        "create": "Tạo hồ sơ thương hiệu",
+        "edit": "Chỉnh sửa hồ sơ thương hiệu"
+      },
+      "description": "Định nghĩa thuộc tính thương hiệu, slug và danh mục.",
+      "submit-error": "Không thể lưu thương hiệu",
+      "name": "Tên thương hiệu",
+      "name-required": "Vui lòng nhập tên thương hiệu.",
+      "name-placeholder": "Nhập tên thương hiệu",
+      "slug-preview": "Xem trước slug",
+      "slug-prefix": "vexa.co/brands",
+      "description-label": "Mô tả thương hiệu",
+      "description-placeholder": "Mô tả thương hiệu này",
+      "display-order": "Thứ tự hiển thị",
+      "logo-image": "Ảnh logo",
+      "logo-drop-image": "Thả logo vào đây hoặc duyệt tệp trên thiết bị"
+    },
+    "filter": {
+      "search-placeholder": "Tìm theo tên hoặc slug thương hiệu...",
+      "status-label": "Trạng thái",
+      "status": {
+        "all": "Tất cả trạng thái",
+        "active": "Đang hoạt động",
+        "inactive": "Không hoạt động"
+      }
+    },
+    "pending": {
+      "title": "Hàng chờ xác minh",
+      "empty-title": "Đã xử lý hết!",
+      "empty-description": "Hiện không có thương hiệu nào được đánh dấu cần xem xét xác thực.",
+      "notice": "Thương hiệu được thêm từ nguồn cấp danh mục cần được phê duyệt trước khi đưa lên cửa hàng chính thức."
+    }
+  },
+  "categories": {
+    "page": {
+      "title": "Danh mực",
+      "description": "Sắp xếp các danh mục trên mặt tiền cửa hàng của bạn"
+    },
+    "table": {
+      "category-name-hierarchy": "Danh mục",
+      "slug": "Slug",
+      "status": "Trạng thái",
+      "child-count": "Danh mục con",
+      "empty": "Không tìm thấy danh mục.",
+      "actions": "Thao tác"
+    },
+    "filter": {
+      "status": {
+        "active": "Đang hoạt động",
+        "inactive": "Không hoạt động"
+      }
+    },
+    "actions": {
+      "create-child": "Tạo danh mục con",
+      "create-root": "Tạo danh mục gốc",
+      "edit": "Chỉnh sửa {{name}}",
+      "save": "Lưu danh mục"
+    },
+    "form": {
+      "title": {
+        "create": "Tạo danh mục",
+        "edit": "Chỉnh sửa danh mục"
+      },
+      "name": "Tên danh mục",
+      "parent": "Danh mục cha",
+      "root-category": "Không có (danh mục gốc)",
+      "slug-preview": "Xem trước slug",
+      "description": "Mô tả",
+      "display-order": "Thứ tự hiển thị"
+    }
+  }
 }

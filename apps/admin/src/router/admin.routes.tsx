@@ -1,8 +1,3 @@
-import { ProductDetailPage, ProductFormPage, ProductListPage } from '@/features/product';
-import i18n from '@/i18n';
-import { BrandDetailPage, BrandPage } from '@/features/brand';
-import { CategoryPage, CategoryFormPage } from '@/features/category';
-import { UserPage } from '@/features/user';
 import type { LucideIcon } from 'lucide-react';
 import {
   FolderTree,
@@ -14,6 +9,12 @@ import {
   Users,
 } from 'lucide-react';
 import { Navigate, type RouteObject } from 'react-router';
+
+import { BrandDetailPage, BrandPage } from '@/features/brand';
+import { CategoryPage, CategoryFormPage } from '@/features/category';
+import { ProductDetailPage, ProductFormPage, ProductListPage } from '@/features/product';
+import { UserPage } from '@/features/user';
+import i18n from '@/i18n';
 
 export type AdminNavItem = {
   path: string;
