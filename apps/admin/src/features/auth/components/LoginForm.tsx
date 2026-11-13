@@ -1,11 +1,12 @@
-import { useState } from 'react';
 import { Spin, type FormProps } from 'antd';
 import { Alert, Button, Checkbox, Form, Input, Typography } from 'antd';
+import { Mail, Lock, Info } from 'lucide-react';
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
-import { Mail, Lock, Info } from 'lucide-react';
-import i18n from '@/i18n';
 import { useLoginValidation } from '../hooks/useValidation';
+
+import i18n from '@/i18n';
 import { useAuth } from '@/providers/AuthProvider';
 
 import './styles/LoginForm.css';
