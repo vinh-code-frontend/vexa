@@ -1,10 +1,13 @@
+import { Layout, theme } from 'antd';
+import { Content, Header } from 'antd/es/layout/layout';
+import Sider from 'antd/es/layout/Sider';
+import { useState } from 'react';
+import { Outlet } from 'react-router';
+
 import Sidebar from './components/Sidebar';
 import Topbar from './components/Topbar';
-import { Layout, theme } from 'antd';
-import { useState } from 'react';
-import Sider from 'antd/es/layout/Sider';
-import { Content, Header } from 'antd/es/layout/layout';
-import { Outlet } from 'react-router';
+
+import { Scrollbar } from '@/shared/components';
 
 const MainLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -13,7 +16,7 @@ const MainLayout = () => {
   } = theme.useToken();
 
   return (
-    <Layout style={{ minHeight: '100dvh', background: '#fff' }} className="bg-white">
+    <Layout style={{ height: '100dvh', background: '#fff' }} className="bg-white">
       <Sider
         collapsible
         collapsedWidth={68}
@@ -35,8 +38,12 @@ const MainLayout = () => {
         >
           <Topbar />
         </Header>
-        <Content style={{ margin: '0 16px' }}>
-          <Outlet />
+        <Content>
+          <Scrollbar>
+            <div className="m-4">
+              <Outlet />
+            </div>
+          </Scrollbar>
         </Content>
       </Layout>
     </Layout>
