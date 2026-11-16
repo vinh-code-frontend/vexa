@@ -108,7 +108,8 @@
       "description": "Quản lý hồ sơ, logo và thứ tự hiển thị của thương hiệu."
     },
     "errors": {
-      "load-title": "Không thể tải danh sách thương hiệu"
+      "load-title": "Không thể tải danh sách thương hiệu",
+      "delete-title": "Không thể xóa thương hiệu"
     },
     "detail": {
       "errors": {
@@ -128,7 +129,7 @@
       "profile-title": "Hồ sơ thương hiệu",
       "no-description": "Chưa có mô tả thương hiệu.",
       "logo-alt": "Logo {{name}}",
-      "no-logo": "Chưa tải lên logo",
+      "no-logo": "Chưa cung cấp URL logo",
       "logo-unavailable": "Không có ảnh logo",
       "actions": {
         "edit": "Chỉnh sửa thương hiệu"
@@ -138,7 +139,10 @@
       "import-csv": "Nhập CSV",
       "create": "Tạo thương hiệu",
       "edit": "Chỉnh sửa",
-      "save": "Lưu thương hiệu"
+      "save": "Lưu thương hiệu",
+      "delete": "Xóa",
+      "delete-brand": "Xóa {{name}}",
+      "delete-confirmation": "Bạn có chắc muốn xóa {{name}} không?"
     },
     "table": {
       "brand-details": "Chi tiết thương hiệu",
@@ -168,7 +172,19 @@
       "description-placeholder": "Mô tả thương hiệu này",
       "display-order": "Thứ tự hiển thị",
       "logo-image": "Ảnh logo",
-      "logo-drop-image": "Thả logo vào đây hoặc duyệt tệp trên thiết bị"
+      "logo-url-placeholder": "Nhập URL logo có thể truy cập công khai",
+      "logo-url-invalid": "Vui lòng nhập URL logo hợp lệ.",
+      "logo-url-too-long": "URL logo không được vượt quá 500 ký tự.",
+      "logo-preview-title": "Xem trước đã tải",
+      "logo-upload-tab": "Tải ảnh lên",
+      "logo-url-tab": "URL ảnh",
+      "logo-select-file": "Chọn ảnh",
+      "logo-upload-not-connected": "Chỉ xem trước ảnh cục bộ. Tính năng tải ảnh lên chưa được kết nối.",
+      "logo-upload-invalid": "Vui lòng chọn tệp ảnh hợp lệ.",
+      "logo-preview-from-device": "Ảnh được chọn từ thiết bị",
+      "logo-preview-from-url": "Ảnh được tải từ URL",
+      "logo-no-preview": "Chưa chọn logo",
+      "logo-remove-selected": "Xóa ảnh đã chọn"
     },
     "filter": {
       "search-placeholder": "Tìm theo tên hoặc slug thương hiệu...",

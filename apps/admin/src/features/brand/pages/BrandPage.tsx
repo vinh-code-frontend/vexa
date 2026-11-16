@@ -1,14 +1,14 @@
-import { useMemo, useState } from 'react';
-
+import { useQueryClient } from '@tanstack/react-query';
 import { Button, Tabs, Typography } from 'antd';
 import { ArrowLeftRight, Plus } from 'lucide-react';
-import { useDebounce } from '@/shared/hooks';
-import i18n from '@/i18n';
+import { useState } from 'react';
 
-import { QueryModels } from '@/api';
-
-import { useGetApiAdminBrands } from '@/api';
-
+import {
+  getGetApiAdminBrandsQueryKey,
+  QueryModels,
+  useDeleteApiAdminBrandsId,
+  useGetApiAdminBrands,
+} from '@/api';
 import {
   BrandTable,
   BrandFilter,
@@ -16,7 +16,10 @@ import {
   BrandVerification,
 } from '@/features/brand/components';
 import type { BrandStatusFilter } from '@/features/brand/types/types';
+import i18n from '@/i18n';
 import { QueryErrorAlert } from '@/shared/components/ui';
+import { useDebounce } from '@/shared/hooks';
+import { BRAND_PAGE_SIZE } from '../components/BrandTable';
 
 const EMPTY_BRANDS: QueryModels.BrandResponse[] = [];
 
@@ -26,6 +29,10 @@ const BrandPage = () => {
   const [activeTab, setActiveTab] = useState<'all' | 'verification'>('all');
   const [isBrandDrawerOpen, setIsBrandDrawerOpen] = useState(false);
   const [selectedBrand, setSelectedBrand] = useState<QueryModels.BrandResponse | null>(null);
+  const [page, setPage] = useState(1);
+  const [deleteError, setDeleteError] = useState<unknown>(null);
+  const queryClient = useQueryClient();
+  const deleteBrandMutation = useDeleteApiAdminBrandsId();
 
   const debouncedSearch = useDebounce(search);
 
@@ -35,18 +42,46 @@ const BrandPage = () => {
   };
 
   const brandsQuery = useGetApiAdminBrands({
-    search: debouncedSearch.trim() || '',
-    page: 1,
-    pageSize: 100,
+    search: debouncedSearch.trim() || undefined,
+    isActive: status === 'all' ? undefined : status === 'active',
+    page,
+    pageSize: BRAND_PAGE_SIZE,
   });
 
-  const brands = brandsQuery.data?.data?.items ?? EMPTY_BRANDS;
+  const brandPage = brandsQuery.data?.data;
+  const brands = brandPage?.items ?? EMPTY_BRANDS;
+  const totalCount = Number(brandPage?.totalCount ?? 0);
+  const deletingBrandId = deleteBrandMutation.isPending
+    ? Number(deleteBrandMutation.variables?.id)
+    : null;
 
-  const filteredBrands = useMemo(() => {
-    return brands.filter(
-      (brand) => status === 'all' || (status === 'active' ? brand.isActive : !brand.isActive),
-    );
-  }, [brands, status]);
+  const handleDelete = async (brand: QueryModels.BrandResponse) => {
+    const brandId = Number(brand.id);
+    if (!Number.isSafeInteger(brandId) || brandId <= 0) {
+      setDeleteError(new Error(i18n.t('brands.detail.errors.invalid-id')));
+      return;
+    }
+
+    setDeleteError(null);
+    try {
+      await deleteBrandMutation.mutateAsync({ id: brandId });
+      const nextPageCount = Math.max(1, Math.ceil((totalCount - 1) / BRAND_PAGE_SIZE));
+      if (page > nextPageCount) setPage(nextPageCount);
+      await queryClient.invalidateQueries({ queryKey: getGetApiAdminBrandsQueryKey() });
+    } catch (error) {
+      setDeleteError(error);
+    }
+  };
+
+  const handleSearchChange = (value: string) => {
+    setSearch(value);
+    setPage(1);
+  };
+
+  const handleStatusChange = (value: BrandStatusFilter) => {
+    setStatus(value);
+    setPage(1);
+  };
 
   if (brandsQuery.error) {
     return <QueryErrorAlert title={i18n.t('brands.errors.load-title')} error={brandsQuery.error} />;
@@ -79,10 +114,13 @@ const BrandPage = () => {
         <BrandFilter
           search={search}
           status={status}
-          onSearchChange={setSearch}
-          onStatusChange={setStatus}
+          onSearchChange={handleSearchChange}
+          onStatusChange={handleStatusChange}
         />
       </header>
+      {deleteError !== null && (
+        <QueryErrorAlert title={i18n.t('brands.errors.delete-title')} error={deleteError} />
+      )}
       <Tabs
         activeKey={activeTab}
         onChange={(key) => {
@@ -98,9 +136,14 @@ const BrandPage = () => {
             label: i18n.t('brands.tabs.all'),
             children: (
               <BrandTable
-                brands={filteredBrands}
+                brands={brands}
+                page={page}
+                total={totalCount}
                 loading={brandsQuery.isFetching}
+                deletingBrandId={deletingBrandId}
                 onEdit={openDrawer}
+                onDelete={handleDelete}
+                onPageChange={setPage}
               />
             ),
           },

@@ -1,20 +1,26 @@
-import { useState } from 'react';
 import { Table, Tag, Typography } from 'antd';
-import { DeleteIcon, EditIcon } from '@/shared/components/motions';
-import { Pagination } from '@/shared/components';
 import type { ColumnsType } from 'antd/es/table';
 import { Image } from 'lucide-react';
 import { Link } from 'react-router';
 
+import BrandDeleteConfirmation from './BrandDeleteConfirmation';
+
 import { QueryModels } from '@/api';
 import i18n from '@/i18n';
+import { Pagination } from '@/shared/components';
+import { EditIcon } from '@/shared/components/motions';
 
-const PAGE_SIZE = 10;
+export const BRAND_PAGE_SIZE = 10;
 
 type BrandTableProps = {
   brands: QueryModels.BrandResponse[];
+  page: number;
+  total: number;
   loading?: boolean;
+  deletingBrandId?: number | null;
   onEdit: (brand: QueryModels.BrandResponse) => void;
+  onDelete: (brand: QueryModels.BrandResponse) => Promise<void>;
+  onPageChange: (page: number) => void;
 };
 
 const renderBrandDetails = (brand: QueryModels.BrandResponse) => (
@@ -47,6 +53,8 @@ const renderBrandDetails = (brand: QueryModels.BrandResponse) => (
 
 const getColumns = (
   onEdit: (brand: QueryModels.BrandResponse) => void,
+  onDelete: (brand: QueryModels.BrandResponse) => Promise<void>,
+  deletingBrandId: number | null,
 ): ColumnsType<QueryModels.BrandResponse> => [
   {
     title: i18n.t('brands.table.brand-details'),
@@ -81,35 +89,41 @@ const getColumns = (
     render: (_value, brand) => (
       <div className="flex items-center justify-end gap-3">
         <EditIcon onClick={() => onEdit(brand)} />
-        <DeleteIcon />
+        <BrandDeleteConfirmation
+          brand={brand}
+          deletingBrandId={deletingBrandId}
+          onDelete={onDelete}
+        />
       </div>
     ),
   },
 ];
 
-const BrandTable = ({ brands, loading = false, onEdit }: BrandTableProps) => {
-  const [pageState, setPageState] = useState({ brands, page: 1 });
-  const pageCount = Math.max(1, Math.ceil(brands.length / PAGE_SIZE));
-  const currentPage = pageState.brands === brands ? pageState.page : 1;
-  const visiblePage = Math.min(currentPage, pageCount);
-
-  const paginatedBrands = brands.slice((visiblePage - 1) * PAGE_SIZE, visiblePage * PAGE_SIZE);
-
+const BrandTable = ({
+  brands,
+  page,
+  total,
+  loading = false,
+  deletingBrandId = null,
+  onEdit,
+  onDelete,
+  onPageChange,
+}: BrandTableProps) => {
   return (
     <>
       <Table<QueryModels.BrandResponse>
-        rowKey={(brand) => String(brand.id)}
-        columns={getColumns(onEdit)}
-        dataSource={paginatedBrands}
+        rowKey={(brand) => (brand.id == null ? brand.slug : String(brand.id))}
+        columns={getColumns(onEdit, onDelete, deletingBrandId)}
+        dataSource={brands}
         pagination={false}
         loading={loading}
         locale={{ emptyText: i18n.t('brands.table.empty') }}
       />
       <Pagination
-        current={visiblePage}
-        total={brands.length}
-        pageSize={PAGE_SIZE}
-        onChange={(page) => setPageState({ brands, page })}
+        current={page}
+        total={total}
+        pageSize={BRAND_PAGE_SIZE}
+        onChange={onPageChange}
         ariaLabel={i18n.t('brands.pagination.navigation-label')}
       />
     </>

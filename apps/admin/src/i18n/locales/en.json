@@ -108,7 +108,8 @@
       "description": "Configure brand profiles, logos, and global visibility ordering."
     },
     "errors": {
-      "load-title": "Could not load brands"
+      "load-title": "Could not load brands",
+      "delete-title": "Could not delete brand"
     },
     "detail": {
       "errors": {
@@ -128,7 +129,7 @@
       "profile-title": "Brand Profile",
       "no-description": "No brand description has been added.",
       "logo-alt": "{{name}} logo",
-      "no-logo": "No logo uploaded",
+      "no-logo": "No logo URL provided",
       "logo-unavailable": "Logo image is not available",
       "actions": {
         "edit": "Edit Brand"
@@ -138,7 +139,10 @@
       "import-csv": "Import CSV",
       "create": "Create Brand",
       "edit": "Edit",
-      "save": "Save Brand"
+      "save": "Save Brand",
+      "delete": "Delete",
+      "delete-brand": "Delete {{name}}",
+      "delete-confirmation": "Delete {{name}}?"
     },
     "table": {
       "brand-details": "Brand Details",
@@ -167,7 +171,19 @@
       "description-placeholder": "Describe this brand",
       "display-order": "Display Order",
       "logo-image": "Logo Image",
-      "logo-drop-image": "Drop logo image here, or browse local files"
+      "logo-url-placeholder": "Enter a publicly accessible logo URL",
+      "logo-url-invalid": "Enter a valid logo URL.",
+      "logo-url-too-long": "Logo URL must not exceed 500 characters.",
+      "logo-preview-title": "Loaded preview",
+      "logo-upload-tab": "Upload image",
+      "logo-url-tab": "Image URL",
+      "logo-select-file": "Choose an image",
+      "logo-upload-not-connected": "Local image preview only. Upload service is not connected yet.",
+      "logo-upload-invalid": "Choose a valid image file.",
+      "logo-preview-from-device": "Image selected from device",
+      "logo-preview-from-url": "Image loaded from URL",
+      "logo-no-preview": "No logo selected",
+      "logo-remove-selected": "Remove selected image"
     },
     "filter": {
       "search-placeholder": "Search brand name or slug...",
