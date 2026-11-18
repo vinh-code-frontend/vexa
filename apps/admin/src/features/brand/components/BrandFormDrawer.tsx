@@ -1,12 +1,10 @@
-import { useEffect } from 'react';
-import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { Button, Drawer, Form, Input, InputNumber, Upload, Typography } from 'antd';
-import { Upload as UploadIcon } from 'lucide-react';
-import { v4 as uuidv4 } from 'uuid';
+import { Button, Drawer, Form, Input, InputNumber, Typography } from 'antd';
+import { useEffect, useState } from 'react';
 import slugify from 'slugify';
-import i18n from '@/i18n';
-import type { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
+
+import BrandLogoUploader from './BrandLogoUploader';
+
 import {
   getGetApiAdminBrandsIdQueryKey,
   getGetApiAdminBrandsQueryKey,
@@ -14,7 +12,10 @@ import {
   usePostApiAdminBrands,
   usePutApiAdminBrandsId,
 } from '@/api';
+import i18n from '@/i18n';
 import { QueryErrorAlert } from '@/shared/components/ui';
+
+
 import '../styles/BrandFormDrawer.css';
 
 type BrandFormValues = {
@@ -22,7 +23,7 @@ type BrandFormValues = {
   slug: string;
   description?: string;
   displayOrder?: number;
-  logo?: UploadFile[];
+  logoUrl?: string;
 };
 
 type BrandFormDrawerProps = {
@@ -36,23 +37,9 @@ const defaultValues: BrandFormValues = {
   slug: '',
   description: '',
   displayOrder: 1,
-  logo: [],
 };
 
-const getUploadFileList = (event: UploadChangeParam<UploadFile>) => event.fileList;
-
-const getLogoFileList = (brand: QueryModels.BrandResponse): BrandFormValues['logo'] => {
-  const url = brand.logoUrl?.trim();
-  if (!url) return [];
-
-  return [
-    {
-      uid: uuidv4(),
-      name: brand.name,
-      url,
-    },
-  ];
-};
+const buildBrandSlug = (name: string) => slugify(name.trim(), { lower: true, strict: true });
 
 const getBrandDefaultValues = (
   mode: 'create' | 'edit',
@@ -65,7 +52,7 @@ const getBrandDefaultValues = (
     slug: brand.slug ?? '',
     description: brand.description ?? '',
     displayOrder: Number(brand.displayOrder ?? 1),
-    logo: getLogoFileList(brand),
+    logoUrl: brand.logoUrl ?? '',
   };
 };
 
@@ -73,6 +60,7 @@ const BrandFormDrawer = ({ open, brand, onClose }: BrandFormDrawerProps) => {
   const queryClient = useQueryClient();
   const [form] = Form.useForm<BrandFormValues>();
   const [submitError, setSubmitError] = useState<unknown>(null);
+  const [hasUnpersistedLogo, setHasUnpersistedLogo] = useState(false);
   const createBrandMutation = usePostApiAdminBrands();
   const updateBrandMutation = usePutApiAdminBrandsId();
   const mode = brand ? 'edit' : 'create';
@@ -87,23 +75,34 @@ const BrandFormDrawer = ({ open, brand, onClose }: BrandFormDrawerProps) => {
 
   const handleClose = () => {
     setSubmitError(null);
+    setHasUnpersistedLogo(false);
     onClose();
   };
 
   const handleValuesChange = (changedValues: Partial<BrandFormValues>) => {
     if (typeof changedValues.name === 'string') {
-      form.setFieldValue('slug', slugify(changedValues.name, { lower: true, strict: true }));
+      const nextName = changedValues.name.trim();
+      form.setFieldValue('slug', buildBrandSlug(nextName));
     }
   };
 
   const handleFinish = async (values: BrandFormValues) => {
     setSubmitError(null);
 
+    if (hasUnpersistedLogo) {
+      setSubmitError(new Error(i18n.t('brands.form.logo-upload-not-connected')));
+      return;
+    }
+
+    const normalizedName = values.name.trim();
+    const normalizedSlug = buildBrandSlug(normalizedName || values.slug || '');
+
     const payload = {
-      name: values.name,
+      name: normalizedName,
+      slug: normalizedSlug,
       description: values.description || null,
       displayOrder: values.displayOrder ?? 1,
-      logoUrl: values.logo?.[0]?.url ?? null,
+      logoUrl: values.logoUrl?.trim() || null,
     };
 
     try {
@@ -157,8 +156,14 @@ const BrandFormDrawer = ({ open, brand, onClose }: BrandFormDrawerProps) => {
       }}
       footer={
         <div className="flex justify-end gap-4">
-          <Button onClick={onClose}>{i18n.t('common.actions.cancel')}</Button>
-          <Button type="primary" htmlType="submit" form="brand-form" loading={isSubmitting}>
+          <Button onClick={handleClose}>{i18n.t('common.actions.cancel')}</Button>
+          <Button
+            type="primary"
+            htmlType="submit"
+            form="brand-form"
+            loading={isSubmitting}
+            disabled={hasUnpersistedLogo}
+          >
             {i18n.t('brands.actions.save')}
           </Button>
         </div>
@@ -173,7 +178,7 @@ const BrandFormDrawer = ({ open, brand, onClose }: BrandFormDrawerProps) => {
         id="brand-form"
         form={form}
         layout="vertical"
-        initialValues={{ displayOrder: 1, logo: [] }}
+        initialValues={{ displayOrder: 1, logoUrl: '' }}
         onValuesChange={handleValuesChange}
         onFinish={handleFinish}
         className="brand-form-drawer flex flex-col gap-4"
@@ -230,26 +235,7 @@ const BrandFormDrawer = ({ open, brand, onClose }: BrandFormDrawerProps) => {
           <InputNumber min={0} style={{ width: '100%', fontSize: 13 }} />
         </Form.Item>
 
-        <Form.Item
-          label={
-            <span className="text-[13px] font-medium">{i18n.t('brands.form.logo-image')}</span>
-          }
-          name="logo"
-          valuePropName="fileList"
-          getValueFromEvent={getUploadFileList}
-        >
-          <Upload.Dragger
-            accept="image/*"
-            maxCount={1}
-            beforeUpload={() => false}
-            style={{ border: '1px dashed', borderColor: '#CED4DA' }}
-          >
-            <div className="flex items-center justify-center gap-2 text-[13px] text-[#6C757D]">
-              <UploadIcon size={14} aria-hidden="true" />
-              <span>{i18n.t('brands.form.logo-drop-image')}</span>
-            </div>
-          </Upload.Dragger>
-        </Form.Item>
+        {open && <BrandLogoUploader onLocalPreviewChange={setHasUnpersistedLogo} />}
       </Form>
     </Drawer>
   );
