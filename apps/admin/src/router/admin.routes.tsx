@@ -22,6 +22,7 @@ export type AdminNavItem = {
   element: React.ReactNode;
   icon?: LucideIcon;
   sidebar?: boolean;
+  group?: 'Catalog' | 'Inventory';
 };
 
 export const productNavItems: AdminNavItem[] = [
@@ -31,6 +32,7 @@ export const productNavItems: AdminNavItem[] = [
     icon: Package,
     element: <ProductListPage />,
     sidebar: true,
+    group: 'Catalog',
   },
   {
     path: 'product/:id',
@@ -68,6 +70,7 @@ export const adminNavItems: AdminNavItem[] = [
     icon: Tag,
     element: <BrandPage />,
     sidebar: true,
+    group: 'Catalog',
   },
   {
     path: 'brand/:id',
@@ -80,6 +83,7 @@ export const adminNavItems: AdminNavItem[] = [
     icon: FolderTree,
     sidebar: true,
     element: <CategoryPage />,
+    group: 'Catalog',
   },
   {
     path: 'category/:id',
@@ -97,6 +101,7 @@ export const adminNavItems: AdminNavItem[] = [
     icon: Users,
     element: <UserPage />,
     sidebar: true,
+    group: 'Inventory',
   },
   {
     path: 'order',
@@ -104,6 +109,7 @@ export const adminNavItems: AdminNavItem[] = [
     icon: ShoppingCart,
     sidebar: true,
     element: <h2>Orders</h2>,
+    group: 'Inventory',
   },
   {
     path: 'setting',
@@ -111,6 +117,7 @@ export const adminNavItems: AdminNavItem[] = [
     icon: Settings,
     sidebar: true,
     element: <h2>Settings</h2>,
+    group: 'Inventory',
   },
 ] as const;
 
