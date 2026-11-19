@@ -35,6 +35,7 @@ const renderBrandDetails = (brand: QueryModels.BrandResponse) => (
     {brand.id !== undefined && brand.id !== null ? (
       <Link
         to={`/brand/${brand.id}`}
+        state={{ name: brand.name }}
         title={brand.name}
         style={{
           color: '#212529',
