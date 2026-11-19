@@ -1,4 +1,5 @@
 import { Menu, Tag, theme, type MenuProps } from 'antd';
+import clsx from 'clsx';
 import {
   ArrowDownToLine,
   Box,
@@ -14,10 +15,9 @@ import {
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
+import Logo from '@/assets/vexa-logo.png';
 import i18n from '@/i18n';
 import { adminNavItems } from '@/router/admin.routes';
-import { DribbbleIcon } from '@/shared/components/motions/DribbleIcon';
-import clsx from 'clsx';
 
 const rootSubmenuKeys = ['catalog', 'inventory'];
 
@@ -124,9 +124,7 @@ const Sidebar = ({ collapsed }: { collapsed: boolean }) => {
   return (
     <div>
       <div className="flex items-center gap-2.5 p-4 pb-0">
-        <div className="rounded-sm bg-primary p-1.5">
-          <DribbbleIcon size={23} className="text-white" />
-        </div>
+        <img src={Logo} alt="vexa logo" className="w-8.75" />
         {!collapsed && (
           <div
             aria-hidden={collapsed}
