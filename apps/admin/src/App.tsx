@@ -1,10 +1,10 @@
+import { ConfigProvider } from 'antd';
 import { RouterProvider } from 'react-router/dom';
 
-import { router } from '@/router';
-import { DEFAULT_PRIMARY_COLOR, usePrimaryColor } from '@/shared/theme/primaryColor';
-import { ConfigProvider } from 'antd';
 import { AuthProvider } from '@/providers/AuthProvider';
 import { QueryProvider } from '@/providers/QueryProvider';
+import { router } from '@/router';
+import { DEFAULT_PRIMARY_COLOR, usePrimaryColor } from '@/shared/theme/primaryColor';
 
 function App() {
   const [primaryColor] = usePrimaryColor(DEFAULT_PRIMARY_COLOR);
@@ -12,7 +12,6 @@ function App() {
   return (
     <QueryProvider>
       <ConfigProvider
-        componentSize="large"
         theme={{
           token: {
             colorPrimary: primaryColor,
