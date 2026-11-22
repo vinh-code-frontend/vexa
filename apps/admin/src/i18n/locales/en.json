@@ -38,7 +38,7 @@
     "email-label": "Email address",
     "email-placeholder": "Enter your email address",
     "email-required": "Please enter your email address.",
-    "email-invalid": "Enter a valid email address, such as admin@vexa.com..",
+    "email-invalid": "Enter a valid email address, such as admin@vexa.com.",
     "submit": "Send reset link",
     "back-to-login": "Back to sign in",
     "side": {
