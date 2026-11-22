@@ -96,7 +96,7 @@
     "confirmation": {
       "eyebrow": "Đã gửi liên kết đặt lại",
       "title": "Kiểm tra email của bạn",
-      "description": "Nếu email này thuộc về tài khoản quản trị, liên kết đặt lại đang được gửi đến bạn. Hãy mở liên kết trên cùng trình duyệt để tiếp tục.",
+      "description": "Nếu email này thuộc tài khoản quản trị, chúng tôi đã gửi liên kết đặt lại. Hãy mở liên kết trong chính trình duyệt này để tiếp tục.",
       "sent-to": "Đã gửi đến",
       "change-email": "Đổi email",
       "single-use": "Liên kết đặt lại chỉ dùng một lần. Không chuyển tiếp email này.",
