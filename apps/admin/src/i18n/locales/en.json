@@ -32,6 +32,102 @@
     "sidebar-footer-app-version": "Vexa Admin Suite v{0}",
     "sidebar-footer-app-copyright": "© 2024 Vexa Inc. All rights reserved."
   },
+  "admin-forgot-password": {
+    "title": "Forgot your password?",
+    "description": "Enter your admin email and we’ll send a secure link to reset your password.",
+    "email-label": "Email address",
+    "email-placeholder": "Enter your email address",
+    "email-required": "Please enter your email address.",
+    "email-invalid": "Enter a valid email address, such as admin@vexa.com..",
+    "submit": "Send reset link",
+    "back-to-login": "Back to sign in",
+    "side": {
+      "title": "Recover access, securely",
+      "description": "Start a protected reset for your Vexa Admin account. We never reveal whether an address belongs to an administrator.",
+      "step": "Account Recovery"
+    },
+    "security-note": {
+      "title": "Security note",
+      "expires": "Reset link expires in 30 min",
+      "email": "We'll send a secure reset link to your admin email.",
+      "protection": "The link expires after 30 minutes for your protection."
+    },
+    "request-error": "We couldn't send a reset link right now. Please try again.",
+    "new-password": {
+      "eyebrow": "Secure reset",
+      "title": "Set a new password",
+      "description": "Create a unique password for your Vexa Admin account. You'll sign in again when the reset is complete.",
+      "link-status-title": "Link status",
+      "link-status-description": "This link expires in 30 minutes. Request a new one if it doesn't work.",
+      "verifying-link": "Verifying your reset link...",
+      "invalid-link-title": "Unable to verify this reset link",
+      "invalid-link-description": "This link may be invalid or expired. Request a new reset link to continue.",
+      "request-new-link": "Request a new reset link",
+      "password-label": "New password",
+      "password-placeholder": "Enter a new password",
+      "password-required": "Enter a new password.",
+      "password-min-length": "Use at least 12 characters.",
+      "password-max-length": "Password must not exceed 72 characters.",
+      "password-uppercase": "Add at least one uppercase letter.",
+      "password-number": "Add at least one number.",
+      "password-symbol": "Add at least one symbol.",
+      "strength-label": "Password strength",
+      "strength-weak": "Weak",
+      "strength-medium": "Fair",
+      "strength-strong": "Strong",
+      "requirements-title": "Password requirements",
+      "requirements": {
+        "length": "At least 12 characters",
+        "uppercase": "One uppercase letter",
+        "number": "One number",
+        "symbol": "One symbol"
+      },
+      "side": {
+        "title": "Choose a stronger password",
+        "description": "Protect your operations with a unique admin credential."
+      },
+      "confirm-label": "Confirm new password",
+      "confirm-placeholder": "Re-enter your new password",
+      "confirm-required": "Confirm your new password.",
+      "password-mismatch": "Passwords do not match.",
+      "submit": "Reset password",
+      "submit-error": "Unable to reset your password. Check your connection and try again. If the link has expired, request a new one."
+    },
+    "confirmation": {
+      "eyebrow": "Reset link sent",
+      "title": "Check your email",
+      "description": "If an admin account exists for this email, a reset link is on its way. Open it in the same browser to continue.",
+      "sent-to": "Sent to",
+      "change-email": "Change email",
+      "single-use": "Reset links are single-use. Never forward this email.",
+      "resend-countdown": "Resend available in {{time}}",
+      "resend-ready": "You can request another reset link.",
+      "resend": "Resend link",
+      "resend-error": "Unable to resend the reset link. Please try again.",
+      "help-title": "Didn't receive it?",
+      "help-description": "Check spam and security filters. If it's still missing after 5 minutes, contact Vexa Support.",
+      "support-email": "security@vexa.com",
+      "back-to-login": "Back to sign in",
+      "side": {
+        "title": "Check your secure inbox",
+        "description": "Your reset link expires in 30 minutes."
+      }
+    },
+    "success": {
+      "eyebrow": "Success",
+      "title": "Password reset complete",
+      "description": "Sign in to Vexa Admin with your new password.",
+      "card-title": "Your password has been updated",
+      "card-description": "All sessions, including remembered devices and open dashboard tabs, are signed out.",
+      "changed-time": "Password changed just now",
+      "return-to-login": "Return to sign in",
+      "support-note": "If you didn't make this change, contact Vexa Security Support immediately at",
+      "side": {
+        "title": "Access restored",
+        "description": "Your password is updated. Sign in with your new password to continue."
+      }
+    }
+  },
   "sidebar": {
     "dashboard": "Dashboard",
     "product": "Products",

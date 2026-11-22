@@ -1,8 +1,8 @@
 import { Spin, type FormProps } from 'antd';
-import { Alert, Button, Checkbox, Form, Input, Typography } from 'antd';
+import { Alert, Button, Checkbox, Form, Input } from 'antd';
 import { Mail, Lock, Info } from 'lucide-react';
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 
 import { useLoginValidation } from '../hooks/useValidation';
 
@@ -99,9 +99,9 @@ export const LoginForm = () => {
         label={
           <div className="flex w-full items-center justify-between">
             <span>{i18n.t('admin-login.password-label')}</span>
-            <Typography.Link href="#" style={{ color: '#6610F2' }}>
+            <Link to="/auth/forgot-password" style={{ color: '#6610F2' }}>
               {i18n.t('admin-login.forgot-password')}
-            </Typography.Link>
+            </Link>
           </div>
         }
         name="password"

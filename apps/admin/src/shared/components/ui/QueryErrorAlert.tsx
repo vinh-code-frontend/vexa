@@ -1,10 +1,8 @@
 import { Alert } from 'antd';
 
-import i18n from '@/i18n';
-
 type QueryErrorAlertProps = {
-  title: string;
-  error: unknown;
+  title?: string;
+  error?: unknown;
 };
 
 const QueryErrorAlert = ({ title, error }: QueryErrorAlertProps) => (
@@ -12,7 +10,7 @@ const QueryErrorAlert = ({ title, error }: QueryErrorAlertProps) => (
     type="error"
     showIcon
     title={title}
-    description={error instanceof Error ? error.message : i18n.t('common.errors.unexpected')}
+    description={error instanceof Error ? error.message : ''}
   />
 );
 

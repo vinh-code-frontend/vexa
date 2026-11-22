@@ -1,4 +1,3 @@
-import { CircleX } from 'lucide-react';
 import { LoginForm } from '../components';
 import i18n from '@/i18n';
 
@@ -9,11 +8,11 @@ const LoginPage = () => {
         <div className="w-140 bg-[#160059] p-16 ">
           <div className="h-full flex flex-col justify-between">
             {/* Header Icon - App name */}
-            <div className="flex flex-row text-white items-center gap-3">
-              <div className="h-8 w-8 bg-[#6610F2] flex items-center justify-center rounded-md">
-                <CircleX size={12} />
+            <div className="flex items-center gap-3 text-white">
+              <div className="flex h-7 w-7 items-center justify-center rounded-md bg-[#6610F2] text-sm font-bold">
+                V
               </div>
-              <h1 className="font-bold text-[22px]">{i18n.t('common.app-name')}</h1>
+              <span className="text-lg font-bold">{i18n.t('common.app-name')}</span>
             </div>
             {/* Middle Message - Description */}
             <div className="flex flex-col gap-6">
