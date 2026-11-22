@@ -32,6 +32,102 @@
     "sidebar-footer-app-version": "Bộ quản trị Vexa v{0}",
     "sidebar-footer-app-copyright": "© 2024 Vexa Inc. Bảo lưu mọi quyền."
   },
+  "admin-forgot-password": {
+    "title": "Quên mật khẩu?",
+    "description": "Nhập địa chỉ email liên kết với tài khoản của bạn.",
+    "email-label": "Địa chỉ email",
+    "email-placeholder": "Nhập địa chỉ email của bạn",
+    "email-required": "Vui lòng nhập địa chỉ email.",
+    "email-invalid": "Vui lòng nhập địa chỉ email hợp lệ.",
+    "submit": "Gửi liên kết đặt lại",
+    "back-to-login": "Quay lại đăng nhập",
+    "side": {
+      "title": "Khôi phục quyền truy cập an toàn",
+      "description": "Bắt đầu quy trình đặt lại được bảo vệ cho tài khoản Vexa Admin. Chúng tôi không tiết lộ địa chỉ email có thuộc về quản trị viên hay không.",
+      "step": "Khôi phục tài khoản"
+    },
+    "security-note": {
+      "title": "Lưu ý bảo mật",
+      "expires": "Liên kết đặt lại hết hạn sau 30 phút",
+      "email": "Chúng tôi sẽ gửi liên kết đặt lại an toàn đến email quản trị của bạn.",
+      "protection": "Liên kết sẽ hết hạn sau 30 phút để bảo vệ tài khoản của bạn."
+    },
+    "request-error": "Hiện không thể gửi liên kết đặt lại. Vui lòng thử lại.",
+    "new-password": {
+      "eyebrow": "Đặt lại an toàn",
+      "title": "Đặt mật khẩu mới",
+      "description": "Tạo mật khẩu riêng cho tài khoản Vexa Admin. Bạn sẽ đăng nhập lại sau khi hoàn tất.",
+      "link-status-title": "Trạng thái liên kết",
+      "link-status-description": "Liên kết này hết hạn sau 30 phút. Hãy yêu cầu liên kết mới nếu liên kết không hoạt động.",
+      "verifying-link": "Đang xác minh liên kết đặt lại...",
+      "invalid-link-title": "Không thể xác minh liên kết đặt lại",
+      "invalid-link-description": "Liên kết có thể không hợp lệ hoặc đã hết hạn. Hãy yêu cầu liên kết đặt lại mới để tiếp tục.",
+      "request-new-link": "Yêu cầu liên kết đặt lại mới",
+      "password-label": "Mật khẩu mới",
+      "password-placeholder": "Nhập mật khẩu mới",
+      "password-required": "Vui lòng nhập mật khẩu mới.",
+      "password-min-length": "Mật khẩu cần có ít nhất 12 ký tự.",
+      "password-max-length": "Mật khẩu không được vượt quá 72 ký tự.",
+      "password-uppercase": "Thêm ít nhất một chữ cái viết hoa.",
+      "password-number": "Thêm ít nhất một chữ số.",
+      "password-symbol": "Thêm ít nhất một ký hiệu.",
+      "strength-label": "Độ mạnh mật khẩu",
+      "strength-weak": "Yếu",
+      "strength-medium": "Khá",
+      "strength-strong": "Mạnh",
+      "requirements-title": "Yêu cầu mật khẩu",
+      "requirements": {
+        "length": "Ít nhất 12 ký tự",
+        "uppercase": "Một chữ cái viết hoa",
+        "number": "Một chữ số",
+        "symbol": "Một ký hiệu"
+      },
+      "side": {
+        "title": "Chọn mật khẩu mạnh hơn",
+        "description": "Bảo vệ hoạt động của bạn bằng thông tin đăng nhập quản trị riêng biệt."
+      },
+      "confirm-label": "Xác nhận mật khẩu mới",
+      "confirm-placeholder": "Nhập lại mật khẩu mới",
+      "confirm-required": "Vui lòng xác nhận mật khẩu mới.",
+      "password-mismatch": "Mật khẩu không khớp.",
+      "submit": "Đặt lại mật khẩu",
+      "submit-error": "Không thể đặt lại mật khẩu. Hãy kiểm tra kết nối và thử lại. Nếu liên kết đã hết hạn, hãy yêu cầu liên kết mới."
+    },
+    "confirmation": {
+      "eyebrow": "Đã gửi liên kết đặt lại",
+      "title": "Kiểm tra email của bạn",
+      "description": "Nếu email này thuộc về tài khoản quản trị, liên kết đặt lại đang được gửi đến bạn. Hãy mở liên kết trên cùng trình duyệt để tiếp tục.",
+      "sent-to": "Đã gửi đến",
+      "change-email": "Đổi email",
+      "single-use": "Liên kết đặt lại chỉ dùng một lần. Không chuyển tiếp email này.",
+      "resend-countdown": "Có thể gửi lại sau {{time}}",
+      "resend-ready": "Bạn có thể yêu cầu gửi lại liên kết đặt lại.",
+      "resend": "Gửi lại liên kết",
+      "resend-error": "Không thể gửi lại liên kết đặt lại. Vui lòng thử lại.",
+      "help-title": "Bạn chưa nhận được email?",
+      "help-description": "Kiểm tra thư mục spam và bộ lọc bảo mật. Nếu sau 5 phút vẫn chưa nhận được, hãy liên hệ bộ phận hỗ trợ Vexa.",
+      "support-email": "security@vexa.com",
+      "back-to-login": "Quay lại đăng nhập",
+      "side": {
+        "title": "Kiểm tra hộp thư an toàn",
+        "description": "Liên kết đặt lại mật khẩu sẽ hết hạn sau 30 phút."
+      }
+    },
+    "success": {
+      "eyebrow": "Thành công",
+      "title": "Đã đặt lại mật khẩu",
+      "description": "Đăng nhập vào Vexa Admin bằng mật khẩu mới của bạn.",
+      "card-title": "Mật khẩu của bạn đã được cập nhật",
+      "card-description": "Hãy sử dụng mật khẩu mới trong lần đăng nhập tiếp theo.",
+      "changed-time": "Mật khẩu vừa được thay đổi",
+      "return-to-login": "Quay lại đăng nhập",
+      "support-note": "Nếu bạn không thực hiện thay đổi này, hãy liên hệ ngay với bộ phận bảo mật Vexa tại",
+      "side": {
+        "title": "Khôi phục quyền truy cập",
+        "description": "Mật khẩu của bạn đã được cập nhật. Hãy đăng nhập bằng mật khẩu mới để tiếp tục."
+      }
+    }
+  },
   "sidebar": {
     "dashboard": "Tổng quan",
     "product": "Sản phẩm",
