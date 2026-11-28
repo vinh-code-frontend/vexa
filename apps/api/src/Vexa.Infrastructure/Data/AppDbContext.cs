@@ -14,4 +14,5 @@ public class AppDbContext : DbContext
     public DbSet<PasswordResetTokenEntity> PasswordResetTokens => Set<PasswordResetTokenEntity>();
     public DbSet<BrandEntity> Brands => Set<BrandEntity>();
     public DbSet<CategoryEntity> Categories => Set<CategoryEntity>();
+    public DbSet<ProductEntity> Products => Set<ProductEntity>();
 }
