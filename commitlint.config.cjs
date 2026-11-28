@@ -18,13 +18,10 @@ module.exports = {
         "test",
         "agent",
         "lint",
+        "skill",
       ],
     ],
 
-    "scope-enum": [
-      2,
-      "always",
-      ["admin", "api", "client"],
-    ],
+    "scope-enum": [2, "always", ["admin", "api", "client"]],
   },
 };
