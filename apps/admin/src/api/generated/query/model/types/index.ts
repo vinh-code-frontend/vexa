@@ -7,4 +7,5 @@
 
 export * from './brand/index';
 export * from './category/index';
+export * from './product/index';
 export * from './user/index';
