@@ -1,6 +1,6 @@
 import { defineConfig } from 'orval';
 
-const target = 'http://localhost:5073/openapi/admin.json';
+const target = '../api/src/Vexa.Api/openapi/admin.openapi.json';
 
 const mutator = {
   path: './src/api/axios/instance.ts',
