@@ -6,6 +6,7 @@
     "prepare": "husky",
     "dev": "concurrently -n FE,BE -c cyan,magenta \"npm run dev:fe\" \"npm run dev:be\"",
     "watch": "concurrently -n FE,BE -c cyan,magenta \"npm run dev:fe\" \"npm run watch:be\"",
+    "orval": "cd apps/admin && npm run orval",
     "dev:fe": "cd apps/admin && npm run dev",
     "dev:be": "cd apps/api/src/Vexa.Api && dotnet run",
     "watch:be": "cd apps/api/src/Vexa.Api && dotnet watch",
