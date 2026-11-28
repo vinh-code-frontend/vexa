@@ -8,7 +8,7 @@ disable-model-invocation: false
 
 # Add Base Service By Entity
 
-Create only the smallest working API flow for a new entity in `apps/api`. This is a scaffolding workflow, not permission to redesign existing code or business rules.
+Create only the smallest working API flow for a new entity in `apps/api`. This is a scaffolding workflow, not permission to redesign existing code or business rules. Prefer response in Vietnamese.
 
 ## Scope and Non-Negotiable Rules
 
@@ -37,7 +37,7 @@ Use the exact phrase `approve all` as an explicit user shortcut. Without that ph
 
 ## Grilling Gate
 
-After the local pattern scan and before implementation, invoke and follow the `grilling` skill. Ask its design-tree questions in rounds. At minimum, stress-test:
+- After the local pattern scan and before implementation, invoke and follow the `grilling` skill. Ask its design-tree questions in rounds using the `vscode_askQuestions` popup; do not list the questions in Markdown when the popup tool is available. If the popup tool is genuinely unavailable, fall back to a concise Markdown round. At minimum, stress-test:
 
 - Whether all four CRUD operations are actually needed now.
 - Whether paging is offset/page-number based or must match an existing list wrapper.
